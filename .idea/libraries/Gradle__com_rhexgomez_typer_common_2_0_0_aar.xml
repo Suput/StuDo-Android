@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.rhexgomez.typer:common:2.0.0@aar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a785b0930c592b70bd0ae737ec3e4dc5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a785b0930c592b70bd0ae737ec3e4dc5/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rhexgomez.typer/common/2.0.0/de0d6beedf641a1e6753fdbce05ab4498c60e5e1/common-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

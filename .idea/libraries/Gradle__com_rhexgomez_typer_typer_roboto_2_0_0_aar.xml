@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.rhexgomez.typer:typer-roboto:2.0.0@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/da60cde90f70fc6905275ed2777806dc/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/da60cde90f70fc6905275ed2777806dc/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.rhexgomez.typer/typer-roboto/2.0.0/729f6306acd810b8c9c7f406118fe8416855af94/typer-roboto-2.0.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
