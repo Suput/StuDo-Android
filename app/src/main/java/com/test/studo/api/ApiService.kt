@@ -1,7 +1,8 @@
 package com.test.studo.api
 
-import com.test.studo.api.models.UserRequest
-import com.test.studo.api.models.UserResponse
+import com.test.studo.api.models.UserLoginRequest
+import com.test.studo.api.models.UserLoginResponse
+import com.test.studo.api.models.UserRegistrationRequest
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -11,7 +12,10 @@ import retrofit2.http.POST
 interface ApiService {
 
     @POST("api/auth/login")
-    fun login(@Body body : UserRequest ) : Call<UserResponse>
+    fun login(@Body body : UserLoginRequest ) : Call<UserLoginResponse>
+
+    @POST("api/auth/register")
+    fun registration(@Body body : UserRegistrationRequest) : Call<Void>
 
     companion object Factory {
         fun create(): ApiService {

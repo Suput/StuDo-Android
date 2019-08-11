@@ -4,12 +4,14 @@ import android.content.Intent
 import android.os.Build
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.view.View
 import com.test.studo.R
 import com.test.studo.api.ApiService
-import com.test.studo.api.models.userResponse
 import kotlinx.android.synthetic.main.activity_main.*
+import android.content.Context
+
 
 val api = ApiService.create()
 
@@ -17,7 +19,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (userResponse?.user?.id == null){
+        val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
+
+        if(!shared.contains("userWithToken")){
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
@@ -30,24 +34,25 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = android.R.attr.windowBackground
         }
 
-
-        bottom_navigation.setOnNavigationItemSelectedListener {item ->
-
-            var selectedFragment = Fragment()
-
-            when (item.itemId) {
-                R.id.navigation_events -> selectedFragment = EventsFragment()
-                R.id.navigation_people -> selectedFragment = PeopleFragment()
-                R.id.navigation_settings -> selectedFragment = OtherFragment()
-            }
-            supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
-
-            true
-        }
+        bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
         supportFragmentManager.beginTransaction().replace(
             R.id.fragment_container,
             EventsFragment()
         ).commit()
+    }
+
+    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+
+        var selectedFragment = Fragment()
+
+        when (item.itemId) {
+            R.id.navigation_events -> selectedFragment = EventsFragment()
+            R.id.navigation_people -> selectedFragment = PeopleFragment()
+            R.id.navigation_settings -> selectedFragment = OtherFragment()
+        }
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
+
+        true
     }
 }

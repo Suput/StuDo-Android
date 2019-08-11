@@ -7,13 +7,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.test.studo.R
-import com.test.studo.api.models.UserRequest
-import com.test.studo.api.models.UserResponse
-import com.test.studo.api.models.userResponse
+import com.test.studo.api.models.UserLoginRequest
+import com.test.studo.api.models.UserLoginResponse
 import kotlinx.android.synthetic.main.activity_sign_in.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import android.content.Context
+import com.google.gson.Gson
+
 
 class SignInActivity : AppCompatActivity() {
 
@@ -28,30 +30,41 @@ class SignInActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_in)
 
         btn_login.setOnClickListener {
-            val userRequest = UserRequest(input_email.text.toString(), input_password.text.toString())
+            val userLoginRequest = UserLoginRequest(input_email.text.toString(), input_password.text.toString())
 
-            api.login(userRequest).enqueue(object : Callback<UserResponse> {
+            api.login(userLoginRequest).enqueue(object : Callback<UserLoginResponse> {
 
                 // Successful connection with server
-                override fun onResponse(call: Call<UserResponse>, response: Response<UserResponse>) {
+                override fun onResponse(call: Call<UserLoginResponse>, response: Response<UserLoginResponse>) {
 
                     // Valid log/pass pair
                     if (response.isSuccessful) {
-                        userResponse = response.body()
-                        Toast.makeText(this@SignInActivity, "Hello, " + userResponse?.user?.firstName + " " + userResponse?.user?.surname, Toast.LENGTH_LONG).show()
+                        val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
+                        val editor = shared.edit()
+                        editor.putString("userWithToken", Gson().toJson(response.body()))
+                        editor.apply()
+
+                        val userWithToken = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
+
+                        Toast.makeText(this@SignInActivity, "Hello, " + userWithToken?.user?.firstName + " " + userWithToken?.user?.secondName, Toast.LENGTH_LONG).show()
                         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
                         finish()
-                        // Other errors
-                    } else {
+                    } else { // Other errors
                         Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                     }
                 }
 
                 // No connection with server
-                override fun onFailure(call: Call<UserResponse>, t: Throwable) {
+                override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
                     Toast.makeText(this@SignInActivity, "FAIL: " + t.message, Toast.LENGTH_LONG).show()
                 }
             })
         }
     }
+
+    fun goToSignUp(v : View?) {
+        startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
+        finish()
+    }
 }
+
