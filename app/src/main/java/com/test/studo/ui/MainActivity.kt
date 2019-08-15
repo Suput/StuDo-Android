@@ -11,9 +11,13 @@ import com.test.studo.R
 import com.test.studo.api.ApiService
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Context
+import com.google.gson.Gson
+import com.test.studo.api.models.UserLoginResponse
 
 
 val api = ApiService.create()
+
+var currentUser : UserLoginResponse? = null
 
 class MainActivity : AppCompatActivity() {
 
@@ -25,6 +29,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
+
+        currentUser = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

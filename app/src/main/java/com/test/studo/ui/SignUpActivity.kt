@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.api.models.UserRegistrationRequest
 import kotlinx.android.synthetic.main.activity_sign_up.*
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,8 +39,8 @@ class SignUpActivity : AppCompatActivity() {
                         Toast.makeText(this@SignUpActivity, "Check your email to activate account", Toast.LENGTH_LONG).show()
                         goToSignIn(null)
                     } else {
-                        if(response.code().toString() == "400"){
-                            Toast.makeText(this@SignUpActivity, "User with this email already exist", Toast.LENGTH_LONG).show()
+                        if (response.errorBody() != null){
+                            Toast.makeText(this@SignUpActivity, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(this@SignUpActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                         }

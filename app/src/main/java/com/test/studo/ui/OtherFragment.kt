@@ -6,26 +6,17 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import com.test.studo.R
+import kotlinx.android.synthetic.main.fragment_other.view.*
 
 
 class OtherFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_other, container, false)
 
-//        view.collapse_toolbar.title = activity?.resources?.getString(R.string.app_name)
-//
-//        view.tv1.setOnClickListener{
-//            startActivity(Intent(activity, SignInActivity::class.java))
-//        }
-//
-//        view.tv2.setOnClickListener{
-//            startActivity(Intent(activity, SignUpActivity::class.java))
-//        }
-//
-//        view.othersList.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, resources.getStringArray(
-//            R.array.others
-//        ))
+        view.other_list.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, resources.getStringArray(
+            R.array.other))
 
         return view
     }

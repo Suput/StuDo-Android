@@ -44,19 +44,21 @@ class SignInActivity : AppCompatActivity() {
                         editor.putString("userWithToken", Gson().toJson(response.body()))
                         editor.apply()
 
-                        val userWithToken = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
-
-                        Toast.makeText(this@SignInActivity, "Hello, " + userWithToken?.user?.firstName + " " + userWithToken?.user?.secondName, Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignInActivity, "Hello, " + response.body()?.user?.firstName + " " + response.body()?.user?.secondName, Toast.LENGTH_LONG).show()
                         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
                         finish()
                     } else { // Other errors
-                        Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        if (response.errorBody() != null){
+                            Toast.makeText(this@SignInActivity, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        }
                     }
                 }
 
                 // No connection with server
                 override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-                    Toast.makeText(this@SignInActivity, "FAIL: " + t.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignInActivity, "Check your internet connection", Toast.LENGTH_LONG).show()
                 }
             })
         }

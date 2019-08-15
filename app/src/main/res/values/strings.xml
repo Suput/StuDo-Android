@@ -1,5 +1,13 @@
 <resources>
-    <string name="app_name">StuDo</string>
+    <string name="app_name" translatable="false">StuDo</string>
     <string name="title_people">People</string>
     <string name="title_events">Events</string>
+
+    <string-array name="other">
+        <item>Профиль</item>
+        <item>Мои объявления</item>
+        <item>Подписки</item>
+        <item>Настройки</item>
+        <item>О приложении</item>
+    </string-array>
 </resources>
