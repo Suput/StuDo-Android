@@ -44,7 +44,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.beginTransaction().replace(
             R.id.fragment_container,
-            EventsFragment()
+            EventsPageFragment()
         ).commit()
     }
 
@@ -53,9 +53,9 @@ class MainActivity : AppCompatActivity() {
         var selectedFragment = Fragment()
 
         when (item.itemId) {
-            R.id.navigation_events -> selectedFragment = EventsFragment()
-            R.id.navigation_people -> selectedFragment = PeopleFragment()
-            R.id.navigation_settings -> selectedFragment = OtherFragment()
+            R.id.navigation_events -> selectedFragment = EventsPageFragment()
+            R.id.navigation_people -> selectedFragment = PeoplePageFragment()
+            R.id.navigation_settings -> selectedFragment = AccountPageFragment()
         }
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
 

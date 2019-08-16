@@ -2,4 +2,9 @@
 <resources>
     <string name="title_events">События</string>
     <string name="title_people">Люди</string>
+    <string name="title_account">Аккаунт</string>
+    <string name="about">О приложении</string>
+    <string name="my_ads">Мои объявления</string>
+    <string name="settings">Настройки</string>
+    <string name="subs">Подписки</string>
 </resources>
