@@ -14,7 +14,7 @@
             android:background="@color/colorBackground"
             app:title="@string/title_events"
             app:collapsedTitleGravity="left"
-            app:expandedTitleGravity="center_horizontal">
+            app:expandedTitleGravity="center">
 
         <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

@@ -31,8 +31,11 @@
                         android:id="@+id/profile_panel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_margin="16dp"
-                        android:orientation="horizontal">
+                        android:padding="16dp"
+                        android:orientation="horizontal"
+                        android:background="?android:attr/selectableItemBackground"
+                        android:clickable="true"
+                        android:focusable="true">
                     <ImageView
                             android:id="@+id/avatar"
                             android:layout_width="64dp"
@@ -45,15 +48,17 @@
                             android:layout_marginStart="32dp"
                             android:layout_gravity="center">
                         <TextView
+                                android:id="@+id/name_and_surname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Tester Testerov"
+                                android:text="Name Surname"
                                 android:textSize="24sp"
                                 android:textColor="@android:color/black"/>
                         <TextView
+                                android:id="@+id/email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="test@gmail.com"
+                                android:text="email@email.com"
                                 android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>
@@ -64,14 +69,14 @@
                         android:background="@color/colorLightGray"
                         android:layout_above="@id/account_page_lv"/>
 
-                <ListView
+                <com.test.studo.CustomListView
                         android:id="@+id/account_page_lv"
                         android:layout_width="match_parent"
-                        android:layout_height="191dp"
+                        android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_below="@id/profile_panel">
 
-                </ListView>
+                </com.test.studo.CustomListView>
 
             </RelativeLayout>
 

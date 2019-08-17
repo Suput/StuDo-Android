@@ -17,7 +17,7 @@ import com.test.studo.api.models.UserLoginResponse
 
 val api = ApiService.create()
 
-var currentUser : UserLoginResponse? = null
+lateinit var currentUser : UserLoginResponse
 
 class MainActivity : AppCompatActivity() {
 
@@ -53,10 +53,11 @@ class MainActivity : AppCompatActivity() {
         var selectedFragment = Fragment()
 
         when (item.itemId) {
-            R.id.navigation_events -> selectedFragment = EventsPageFragment()
-            R.id.navigation_people -> selectedFragment = PeoplePageFragment()
-            R.id.navigation_settings -> selectedFragment = AccountPageFragment()
+            R.id.navigation_events_page -> selectedFragment = EventsPageFragment()
+            R.id.navigation_people_page -> selectedFragment = PeoplePageFragment()
+            R.id.navigation_account_page -> selectedFragment = AccountPageFragment()
         }
+
         supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
 
         true

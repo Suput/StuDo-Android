@@ -7,4 +7,20 @@
     <string name="title_people">People</string>
     <string name="title_events">Events</string>
     <string name="title_account">Account</string>
+    <string name="title_profile">Profile</string>
+    <string name="name">Name</string>
+    <string name="surname">Surname</string>
+    <string name="avatar">Avatar</string>
+    <string name="email" translatable="false">Email</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="logo">logo</string>
+    <string name="card_number">Card number</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="create_account">Create Account</string>
+    <string name="change_email">Change email</string>
+    <string name="change_password">Change password</string>
+    <string name="log_out">LOG OUT</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 </resources>

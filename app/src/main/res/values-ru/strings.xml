@@ -7,4 +7,17 @@
     <string name="my_ads">Мои объявления</string>
     <string name="settings">Настройки</string>
     <string name="subs">Подписки</string>
+    <string name="title_profile">Профиль</string>
+    <string name="avatar">Аватар</string>
+    <string name="name">Имя</string>
+    <string name="surname">Фамилия</string>
+    <string name="card_number">Номер студенческого</string>
+    <string name="confirm_password">Подтверждение пароля</string>
+    <string name="create_account">Создать аккаунт</string>
+    <string name="login">Войти</string>
+    <string name="logo">Лого</string>
+    <string name="password">Пароль</string>
+    <string name="change_email">Изменить email</string>
+    <string name="change_password">Изменить пароль</string>
+    <string name="log_out">Выйти</string>
 </resources>

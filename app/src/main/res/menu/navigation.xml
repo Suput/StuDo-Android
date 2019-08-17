@@ -2,17 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-            android:id="@+id/navigation_events"
+            android:id="@+id/navigation_events_page"
             android:icon="@drawable/ic_group_black_24dp"
             android:title="@string/title_events"/>
 
     <item
-            android:id="@+id/navigation_people"
+            android:id="@+id/navigation_people_page"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="@string/title_people"/>
 
     <item
-            android:id="@+id/navigation_settings"
+            android:id="@+id/navigation_account_page"
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:title="@string/title_account"/>
 

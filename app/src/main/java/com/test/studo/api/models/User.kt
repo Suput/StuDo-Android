@@ -1,6 +1,5 @@
 package com.test.studo.api.models
 
-import android.support.annotation.StringRes
 import com.google.gson.annotations.SerializedName
 
 data class User(
@@ -34,10 +33,10 @@ data class UserLoginRequest (
 data class UserLoginResponse (
 
 	@SerializedName("user")
-	val user : User?,
+	val user : User,
 
 	@SerializedName("accessToken")
-	val accessToken : String?
+	val accessToken : String
 
 )
 
