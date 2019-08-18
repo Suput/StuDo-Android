@@ -25,12 +25,12 @@ class MainActivity : AppCompatActivity() {
 
         val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
 
-        if(!shared.contains("userWithToken")){
+        if(!shared.contains("userWithToken")) {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
+        } else {
+            currentUser = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
         }
-
-        currentUser = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)

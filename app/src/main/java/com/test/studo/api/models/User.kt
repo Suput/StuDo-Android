@@ -5,16 +5,16 @@ import com.google.gson.annotations.SerializedName
 data class User(
 
 	@SerializedName("id")
-		val id: String?,
+		val id: String,
 
 	@SerializedName("firstname")
-		val firstName: String?,
+		val firstName: String,
 
 	@SerializedName("surname")
-		val secondName: String?,
+		val secondName: String,
 
 	@SerializedName("email")
-		val email: String?,
+		val email: String,
 
 	@SerializedName("studentCardNumber")
 		val studentCardNumber: String?
@@ -43,21 +43,21 @@ data class UserLoginResponse (
 data class UserRegistrationRequest(
 
 	@SerializedName("firstname")
-	val firstName : String?,
+	val firstName : String,
 
 	@SerializedName("surname")
-	val secondName : String?,
+	val secondName : String,
 
 	@SerializedName("email")
-	val email : String?,
+	val email : String,
 
 	@SerializedName("studentCardNumber")
-	val studentCardNumber : String?,
+	val studentCardNumber : String,
 
 	@SerializedName("password")
-	val password : String?,
+	val password : String,
 
 	@SerializedName("passwordConfirm")
-	val passwordConfirm : String?
+	val passwordConfirm : String
 
 )

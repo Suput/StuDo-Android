@@ -28,10 +28,17 @@ class SignUpActivity : AppCompatActivity() {
         setContentView(R.layout.activity_sign_up)
 
         btn_sign_up.setOnClickListener{
-            val userRegisterRequest = UserRegistrationRequest(input_first_name.text.toString(), input_second_name.text.toString(),
-                input_email.text.toString(),input_card_number.text.toString(), input_password.text.toString(),
-                input_confirm_password.text.toString())
 
+            // TODO: Add check user data
+
+            val userRegisterRequest = UserRegistrationRequest(
+                input_first_name.text.toString(),
+                input_second_name.text.toString(),
+                input_email.text.toString(),
+                input_card_number.text.toString(),
+                input_password.text.toString(),
+                input_confirm_password.text.toString()
+            )
 
             api.registration(userRegisterRequest).enqueue(object : Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
@@ -39,8 +46,9 @@ class SignUpActivity : AppCompatActivity() {
                         Toast.makeText(this@SignUpActivity, "Check your email to activate account", Toast.LENGTH_LONG).show()
                         goToSignIn(null)
                     } else {
-                        if (response.errorBody() != null){
-                            Toast.makeText(this@SignUpActivity, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null){
+                            Toast.makeText(this@SignUpActivity, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(this@SignUpActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                         }
@@ -48,7 +56,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "FAIL: " + t.message, Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignUpActivity, "Check your internet connection", Toast.LENGTH_LONG).show()
                 }
             })
         }

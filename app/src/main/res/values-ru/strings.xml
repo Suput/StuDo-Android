@@ -12,7 +12,7 @@
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
     <string name="card_number">Номер студенческого</string>
-    <string name="confirm_password">Подтверждение пароля</string>
+    <string name="confirm_password">Подтвердите пароль</string>
     <string name="create_account">Создать аккаунт</string>
     <string name="login">Войти</string>
     <string name="logo">Лого</string>
@@ -20,4 +20,11 @@
     <string name="change_email">Изменить email</string>
     <string name="change_password">Изменить пароль</string>
     <string name="log_out">Выйти</string>
+    <string name="new_password">Новый пароль</string>
+    <string name="old_password">Старый пароль</string>
+    <string name="empty_password_error">Пароль должен содержать не менее 6 символов</string>
+    <string name="equal_password_error">Пароли должны совпадать</string>
+    <string name="same_password_error">Новый пароль не должен совпадать со старым</string>
+    <string name="cancel">Отмена</string>
+    <string name="ok">Ок</string>
 </resources>

@@ -44,12 +44,12 @@ class SignInActivity : AppCompatActivity() {
                         editor.putString("userWithToken", Gson().toJson(response.body()))
                         editor.apply()
 
-                        Toast.makeText(this@SignInActivity, "Hello, " + response.body()?.user?.firstName + " " + response.body()?.user?.secondName, Toast.LENGTH_LONG).show()
                         startActivity(Intent(this@SignInActivity, MainActivity::class.java))
                         finish()
                     } else { // Other errors
-                        if (response.errorBody() != null){
-                            Toast.makeText(this@SignInActivity, response.errorBody()?.string(), Toast.LENGTH_LONG).show()
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null){
+                            Toast.makeText(this@SignInActivity, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                         }
