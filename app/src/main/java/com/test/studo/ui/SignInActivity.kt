@@ -58,7 +58,7 @@ class SignInActivity : AppCompatActivity() {
 
                 // No connection with server
                 override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-                    Toast.makeText(this@SignInActivity, "Check your internet connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignInActivity, "No connection with server", Toast.LENGTH_LONG).show()
                 }
             })
         }

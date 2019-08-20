@@ -17,10 +17,10 @@
     <string name="logo">logo</string>
     <string name="card_number">Card number</string>
     <string name="confirm_password">Confirm password</string>
-    <string name="create_account">Create Account</string>
+    <string name="create_account">Create account</string>
     <string name="change_email">Change email</string>
     <string name="change_password">Change password</string>
-    <string name="log_out">LOG OUT</string>
+    <string name="log_out">Logout</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
     <string name="empty_password_error">Password must be at least 6 characters</string>
@@ -28,6 +28,7 @@
     <string name="same_password_error">New password can\'t match old password</string>
     <string name="cancel">cancel</string>
     <string name="ok">Ok</string>
+    <string name="reset_password">Forgot your password?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

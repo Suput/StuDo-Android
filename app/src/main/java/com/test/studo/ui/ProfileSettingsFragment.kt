@@ -10,14 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.studo.R
-import kotlinx.android.synthetic.main.collapsing_toolbar.view.*
+import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_profile_settings.view.*
 import android.support.v7.app.AlertDialog
-import android.util.JsonToken
-import android.util.Log
 import android.widget.Toast
-import com.google.gson.Gson
-import com.google.gson.JsonObject
 import com.test.studo.api.models.ChangePasswordRequest
 import kotlinx.android.synthetic.main.fragment_profile_settings.*
 import retrofit2.Call
@@ -32,10 +28,10 @@ class ProfileSettingsFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getString(R.string.title_profile)
 
-        view.input_first_name.text = Editable.Factory.getInstance().newEditable(currentUser.user.firstName)
-        view.input_second_name.text = Editable.Factory.getInstance().newEditable(currentUser.user.secondName)
-        currentUser.user.studentCardNumber?.let {
-            view.input_card_number.text = Editable.Factory.getInstance().newEditable(currentUser.user.studentCardNumber)
+        view.input_first_name.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.firstName)
+        view.input_second_name.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.secondName)
+        currentUserWithToken.user.studentCardNumber?.let {
+            view.input_card_number.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.studentCardNumber)
         }
 
         view.log_out_btn.setOnClickListener(onLogOutButtonClick)
@@ -112,12 +108,12 @@ class ProfileSettingsFragment : Fragment() {
         }
 
         val changePasswordRequest = ChangePasswordRequest(
-            currentUser.user.email,
+            currentUserWithToken.user.email,
             oldPassword.editText?.text.toString(),
             newPassword.editText?.text.toString()
         )
 
-        api.changePassword(changePasswordRequest, "Bearer " + currentUser.accessToken).enqueue(object : Callback<Void> {
+        api.changePassword(changePasswordRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Void> {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful){
                     log_out_btn.performClick()
@@ -132,7 +128,7 @@ class ProfileSettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(context, "Check your internet connection", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
             }
         })
     }

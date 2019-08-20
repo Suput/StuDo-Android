@@ -12,7 +12,6 @@
             android:layout_height="match_parent"
             app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
             android:background="@color/colorBackground"
-            app:title="@string/title_events"
             app:collapsedTitleGravity="left"
             app:expandedTitleGravity="center">
 

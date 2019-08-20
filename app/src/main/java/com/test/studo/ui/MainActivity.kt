@@ -14,10 +14,9 @@ import android.content.Context
 import com.google.gson.Gson
 import com.test.studo.api.models.UserLoginResponse
 
-
 val api = ApiService.create()
 
-lateinit var currentUser : UserLoginResponse
+lateinit var currentUserWithToken : UserLoginResponse
 
 class MainActivity : AppCompatActivity() {
 
@@ -29,7 +28,7 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
         } else {
-            currentUser = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
+            currentUserWithToken = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
         }
 
         super.onCreate(savedInstanceState)

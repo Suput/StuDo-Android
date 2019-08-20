@@ -9,7 +9,7 @@ import android.widget.AdapterView
 import com.test.studo.R
 import com.test.studo.adapters.ListViewAdapter
 import com.test.studo.adapters.ListViewItemModel
-import kotlinx.android.synthetic.main.collapsing_toolbar.view.*
+import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_account_page.view.*
 
 class AccountPageFragment : Fragment() {
@@ -18,8 +18,8 @@ class AccountPageFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getText(R.string.title_account)
 
-        view.name_and_surname.text = currentUser.user.firstName + " " + currentUser.user.secondName
-        view.email.text = currentUser.user.email
+        view.name_and_surname.text = String.format(currentUserWithToken.user.firstName, " ", currentUserWithToken.user.secondName)
+        view.email.text = currentUserWithToken.user.email
 
         val list = mutableListOf<ListViewItemModel>()
 

@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.test.studo.R
-import kotlinx.android.synthetic.main.collapsing_toolbar.view.*
+import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 
 
 class PeoplePageFragment : Fragment() {

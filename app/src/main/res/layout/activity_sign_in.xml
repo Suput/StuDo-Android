@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
+<android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
@@ -56,16 +56,28 @@
                 android:text="@string/login"/>
 
         <TextView
-                android:id="@+id/link_sign_up"
-                android:layout_width="fill_parent"
+                android:id="@+id/reset_password"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:text="@string/create_account"
-                android:gravity="center"
+                android:text="@string/reset_password"
                 android:textSize="16sp"
                 android:clickable="true"
                 android:focusable="true"
-                android:onClick="goToSignUp"/>
+                android:onClick="goToSignUp"
+                android:layout_gravity="center|bottom"/>
 
     </LinearLayout>
-</android.support.constraint.ConstraintLayout>
+
+    <TextView
+            android:id="@+id/link_sign_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:text="@string/create_account"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:focusable="true"
+            android:onClick="goToSignUp"
+            android:layout_gravity="center|bottom"/>
+
+</android.support.design.widget.CoordinatorLayout>

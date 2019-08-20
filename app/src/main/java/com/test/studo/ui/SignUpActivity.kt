@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "Check your internet connection", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignUpActivity, "No connection with server", Toast.LENGTH_LONG).show()
                 }
             })
         }
