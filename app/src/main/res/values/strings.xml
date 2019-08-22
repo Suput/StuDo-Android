@@ -28,7 +28,8 @@
     <string name="same_password_error">New password can\'t match old password</string>
     <string name="cancel">cancel</string>
     <string name="ok">Ok</string>
-    <string name="reset_password">Forgot your password?</string>
+    <string name="forgot_password">Forgot your password?</string>
+    <string name="reset_password">Reset password</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

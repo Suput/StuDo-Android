@@ -1,9 +1,6 @@
 package com.test.studo.api
 
-import com.test.studo.api.models.ChangePasswordRequest
-import com.test.studo.api.models.UserLoginRequest
-import com.test.studo.api.models.UserLoginResponse
-import com.test.studo.api.models.UserRegistrationRequest
+import com.test.studo.api.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -21,6 +18,9 @@ interface ApiService {
 
     @POST("api/user/password/change")
     fun changePassword(@Body body : ChangePasswordRequest, @Header("Authorization") accessToken : String) : Call<Void>
+
+    @POST("api/user/password/reset")
+    fun resetPasword(@Body body : ResetPasswordRequest) : Call<Void>
 
     companion object Factory {
         fun create(): ApiService {

@@ -14,3 +14,10 @@ data class ChangePasswordRequest(
     val newPassword : String
 
 )
+
+data class ResetPasswordRequest(
+
+    @SerializedName("email")
+    val email : String
+
+)

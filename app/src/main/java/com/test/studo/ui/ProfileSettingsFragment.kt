@@ -49,25 +49,25 @@ class ProfileSettingsFragment : Fragment() {
 
     private val onChangePasswordClickListener = View.OnClickListener {
         val builder = AlertDialog.Builder(context!!)
-        val resetPasswordView = activity!!.layoutInflater.inflate(R.layout.dialog_change_password, null)
-        val oldPassword = resetPasswordView!!.findViewById(R.id.input_old_password) as TextInputLayout
-        val newPassword = resetPasswordView.findViewById(R.id.input_new_password) as TextInputLayout
-        val confirmNewPassword = resetPasswordView.findViewById(R.id.input_confirm_new_password) as TextInputLayout
+        val changePasswordView = activity!!.layoutInflater.inflate(R.layout.dialog_change_password, null)
+        val oldPassword = changePasswordView!!.findViewById(R.id.input_old_password) as TextInputLayout
+        val newPassword = changePasswordView.findViewById(R.id.input_new_password) as TextInputLayout
+        val confirmNewPassword = changePasswordView.findViewById(R.id.input_confirm_new_password) as TextInputLayout
 
-        builder.setView(resetPasswordView)
+        builder.setView(changePasswordView)
             .setTitle(resources.getText(R.string.change_password).toString())
             .setCancelable(true)
             .setNegativeButton(resources.getText(R.string.cancel).toString(), null)
             .setPositiveButton(resources.getText(R.string.ok).toString(), null)
 
-        val resetPasswordAlert = builder.create()
-        resetPasswordAlert.show()
-        resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                resetPassword(oldPassword, newPassword, confirmNewPassword)
+        val changePasswordAlert = builder.create()
+        changePasswordAlert.show()
+        changePasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+                changePassword(oldPassword, newPassword, confirmNewPassword)
             }
         }
 
-    private fun resetPassword(oldPassword : TextInputLayout, newPassword : TextInputLayout, confirmNewPassword : TextInputLayout){
+    private fun changePassword(oldPassword : TextInputLayout, newPassword : TextInputLayout, confirmNewPassword : TextInputLayout){
         if (oldPassword.editText?.text.toString().length < 6){
             oldPassword.error = resources.getText(R.string.empty_password_error).toString()
             return

@@ -1,5 +1,6 @@
 package com.test.studo.ui
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -18,7 +19,7 @@ class AccountPageFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getText(R.string.title_account)
 
-        view.name_and_surname.text = String.format(currentUserWithToken.user.firstName, " ", currentUserWithToken.user.secondName)
+        view.name_and_surname.text = currentUserWithToken.user.firstName + " " + currentUserWithToken.user.secondName
         view.email.text = currentUserWithToken.user.email
 
         val list = mutableListOf<ListViewItemModel>()
