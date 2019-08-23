@@ -14,7 +14,9 @@ import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_profile_settings.view.*
 import android.support.v7.app.AlertDialog
 import android.widget.Toast
+import com.test.studo.api
 import com.test.studo.api.models.ChangePasswordRequest
+import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_profile_settings.*
 import retrofit2.Call
 import retrofit2.Callback

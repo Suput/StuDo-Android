@@ -17,6 +17,7 @@ import android.content.Context
 import android.support.design.widget.TextInputLayout
 import android.support.v7.app.AlertDialog
 import com.google.gson.Gson
+import com.test.studo.api
 import com.test.studo.api.models.ResetPasswordRequest
 
 
@@ -40,6 +41,8 @@ class SignInActivity : AppCompatActivity() {
     private val onLoginButtonClickListener = View.OnClickListener{
         val userLoginRequest = UserLoginRequest(input_email.editText?.text.toString(), input_password.editText?.text.toString())
 
+        // TODO: Add user data check
+
         api.login(userLoginRequest).enqueue(object : Callback<UserLoginResponse> {
 
             // Successful connection with server
@@ -49,8 +52,7 @@ class SignInActivity : AppCompatActivity() {
                 if (response.isSuccessful) {
                     val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
                     val editor = shared.edit()
-                    editor.putString("userWithToken", Gson().toJson(response.body()))
-                    editor.apply()
+                    editor.putString("userWithToken", Gson().toJson(response.body())).apply()
 
                     startActivity(Intent(this@SignInActivity, MainActivity::class.java))
                     finish()
@@ -91,11 +93,11 @@ class SignInActivity : AppCompatActivity() {
 
     private fun resetPassword(email : TextInputLayout, resetPasswordAlert : AlertDialog){
 
-        // TODO: Add email check
-
         val resetPasswordRequest = ResetPasswordRequest(email.editText?.text.toString())
 
-        api.resetPasword(resetPasswordRequest).enqueue(object : Callback<Void>{
+        // TODO: Add user data check
+
+        api.resetPassword(resetPasswordRequest).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful){
                     Toast.makeText(this@SignInActivity, "Check your email to change password", Toast.LENGTH_LONG).show()

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import com.test.studo.R
+import com.test.studo.api
 import com.test.studo.api.models.UserRegistrationRequest
 import kotlinx.android.synthetic.main.activity_sign_up.*
 import retrofit2.Call

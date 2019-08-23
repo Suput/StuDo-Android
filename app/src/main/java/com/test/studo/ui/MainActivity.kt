@@ -13,10 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Context
 import com.google.gson.Gson
 import com.test.studo.api.models.UserLoginResponse
-
-val api = ApiService.create()
-
-lateinit var currentUserWithToken : UserLoginResponse
+import com.test.studo.currentUserWithToken
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,10 +38,7 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        supportFragmentManager.beginTransaction().replace(
-            R.id.fragment_container,
-            EventsPageFragment()
-        ).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, EventsPageFragment()).commit()
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

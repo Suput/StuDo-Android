@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import kotlinx.android.synthetic.main.view_item_listview.view.*
 
-class ListViewItemModel(val title : String, val icon : Int )
+data class ListViewItemModel(val title : String, val icon : Int )
 
 class ListViewAdapter(var ctx : Context , var resource : Int, var items : List<ListViewItemModel>)
     : ArrayAdapter<ListViewItemModel>( ctx , resource , items ){

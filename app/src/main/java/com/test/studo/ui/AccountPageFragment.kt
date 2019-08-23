@@ -1,6 +1,5 @@
 package com.test.studo.ui
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -10,6 +9,7 @@ import android.widget.AdapterView
 import com.test.studo.R
 import com.test.studo.adapters.ListViewAdapter
 import com.test.studo.adapters.ListViewItemModel
+import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_account_page.view.*
 
@@ -53,7 +53,7 @@ class AccountPageFragment : Fragment() {
 
     private val onProfilePanelClickListener = View.OnClickListener {
         val ft = activity?.supportFragmentManager?.beginTransaction()
-        ft?.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+        ft?.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_out_right, R.anim.slide_in_left)
         ft?.addToBackStack(null)?.replace(R.id.fragment_container, ProfileSettingsFragment())
         ft?.commit()
     }
