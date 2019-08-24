@@ -4,10 +4,7 @@ import com.test.studo.api.models.*
 import retrofit2.Call
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.Header
-import retrofit2.http.POST
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -25,6 +22,9 @@ interface ApiService {
 
     @GET("ad")
     fun getAllAds(@Header("Authorization") accessToken : String) : Call<List<CompactAd>>
+
+    @GET("ad/{adId}")
+    fun getOneAd(@Path("adId") adId : String, @Header("Authorization") accessToken : String) : Call<Ad>
 
     @GET("resumes")
     fun getAllResumes(@Header("Authorization") accessToken : String) : Call<List<CompactResume>>

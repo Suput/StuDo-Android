@@ -10,10 +10,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.test.studo.R
 import com.test.studo.api.models.CompactAd
+import com.test.studo.ui.EventsPageFragment
 import kotlinx.android.synthetic.main.view_item_recyclerview.view.*
 
 
-class EventsRecyclerViewAdapter(private var compactAdList: List<CompactAd>) : RecyclerView.Adapter<EventsRecyclerViewAdapter.CardViewViewHolder>() {
+class EventsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, eventsPageFragment: EventsPageFragment) : RecyclerView.Adapter<EventsRecyclerViewAdapter.CardViewViewHolder>() {
 
     override fun getItemCount() = compactAdList.size
 
@@ -41,7 +42,8 @@ class EventsRecyclerViewAdapter(private var compactAdList: List<CompactAd>) : Re
     private val onRecyclerViewClickListener = View.OnClickListener{
         val rv = it.parent as RecyclerView
         val item = compactAdList[rv.getChildLayoutPosition(it)]
-        Log.wtf("body", item.name)
+
+        eventsPageFragment.onAdClick(it.ad_panel, item)
     }
 
 }

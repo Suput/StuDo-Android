@@ -30,6 +30,9 @@
     <string name="ok">Ok</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="reset_password">Reset password</string>
+    <string name="ad">Ad</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- TODO: Remove or change this placeholder text -->
 </resources>

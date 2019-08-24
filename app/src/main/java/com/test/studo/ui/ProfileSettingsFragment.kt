@@ -13,6 +13,7 @@ import com.test.studo.R
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_profile_settings.view.*
 import android.support.v7.app.AlertDialog
+import android.transition.TransitionInflater
 import android.widget.Toast
 import com.test.studo.api
 import com.test.studo.api.models.ChangePasswordRequest
@@ -24,6 +25,12 @@ import retrofit2.Response
 
 
 class ProfileSettingsFragment : Fragment() {
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_profile_settings, container, false)
