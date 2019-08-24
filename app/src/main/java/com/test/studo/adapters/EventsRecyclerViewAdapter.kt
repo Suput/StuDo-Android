@@ -3,7 +3,6 @@ package com.test.studo.adapters
 import android.widget.TextView
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.view.LayoutInflater
@@ -11,7 +10,7 @@ import android.view.ViewGroup
 import com.test.studo.R
 import com.test.studo.api.models.CompactAd
 import com.test.studo.ui.EventsPageFragment
-import kotlinx.android.synthetic.main.view_item_recyclerview.view.*
+import kotlinx.android.synthetic.main.view_item_recyclerview_events.view.*
 
 
 class EventsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, eventsPageFragment: EventsPageFragment) : RecyclerView.Adapter<EventsRecyclerViewAdapter.CardViewViewHolder>() {
@@ -19,7 +18,7 @@ class EventsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, even
     override fun getItemCount() = compactAdList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_events, viewGroup, false)
 
         view.setOnClickListener(onRecyclerViewClickListener)
 

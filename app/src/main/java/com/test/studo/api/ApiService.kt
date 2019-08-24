@@ -29,6 +29,8 @@ interface ApiService {
     @GET("resumes")
     fun getAllResumes(@Header("Authorization") accessToken : String) : Call<List<CompactResume>>
 
+    @GET("resumes/{resumeId}")
+    fun getOneResume(@Path("resumeId") resumeId : String, @Header("Authorization") accessToken : String) : Call<Resume>
 
     companion object Factory {
         fun create(): ApiService {

@@ -4,10 +4,10 @@ package com.test.studo.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.adapters.PeopleRecyclerViewAdapter
@@ -33,26 +33,26 @@ class PeoplePageFragment : Fragment() {
 
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         compactResumeList?.let {
-            view.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!)
+            view.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, this)
         } ?: run {
-            getResumes(view)
+            getResumes(this)
         }
 
         view.swipe_container.setOnRefreshListener{
-            getResumes(view)
+            getResumes(this)
             swipe_container.isRefreshing = false
         }
 
         return view
     }
 
-    private fun getResumes(view : View){
+    private fun getResumes(peoplePageFragment: PeoplePageFragment){
         api.getAllResumes("Bearer " + currentUserWithToken.accessToken).enqueue(object :
             Callback<List<CompactResume>> {
             override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
                 if (response.isSuccessful){
                     compactResumeList = response.body()
-                    view.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!)
+                    peoplePageFragment.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, peoplePageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -68,5 +68,24 @@ class PeoplePageFragment : Fragment() {
                 Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    fun onResumeClick(resumePanel : LinearLayout, compactResume: CompactResume){
+
+        resumePanel.transitionName = "resume_panel_transition"
+
+        val peopleFragment = ResumeFragment()
+        val bundle = Bundle()
+        bundle.putString("resumeId", compactResume.id)
+        bundle.putString("name", compactResume.name)
+        peopleFragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.addSharedElement(resumePanel, resumePanel.transitionName)
+            ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
+            ?.addToBackStack(null)
+            ?.replace(R.id.fragment_container, peopleFragment)
+            ?.commit()
     }
 }
