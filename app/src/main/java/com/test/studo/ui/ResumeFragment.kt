@@ -17,7 +17,6 @@ import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import java.text.SimpleDateFormat
 
 class ResumeFragment : Fragment() {
 
@@ -28,23 +27,40 @@ class ResumeFragment : Fragment() {
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
-        val bundle = this.arguments
-        val adId = bundle?.getString("resumeId")
-        adId?.let { getResume(it) }
+        arguments?.getString("resumeId")?.let { getResume(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_resume, container, false)
 
-        view.collapse_toolbar.title = resources.getText(R.string.ad)
+        view.collapse_toolbar.title = resources.getText(R.string.resume)
 
         val bundle = this.arguments
         view.name.text = bundle?.getString("name")
         view.separator_1.visibility = View.VISIBLE
         view.separator_2.visibility = View.VISIBLE
 
+        view.creator_panel.setOnClickListener(onProfilePanelClickListener)
+
         return view
+    }
+
+    private val onProfilePanelClickListener = View.OnClickListener {
+
+        val userProfileFragment = UserProfileFragment()
+        val bundle = Bundle()
+
+        bundle.putSerializable("user", resume.user)
+        userProfileFragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.addSharedElement(avatar, avatar.transitionName)
+            ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            ?.addToBackStack(null)
+            ?.replace(R.id.fragment_container, userProfileFragment)
+            ?.commit()
     }
 
     private fun getResume(resumeId : String){
@@ -55,7 +71,7 @@ class ResumeFragment : Fragment() {
 
                     name.text = resume.name
                     description.text = resume.description
-                    creator_name.text = resume.user.firstName + " " + resume.user.secondName
+                    creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){

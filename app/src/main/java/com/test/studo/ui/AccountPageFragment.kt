@@ -55,7 +55,7 @@ class AccountPageFragment : Fragment() {
     private val onProfilePanelClickListener = View.OnClickListener {
         activity?.supportFragmentManager
             ?.beginTransaction()
-            ?.addSharedElement(avatar, "avatarTransition")
+            ?.addSharedElement(avatar, avatar.transitionName)
             ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
             ?.addToBackStack(null)
             ?.replace(R.id.fragment_container, ProfileSettingsFragment())

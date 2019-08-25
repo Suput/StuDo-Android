@@ -1,6 +1,7 @@
 package com.test.studo.api.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class User(
 
@@ -18,7 +19,7 @@ data class User(
 
 	@SerializedName("studentCardNumber")
 		val studentCardNumber: String?
-)
+) : Serializable
 
 data class UserLoginRequest (
 

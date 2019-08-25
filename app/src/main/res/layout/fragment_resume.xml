@@ -51,7 +51,7 @@
                             android:textSize="24sp"
                             android:textColor="@android:color/black"
                             android:layout_gravity="center_vertical"
-                            android:text="Resume name"/>
+                            android:text="@string/sample_text"/>
 
                 </LinearLayout>
 
@@ -69,7 +69,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textColor="@android:color/black"/>
+                        android:textColor="@android:color/black"
+                        android:text="@string/sample_text"/>
 
                 <View
                         android:id="@+id/separator_2"
@@ -80,27 +81,33 @@
                         android:layout_marginBottom="16dp"
                         android:visibility="invisible"/>
 
-                <RelativeLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                        android:id="@+id/creator_panel"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:background="?attr/selectableItemBackground">
 
                     <ImageView
                             android:id="@+id/avatar"
-                            android:layout_width="32dp"
-                            android:layout_height="32dp"
-                            android:src="@drawable/avatar"/>
+                            android:layout_width="48dp"
+                            android:layout_height="48dp"
+                            android:src="@drawable/avatar"
+                            android:transitionName="avatar_transition"/>
 
                     <TextView
-                            android:id="@+id/creator_name"
+                            android:id="@+id/creator_name_and_surname"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_toEndOf="@id/avatar"
+                            android:textSize="16sp"
                             android:paddingStart="8dp"
                             android:paddingEnd="8dp"
-                            android:layout_centerVertical="true"/>
+                            android:layout_gravity="center_vertical"
+                            android:text="@string/sample_text"/>
 
-                </RelativeLayout>
+                </LinearLayout>
 
             </LinearLayout>
 

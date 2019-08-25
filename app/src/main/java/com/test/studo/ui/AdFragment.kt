@@ -28,9 +28,8 @@ class AdFragment : Fragment() {
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
 
-        val bundle = this.arguments
-        val adId = bundle?.getString("adId")
-        adId?.let { getAd(it) }
+        arguments?.getString("adId")?.let { getAd(it) }
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -39,13 +38,31 @@ class AdFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getText(R.string.ad)
 
-        val bundle = this.arguments
-        view.name.text = bundle?.getString("name")
-        view.short_description.text = bundle?.getString("short_description")
+        view.name.text = arguments?.getString("name")
+        view.short_description.text = arguments?.getString("short_description")
         view.separator_1.visibility = View.VISIBLE
         view.separator_2.visibility = View.VISIBLE
 
+        view.creator_panel.setOnClickListener(onProfilePanelClickListener)
+
         return view
+    }
+
+    private val onProfilePanelClickListener = View.OnClickListener {
+
+        val userProfileFragment = UserProfileFragment()
+        val bundle = Bundle()
+
+        bundle.putSerializable("user", ad.user)
+        userProfileFragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.addSharedElement(avatar, avatar.transitionName)
+            ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            ?.addToBackStack(null)
+            ?.replace(R.id.fragment_container, userProfileFragment)
+            ?.commit()
     }
 
     private fun getAd(adId : String){
@@ -57,11 +74,12 @@ class AdFragment : Fragment() {
                     name.text = ad.name
                     short_description.text = ad.shortDescription
                     description.text = ad.description
-                    creator_name.text = ad.user.firstName + " " + ad.user.secondName
+                    creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
 
                     val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-                    val clientDataFormat = SimpleDateFormat("HH:mm | dd.MM.yyyy")
-                    date.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
+                    val clientDataFormat = SimpleDateFormat("dd.MM.yyyy")
+                    begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
+                    end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){

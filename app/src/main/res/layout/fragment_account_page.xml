@@ -40,7 +40,7 @@
                             android:layout_width="64dp"
                             android:layout_height="64dp"
                             android:src="@drawable/avatar"
-                            android:transitionName="avatarTransition"/>
+                            android:transitionName="avatar_transition"/>
                     <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -51,14 +51,14 @@
                                 android:id="@+id/name_and_surname"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Name Surname"
+                                android:text="@string/sample_text"
                                 android:textSize="24sp"
                                 android:textColor="@android:color/black"/>
                         <TextView
                                 android:id="@+id/email"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="email@email.com"
+                                android:text="@string/sample_text"
                                 android:textSize="16sp"/>
                     </LinearLayout>
                 </LinearLayout>

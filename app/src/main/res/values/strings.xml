@@ -31,9 +31,15 @@
     <string name="forgot_password">Forgot your password?</string>
     <string name="reset_password">Reset password</string>
     <string name="ad">Ad</string>
+    <string name="sample_text" translatable="false">Sample text</string>
+    <string name="created">Created:</string>
+    <string name="ending">Ending:</string>
+    <string name="resume">Resume</string>
+    <string name="user_ads">User ads</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- TODO: Remove or change this placeholder text -->
 

@@ -34,7 +34,7 @@
                     android:src="@drawable/avatar"
                     android:contentDescription="@string/avatar"
                     android:layout_gravity="center"
-                    android:transitionName="avatarTransition"/>
+                    android:transitionName="avatar_transition"/>
 
             <LinearLayout
                     android:layout_width="match_parent"

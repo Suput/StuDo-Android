@@ -30,4 +30,8 @@
     <string name="forgot_password">Забыли пароль?</string>
     <string name="reset_password">Сброс пароля</string>
     <string name="ad">Событие</string>
+    <string name="created">"Создано: "</string>
+    <string name="ending">"Окончание: "</string>
+    <string name="resume">Резюме</string>
+    <string name="user_ads">Объявления пользователя</string>
 </resources>
