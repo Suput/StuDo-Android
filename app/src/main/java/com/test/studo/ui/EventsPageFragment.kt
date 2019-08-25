@@ -2,6 +2,7 @@ package com.test.studo.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -39,19 +40,18 @@ class EventsPageFragment : Fragment() {
         }
 
         view.swipe_container.setOnRefreshListener{
-            getEvents(this)
-            swipe_container.isRefreshing = false
+            getEvents(this, swipe_container)
         }
 
         return view
     }
 
-    private fun getEvents(eventsPageFragment: EventsPageFragment){
+    private fun getEvents(eventsPageFragment: EventsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getAllAds("Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>>{
             override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
                 if (response.isSuccessful){
                     compactAdList = response.body()
-                    eventsPageFragment.rv.adapter = EventsRecyclerViewAdapter(compactAdList!!, eventsPageFragment)
+                    eventsPageFragment.rv?.adapter = EventsRecyclerViewAdapter(compactAdList!!, eventsPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -60,11 +60,12 @@ class EventsPageFragment : Fragment() {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                     }
                 }
-
+                swipeRefreshLayout?.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
                 Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
             }
         })
     }

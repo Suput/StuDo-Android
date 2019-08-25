@@ -3,6 +3,7 @@ package com.test.studo.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
@@ -38,21 +39,18 @@ class PeoplePageFragment : Fragment() {
             getResumes(this)
         }
 
-        view.swipe_container.setOnRefreshListener{
-            getResumes(this)
-            swipe_container.isRefreshing = false
-        }
+        view.swipe_container.setOnRefreshListener{ getResumes(this, swipe_container) }
 
         return view
     }
 
-    private fun getResumes(peoplePageFragment: PeoplePageFragment){
+    private fun getResumes(peoplePageFragment: PeoplePageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getAllResumes("Bearer " + currentUserWithToken.accessToken).enqueue(object :
             Callback<List<CompactResume>> {
             override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
                 if (response.isSuccessful){
                     compactResumeList = response.body()
-                    peoplePageFragment.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, peoplePageFragment)
+                    peoplePageFragment.rv?.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, peoplePageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -61,11 +59,12 @@ class PeoplePageFragment : Fragment() {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                     }
                 }
-
+                swipeRefreshLayout?.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
                 Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
             }
         })
     }
