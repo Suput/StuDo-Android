@@ -1,8 +1,6 @@
 package com.test.studo.ui
 
-import android.content.Intent
 import android.os.Bundle
-import android.provider.Contacts
 import android.support.v4.app.Fragment
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
@@ -33,11 +31,11 @@ class UserProfileFragment : Fragment() {
         view.email.text = user.email
 
         view.user_ads_btn.setOnClickListener {
-            openUserFragment(EventsPageFragment())
+            openUserFragment(AdsPageFragment())
         }
 
         view.user_resumes_btn.setOnClickListener {
-            openUserFragment(PeoplePageFragment())
+            openUserFragment(ResumesPageFragment())
         }
 
         return view

@@ -46,10 +46,10 @@ class AccountPageFragment : Fragment() {
     private val onListViewItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
         when (position) {
             AccountPageItems.ADS.value -> {
-                openUserFragment(EventsPageFragment())
+                openUserFragment(AdsPageFragment())
             }
             AccountPageItems.RESUMES.value -> {
-                openUserFragment(PeoplePageFragment())
+                openUserFragment(ResumesPageFragment())
             }
 //            AccountPageItems.SUBS.value ->
 //            AccountPageItems.SETTINGS.value ->

@@ -37,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, EventsPageFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, AdsPageFragment()).commit()
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -45,8 +45,8 @@ class MainActivity : AppCompatActivity() {
         var selectedFragment = Fragment()
 
         when (item.itemId) {
-            R.id.navigation_events_page -> selectedFragment = EventsPageFragment()
-            R.id.navigation_people_page -> selectedFragment = PeoplePageFragment()
+            R.id.navigation_ads_page -> selectedFragment = AdsPageFragment()
+            R.id.navigation_resumes_page -> selectedFragment = ResumesPageFragment()
             R.id.navigation_account_page -> selectedFragment = AccountPageFragment()
         }
 
