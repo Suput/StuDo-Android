@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="title_events">События</string>
-    <string name="title_people">Люди</string>
+    <string name="title_resumes">Резюме</string>
     <string name="title_account">Аккаунт</string>
     <string name="about">О приложении</string>
     <string name="my_ads">Мои объявления</string>
@@ -34,4 +34,6 @@
     <string name="ending">"Окончание: "</string>
     <string name="resume">Резюме</string>
     <string name="user_ads">Объявления пользователя</string>
+    <string name="user_resumes">Резюме пользователя</string>
+    <string name="my_resumes">Мои резюме</string>
 </resources>

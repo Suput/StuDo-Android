@@ -26,31 +26,64 @@ import retrofit2.Response
 
 
 class PeoplePageFragment : Fragment() {
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_people_page, container, false)
 
-        view.collapse_toolbar.title = resources.getString(R.string.title_people)
+        view.collapse_toolbar.title = resources.getString(R.string.title_resumes)
 
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        compactResumeList?.let {
-            view.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, this)
-        } ?: run {
-            getResumes(this)
-        }
 
-        view.swipe_container.setOnRefreshListener{ getResumes(this, swipe_container) }
+        val bundle = arguments
+        val userId = bundle?.getString("userId")
+        if (bundle != null && userId != null){
+            getUserResumes(userId, this)
+
+            view.swipe_container.setOnRefreshListener{ getUserResumes(userId, this, swipe_container) }
+        } else {
+            compactResumeList?.let {
+                view.rv.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, this)
+            } ?: run {
+                getAllResumes(this)
+            }
+
+            view.swipe_container.setOnRefreshListener{ getAllResumes(this, swipe_container) }
+        }
 
         return view
     }
 
-    private fun getResumes(peoplePageFragment: PeoplePageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getAllResumes(peoplePageFragment: PeoplePageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getAllResumes("Bearer " + currentUserWithToken.accessToken).enqueue(object :
             Callback<List<CompactResume>> {
             override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
                 if (response.isSuccessful){
                     compactResumeList = response.body()
                     peoplePageFragment.rv?.adapter = PeopleRecyclerViewAdapter(compactResumeList!!, peoplePageFragment)
+                } else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null){
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                swipeRefreshLayout?.isRefreshing = false
+            }
+
+            override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
+                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
+            }
+        })
+    }
+
+    private fun getUserResumes(userId : String, peoplePageFragment: PeoplePageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+        api.getUserResumes(userId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactResume>> {
+            override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
+                if (response.isSuccessful){
+                    peoplePageFragment.rv?.adapter = PeopleRecyclerViewAdapter(response.body()!!, peoplePageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -84,7 +117,7 @@ class PeoplePageFragment : Fragment() {
             ?.addSharedElement(resumePanel, resumePanel.transitionName)
             ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
             ?.addToBackStack(null)
-            ?.replace(R.id.fragment_container, peopleFragment)
+            ?.replace(R.id.main_fragment_container, peopleFragment)
             ?.commit()
     }
 }

@@ -8,7 +8,7 @@
         tools:context="com.test.studo.ui.MainActivity">
 
     <FrameLayout
-            android:id="@+id/fragment_container"
+            android:id="@+id/main_fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@id/bottom_navigation"/>
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="?android:attr/windowBackground"
-            app:menu="@menu/navigation"
+            app:menu="@menu/main_navigation"
             app:itemIconSize="32dp"
             app:labelVisibilityMode="unlabeled"/>
 

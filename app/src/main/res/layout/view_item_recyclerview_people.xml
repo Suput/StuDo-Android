@@ -25,7 +25,7 @@
                     android:layout_height="48dp"
                     android:layout_marginEnd="16dp"
                     android:layout_gravity="center_vertical"
-                    android:src="@drawable/ic_account_circle_black_24dp"/>
+                    android:src="@drawable/ic_account_circle_blue_24dp"/>
 
             <TextView
                 android:id="@+id/name"

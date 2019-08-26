@@ -59,7 +59,7 @@ class ResumeFragment : Fragment() {
             ?.addSharedElement(avatar, avatar.transitionName)
             ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
             ?.addToBackStack(null)
-            ?.replace(R.id.fragment_container, userProfileFragment)
+            ?.replace(R.id.main_fragment_container, userProfileFragment)
             ?.commit()
     }
 

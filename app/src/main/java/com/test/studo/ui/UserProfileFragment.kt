@@ -1,6 +1,8 @@
 package com.test.studo.ui
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Contacts
 import android.support.v4.app.Fragment
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
@@ -30,6 +32,27 @@ class UserProfileFragment : Fragment() {
         view.name_and_surname.text = user.firstName + " " + user.secondName
         view.email.text = user.email
 
+        view.user_ads_btn.setOnClickListener {
+            openUserFragment(EventsPageFragment())
+        }
+
+        view.user_resumes_btn.setOnClickListener {
+            openUserFragment(PeoplePageFragment())
+        }
+
         return view
+    }
+
+    private fun openUserFragment(fragment: Fragment){
+        val bundle = Bundle()
+        bundle.putString("userId", user.id)
+        fragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, fragment)
+            ?.commit()
     }
 }

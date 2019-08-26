@@ -8,7 +8,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.view.View
 import com.test.studo.R
-import com.test.studo.api.ApiService
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Context
 import com.google.gson.Gson
@@ -38,7 +37,7 @@ class MainActivity : AppCompatActivity() {
 
         bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, EventsPageFragment()).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, EventsPageFragment()).commit()
     }
 
     private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -51,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_account_page -> selectedFragment = AccountPageFragment()
         }
 
-        supportFragmentManager.beginTransaction().replace(R.id.fragment_container, selectedFragment).commit()
+        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, selectedFragment).commit()
 
         true
     }

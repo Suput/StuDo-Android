@@ -25,10 +25,11 @@ class AccountPageFragment : Fragment() {
 
         val list = mutableListOf<ListViewItemModel>()
 
-        list.add(ListViewItemModel(resources.getText(R.string.my_ads).toString(), R.drawable.ic_list_black_24dp ))
-        list.add(ListViewItemModel(resources.getText(R.string.subs).toString(), R.drawable.ic_star_black_24dp ))
-        list.add(ListViewItemModel(resources.getText(R.string.settings).toString(), R.drawable.ic_settings_black_24dp  ))
-        list.add(ListViewItemModel(resources.getText(R.string.about).toString(), R.drawable.ic_info_black_24dp  ))
+        list.add(ListViewItemModel(resources.getText(R.string.my_ads).toString(), R.drawable.ic_group_blue_24dp))
+        list.add(ListViewItemModel(resources.getText(R.string.my_resumes).toString(), R.drawable.ic_person_blue_24dp))
+        list.add(ListViewItemModel(resources.getText(R.string.subs).toString(), R.drawable.ic_star_blue_24dp))
+        list.add(ListViewItemModel(resources.getText(R.string.settings).toString(), R.drawable.ic_settings_blue_24dp))
+        list.add(ListViewItemModel(resources.getText(R.string.about).toString(), R.drawable.ic_info_blue_24dp))
 
         view.account_page_lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
 
@@ -38,14 +39,18 @@ class AccountPageFragment : Fragment() {
         return view
     }
 
-    enum class AccountPageItems(val value : Int){
-        ADS(0), SUBS(1), SETTINGS(2), ABOUT(3)
+    enum class AccountPageItems(val value: Int) {
+        ADS(0), RESUMES(1), SUBS(2), SETTINGS(3), ABOUT(4)
     }
 
-    private val onListViewItemClickListener = AdapterView.OnItemClickListener{
-        _, _, position, _ ->
-        when(position){
-//            AccountPageItems.ADS.value ->
+    private val onListViewItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        when (position) {
+            AccountPageItems.ADS.value -> {
+                openUserFragment(EventsPageFragment())
+            }
+            AccountPageItems.RESUMES.value -> {
+                openUserFragment(PeoplePageFragment())
+            }
 //            AccountPageItems.SUBS.value ->
 //            AccountPageItems.SETTINGS.value ->
 //            AccountPageItems.ABOUT.value ->
@@ -56,9 +61,32 @@ class AccountPageFragment : Fragment() {
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.addSharedElement(avatar, avatar.transitionName)
-            ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
             ?.addToBackStack(null)
-            ?.replace(R.id.fragment_container, ProfileSettingsFragment())
+            ?.replace(R.id.main_fragment_container, ProfileSettingsFragment())
+            ?.commit()
+    }
+
+    private fun openUserFragment(fragment: Fragment) {
+        val bundle = Bundle()
+        bundle.putString("userId", currentUserWithToken.user.id)
+        fragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, fragment)
             ?.commit()
     }
 }

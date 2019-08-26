@@ -28,7 +28,7 @@ class PeopleRecyclerViewAdapter(private var compactResumeList: List<CompactResum
 
     override fun onBindViewHolder(cardViewViewHolder: CardViewViewHolder, i: Int) {
         cardViewViewHolder.name.text = compactResumeList[i].name
-        //cardViewViewHolder.icon.setImageResource(R.drawable.ic_account_circle_black_24dp)
+        //cardViewViewHolder.icon.setImageResource(R.drawable.ic_account_circle_blue_24dp)
     }
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {

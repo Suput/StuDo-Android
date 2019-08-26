@@ -8,7 +8,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.adapters.EventsRecyclerViewAdapter
@@ -16,7 +15,6 @@ import com.test.studo.api
 import com.test.studo.api.models.CompactAd
 import com.test.studo.compactAdList
 import com.test.studo.currentUserWithToken
-import kotlinx.android.synthetic.main.fragment_ad.*
 import kotlinx.android.synthetic.main.fragment_events_page.*
 import kotlinx.android.synthetic.main.fragment_events_page.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
@@ -33,25 +31,55 @@ class EventsPageFragment : Fragment() {
         view.collapse_toolbar.title = resources.getString(R.string.title_events)
 
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        compactAdList?.let {
-            view.rv.adapter = EventsRecyclerViewAdapter(compactAdList!!, this)
-        } ?: run {
-            getEvents(this)
-        }
 
-        view.swipe_container.setOnRefreshListener{
-            getEvents(this, swipe_container)
+        val bundle = arguments
+        val userId = bundle?.getString("userId")
+        if (bundle != null && userId != null){
+            getUserAds(userId, this)
+
+            view.swipe_container.setOnRefreshListener{ getUserAds(userId, this, swipe_container) }
+        } else {
+            compactAdList?.let {
+                view.rv.adapter = EventsRecyclerViewAdapter(compactAdList!!, this)
+            } ?: run {
+                getAllAds(this)
+            }
+
+            view.swipe_container.setOnRefreshListener{ getAllAds(this, swipe_container) }
         }
 
         return view
     }
 
-    private fun getEvents(eventsPageFragment: EventsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getAllAds(eventsPageFragment: EventsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getAllAds("Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>>{
             override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
                 if (response.isSuccessful){
                     compactAdList = response.body()
                     eventsPageFragment.rv?.adapter = EventsRecyclerViewAdapter(compactAdList!!, eventsPageFragment)
+                } else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null){
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                swipeRefreshLayout?.isRefreshing = false
+            }
+
+            override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
+                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
+            }
+        })
+    }
+
+    private fun getUserAds(userId : String, eventsPageFragment: EventsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+        api.getUserAds(userId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>>{
+            override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
+                if (response.isSuccessful){
+                    eventsPageFragment.rv?.adapter = EventsRecyclerViewAdapter(response.body()!!, eventsPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -86,7 +114,7 @@ class EventsPageFragment : Fragment() {
             ?.addSharedElement(adPanel, adPanel.transitionName)
             ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
             ?.addToBackStack(null)
-            ?.replace(R.id.fragment_container, adFragment)
+            ?.replace(R.id.main_fragment_container, adFragment)
             ?.commit()
     }
 }
