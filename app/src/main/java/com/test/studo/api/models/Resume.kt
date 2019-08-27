@@ -1,6 +1,7 @@
 package com.test.studo.api.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CompactResume(
 
@@ -35,7 +36,7 @@ data class Resume(
     @SerializedName("user")
     val user : User
 
-)
+) : Serializable
 
 data class ResumeCreateRequest(
 

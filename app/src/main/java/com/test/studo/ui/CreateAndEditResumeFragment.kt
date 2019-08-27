@@ -12,6 +12,7 @@ import com.test.studo.R
 import com.test.studo.api
 import com.test.studo.api.models.Resume
 import com.test.studo.api.models.ResumeCreateRequest
+import com.test.studo.api.models.ResumeEditRequest
 import com.test.studo.compactResumeList
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_create_and_edit_resume.*
@@ -29,10 +30,10 @@ class CreateAndEditResumeFragment : Fragment() {
         val resume = arguments?.getSerializable("resume") as Resume?
 
         if (resume != null){
-//            view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
-//            view.input_title.editText?.setText(resume.name)
-//            view.input_description.editText?.setText(resume.description)
-//            view.fab.setOnClickListener { editResume(resume.id) }
+            view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
+            view.input_title.editText?.setText(resume.name)
+            view.input_description.editText?.setText(resume.description)
+            view.fab.setOnClickListener { editResume(resume.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_resume)
             view.fab.setOnClickListener { createResume() }
@@ -70,6 +71,40 @@ class CreateAndEditResumeFragment : Fragment() {
         )
 
         api.createResume(resumeCreateRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
+            override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
+                if (response.isSuccessful) {
+                    Toast.makeText(context, resources.getText(R.string.create_resume_success), Toast.LENGTH_LONG).show()
+                    compactResumeList = null
+                    activity?.supportFragmentManager?.popBackStack()
+                } else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null) {
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Resume>, t: Throwable) {
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private fun editResume(resumeId : String){
+
+        if (!isUserDataIsCorrect()){
+            return
+        }
+
+        val resumeEditRequest = ResumeEditRequest(
+            resumeId,
+            input_title.editText!!.text.toString(),
+            input_description.editText!!.text.toString()
+        )
+
+        api.editResume(resumeEditRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
                 if (response.isSuccessful) {
                     Toast.makeText(context, resources.getText(R.string.create_resume_success), Toast.LENGTH_LONG).show()

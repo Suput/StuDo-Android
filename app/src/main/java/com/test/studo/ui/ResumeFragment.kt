@@ -44,6 +44,10 @@ class ResumeFragment : Fragment() {
             view.name.text = resume.name
             view.description.text = resume.description
             view.creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
+
+            if (resume.user.id == currentUserWithToken.user.id){
+                view.fab.show()
+            }
         } else {
             arguments?.getString("resumeId")?.let { getResume(it) }
         }
@@ -51,6 +55,8 @@ class ResumeFragment : Fragment() {
         view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, swipe_container)} }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
+
+        view.fab.setOnClickListener(onFabClickListener)
 
         return view
     }
@@ -74,6 +80,25 @@ class ResumeFragment : Fragment() {
         }
     }
 
+    private val onFabClickListener = View.OnClickListener {
+        val createAndEditResumeFragment = CreateAndEditResumeFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("resume", resume)
+        createAndEditResumeFragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, createAndEditResumeFragment)
+            ?.commit()
+    }
+
     private fun getResume(resumeId : String, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getOneResume(resumeId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
@@ -85,6 +110,10 @@ class ResumeFragment : Fragment() {
                     creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
 
                     swipeRefreshLayout?.isRefreshing = false
+
+                    if (resume.user.id == currentUserWithToken.user.id){
+                        fab.show()
+                    }
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
