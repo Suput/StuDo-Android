@@ -38,6 +38,21 @@
     <string name="user_ads">User ads</string>
     <string name="user_resumes">User resumes</string>
     <string name="my_resumes">My resumes</string>
+    <string name="create_ad">Create ad</string>
+    <string name="edit_ad">Edit ad</string>
+    <string name="create_resume">Create resume</string>
+    <string name="edit_resume">Edit resume</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="short_description">Short description</string>
+    <string name="ad_end_time">Event end:</string>
+    <string name="edit">Edit</string>
+    <string name="empty_field_error">Fill in the entry field</string>
+    <string name="create_ad_success">Ad successfully created</string>
+    <string name="create_resume_success">Resume successfully created</string>
+    <string name="connection_with_server_error">resources.getText(R.string.connection_with_server_error)</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- TODO: Remove or change this placeholder text -->
 

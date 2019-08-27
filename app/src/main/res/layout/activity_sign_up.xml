@@ -130,7 +130,6 @@
               android:textSize="16sp"
               android:clickable="true"
               android:focusable="true"
-              android:onClick="goToSignIn"
               android:layout_gravity="center|bottom"/>
 
 </android.support.design.widget.CoordinatorLayout>

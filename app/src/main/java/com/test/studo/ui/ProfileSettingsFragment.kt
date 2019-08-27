@@ -137,7 +137,7 @@ class ProfileSettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
             }
         })
     }

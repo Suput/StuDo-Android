@@ -33,37 +33,42 @@ class AdsPageFragment : Fragment() {
 
         val bundle = arguments
         val user = bundle?.getSerializable("user") as User?
-        if (bundle != null && user != null){
+        if (bundle != null && user != null) {
             getUserAds(user.id, this)
 
             view.collapse_toolbar.title = user.firstName + " " + user.secondName
             view.subtitle.text = resources.getString(R.string.title_ads)
 
-            view.swipe_container.setOnRefreshListener{ getUserAds(user.id, this, swipe_container) }
+            if (user == currentUserWithToken.user) {
+                view.fab.show()
+                view.fab.setOnClickListener(onFabClickListener)
+            }
+
+            view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, swipe_container) }
         } else {
             view.collapse_toolbar.title = resources.getString(R.string.title_ads)
 
             compactAdList?.let {
-                view.rv.adapter = AdsRecyclerViewAdapter(compactAdList!!, this)
+                view.rv.adapter = AdsRecyclerViewAdapter(it, this)
             } ?: run {
                 getAllAds(this)
             }
 
-            view.swipe_container.setOnRefreshListener{ getAllAds(this, swipe_container) }
+            view.swipe_container.setOnRefreshListener { getAllAds(this, swipe_container) }
         }
 
         return view
     }
 
-    private fun getAllAds(adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
-        api.getAllAds("Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>>{
+    private fun getAllAds(adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
+        api.getAllAds("Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>> {
             override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
-                if (response.isSuccessful){
+                if (response.isSuccessful) {
                     compactAdList = response.body()
                     adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(compactAdList!!, adsPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != null) {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -73,36 +78,42 @@ class AdsPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })
     }
 
-    private fun getUserAds(userId : String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
-        api.getUserAds(userId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<List<CompactAd>>{
-            override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
-                if (response.isSuccessful){
-                    adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
-                } else {
-                    val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
-                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+    private fun getUserAds(
+        userId: String,
+        adsPageFragment: AdsPageFragment,
+        swipeRefreshLayout: SwipeRefreshLayout? = null
+    ) {
+        api.getUserAds(userId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<List<CompactAd>> {
+                override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
+                    if (response.isSuccessful) {
+                        adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
                     } else {
-                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null) {
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
                     }
+                    swipeRefreshLayout?.isRefreshing = false
                 }
-                swipeRefreshLayout?.isRefreshing = false
-            }
 
-            override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
-            }
-        })
+                override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
+                    Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                    swipeRefreshLayout?.isRefreshing = false
+                }
+            })
     }
 
-    fun onAdClick(adPanel : LinearLayout, compactAd: CompactAd){
+    fun onAdClick(adPanel: LinearLayout, compactAd: CompactAd) {
 
         adPanel.transitionName = "ad_panel_transition"
 
@@ -116,9 +127,28 @@ class AdsPageFragment : Fragment() {
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.addSharedElement(adPanel, adPanel.transitionName)
-            ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
+            ?.setCustomAnimations(
+                R.anim.slide_from_top,
+                R.anim.slide_to_bot,
+                R.anim.slide_from_bot,
+                R.anim.slide_to_top
+            )
             ?.addToBackStack(null)
             ?.replace(R.id.main_fragment_container, adFragment)
+            ?.commit()
+    }
+
+    private val onFabClickListener = View.OnClickListener {
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, CreateAndEditAdFragment())
             ?.commit()
     }
 }

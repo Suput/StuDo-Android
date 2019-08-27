@@ -31,9 +31,22 @@
     <string name="reset_password">Сброс пароля</string>
     <string name="ad">Объявление</string>
     <string name="created">"Создано: "</string>
-    <string name="ending">"Окончание: "</string>
+    <string name="ending">"Конец: "</string>
     <string name="resume">Резюме</string>
     <string name="user_ads">Объявления пользователя</string>
     <string name="user_resumes">Резюме пользователя</string>
     <string name="my_resumes">Мои резюме</string>
+    <string name="create_ad">Создание объявления</string>
+    <string name="edit_ad">Редактирование объявления</string>
+    <string name="create_resume">Создание резюме</string>
+    <string name="edit_resume">Редактирование резюме</string>
+    <string name="description">Описание</string>
+    <string name="short_description">Краткое описание</string>
+    <string name="title">Название</string>
+    <string name="ad_end_time">Конец события:</string>
+    <string name="edit">Изменить</string>
+    <string name="empty_field_error">Заполните поле</string>
+    <string name="create_ad_success">Объявление успешно создано</string>
+    <string name="create_resume_success">Резюме успешно создано</string>
+    <string name="connection_with_server_error">Ошибка соединения с сервером</string>
 </resources>

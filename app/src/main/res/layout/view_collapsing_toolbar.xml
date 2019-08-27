@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="192dp">
 
-    <android.support.design.widget.CollapsingToolbarLayout
+    <net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -30,6 +30,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"/>
 
-    </android.support.design.widget.CollapsingToolbarLayout>
+    </net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout>
 
 </android.support.design.widget.AppBarLayout>

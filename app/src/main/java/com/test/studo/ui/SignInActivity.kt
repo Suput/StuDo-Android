@@ -36,6 +36,11 @@ class SignInActivity : AppCompatActivity() {
         login_btn.setOnClickListener(onLoginButtonClickListener)
 
         reset_password_btn.setOnClickListener(onResetButtonClickListener)
+
+        link_sign_up.setOnClickListener {
+            startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
+            finish()
+        }
     }
 
     private val onLoginButtonClickListener = View.OnClickListener{
@@ -66,9 +71,9 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
 
-            // No connection with server
+            // resources.getText(R.string.connection_with_server_error)
             override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -113,14 +118,9 @@ class SignInActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
             }
         })
-    }
-
-    fun goToSignUp(v : View) {
-        startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
-        finish()
     }
 }
 

@@ -13,9 +13,9 @@ import com.test.studo.ui.AdsPageFragment
 import kotlinx.android.synthetic.main.view_item_recyclerview_ads.view.*
 
 
-class AdsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, adsPageFragment: AdsPageFragment) : RecyclerView.Adapter<AdsRecyclerViewAdapter.CardViewViewHolder>() {
+class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragment: AdsPageFragment) : RecyclerView.Adapter<AdsRecyclerViewAdapter.CardViewViewHolder>() {
 
-    override fun getItemCount() = compactAdList.size
+    override fun getItemCount() = adList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_ads, viewGroup, false)
@@ -26,9 +26,9 @@ class AdsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, adsPage
     }
 
     override fun onBindViewHolder(cardViewViewHolder: CardViewViewHolder, i: Int) {
-        cardViewViewHolder.name.text = compactAdList[i].name
-        cardViewViewHolder.description.text = compactAdList[i].shortDescription
-        //cardViewViewHolder.icon.setImageResource(compactAdList[i].iconId)
+        cardViewViewHolder.name.text = adList[i].name
+        cardViewViewHolder.description.text = adList[i].shortDescription
+        //cardViewViewHolder.icon.setImageResource(adList[i].iconId)
     }
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -40,7 +40,7 @@ class AdsRecyclerViewAdapter(private var compactAdList: List<CompactAd>, adsPage
 
     private val onRecyclerViewClickListener = View.OnClickListener{
         val rv = it.parent as RecyclerView
-        val item = compactAdList[rv.getChildLayoutPosition(it)]
+        val item = adList[rv.getChildLayoutPosition(it)]
 
         adsPageFragment.onAdClick(it.ad_panel, item)
     }

@@ -13,9 +13,9 @@ import com.test.studo.ui.ResumesPageFragment
 import kotlinx.android.synthetic.main.view_item_recyclerview_resumes.view.*
 
 
-class ResumesRecyclerViewAdapter(private var compactResumeList: List<CompactResume>, resumesPageFragment: ResumesPageFragment) : RecyclerView.Adapter<ResumesRecyclerViewAdapter.CardViewViewHolder>() {
+class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, resumesPageFragment: ResumesPageFragment) : RecyclerView.Adapter<ResumesRecyclerViewAdapter.CardViewViewHolder>() {
 
-    override fun getItemCount() = compactResumeList.size
+    override fun getItemCount() = resumeList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_resumes, viewGroup, false)
@@ -26,7 +26,7 @@ class ResumesRecyclerViewAdapter(private var compactResumeList: List<CompactResu
     }
 
     override fun onBindViewHolder(cardViewViewHolder: CardViewViewHolder, i: Int) {
-        cardViewViewHolder.name.text = compactResumeList[i].name
+        cardViewViewHolder.name.text = resumeList[i].name
         //cardViewViewHolder.icon.setImageResource(R.drawable.ic_account_circle_blue_24dp)
     }
 
@@ -38,7 +38,7 @@ class ResumesRecyclerViewAdapter(private var compactResumeList: List<CompactResu
 
     private val onRecyclerViewClickListener = View.OnClickListener{
         val rv = it.parent as RecyclerView
-        val item = compactResumeList[rv.getChildLayoutPosition(it)]
+        val item = resumeList[rv.getChildLayoutPosition(it)]
 
         resumesPageFragment.onResumeClick(it.resume_panel, item)
     }

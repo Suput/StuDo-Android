@@ -18,8 +18,7 @@ import com.test.studo.api.models.User
 import com.test.studo.compactResumeList
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_resumes_page.*
-import kotlinx.android.synthetic.main.fragment_resumes_page.view.rv
-import kotlinx.android.synthetic.main.fragment_resumes_page.view.swipe_container
+import kotlinx.android.synthetic.main.fragment_resumes_page.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -42,12 +41,16 @@ class ResumesPageFragment : Fragment() {
             view.collapse_toolbar.title = user.firstName + " " + user.secondName
             view.subtitle.text = resources.getString(R.string.title_resumes)
 
+            if (user == currentUserWithToken.user){
+                view.fab.show()
+            }
+
             view.swipe_container.setOnRefreshListener{ getUserResumes(user.id, this, swipe_container) }
         } else {
             view.collapse_toolbar.title = resources.getString(R.string.title_resumes)
 
             compactResumeList?.let {
-                view.rv.adapter = ResumesRecyclerViewAdapter(compactResumeList!!, this)
+                view.rv.adapter = ResumesRecyclerViewAdapter(it, this)
             } ?: run {
                 getAllResumes(this)
             }
@@ -77,7 +80,7 @@ class ResumesPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })
@@ -100,7 +103,7 @@ class ResumesPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })

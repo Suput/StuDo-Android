@@ -7,16 +7,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.test.studo.R
-import com.test.studo.api
+import com.test.studo.*
 import com.test.studo.api.models.Ad
-import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_ad.*
 import kotlinx.android.synthetic.main.fragment_ad.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.lang.Exception
 import java.text.SimpleDateFormat
 
 class AdFragment : Fragment() {
@@ -46,8 +45,6 @@ class AdFragment : Fragment() {
             view.description.text = ad.description
             view.creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
 
-            val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-            val clientDataFormat = SimpleDateFormat("dd.MM.yyyy")
             view.begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
             view.end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
         } else {
@@ -87,10 +84,17 @@ class AdFragment : Fragment() {
                     description.text = ad.description
                     creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
 
-                    val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
-                    val clientDataFormat = SimpleDateFormat("dd.MM.yyyy")
-                    begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
-                    end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
+                    try{
+                        begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
+                    } catch(e : Exception){
+                        begin_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.beginTime))
+                    }
+
+                    try{
+                        end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
+                    } catch(e : Exception){
+                        end_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
+                    }
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){
@@ -102,7 +106,7 @@ class AdFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Ad>, t: Throwable) {
-                Toast.makeText(context, "No connection with server", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
             }
         })
     }
