@@ -14,6 +14,7 @@ import com.test.studo.R
 import com.test.studo.adapters.ResumesRecyclerViewAdapter
 import com.test.studo.api
 import com.test.studo.api.models.CompactResume
+import com.test.studo.api.models.User
 import com.test.studo.compactResumeList
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_resumes_page.*
@@ -31,17 +32,20 @@ class ResumesPageFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_resumes_page, container, false)
 
-        view.collapse_toolbar.title = resources.getString(R.string.title_resumes)
-
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         val bundle = arguments
-        val userId = bundle?.getString("userId")
-        if (bundle != null && userId != null){
-            getUserResumes(userId, this)
+        val user = bundle?.getSerializable("user") as User?
+        if (bundle != null && user != null){
+            getUserResumes(user.id, this)
 
-            view.swipe_container.setOnRefreshListener{ getUserResumes(userId, this, swipe_container) }
+            view.collapse_toolbar.title = user.firstName + " " + user.secondName
+            view.subtitle.text = resources.getString(R.string.title_resumes)
+
+            view.swipe_container.setOnRefreshListener{ getUserResumes(user.id, this, swipe_container) }
         } else {
+            view.collapse_toolbar.title = resources.getString(R.string.title_resumes)
+
             compactResumeList?.let {
                 view.rv.adapter = ResumesRecyclerViewAdapter(compactResumeList!!, this)
             } ?: run {

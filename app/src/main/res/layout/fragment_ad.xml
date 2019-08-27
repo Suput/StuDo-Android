@@ -81,8 +81,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:textColor="@android:color/black"
-                        android:text="@string/sample_text"/>
+                        android:textColor="@android:color/black"/>
 
                 <View
                         android:id="@+id/separator_2"
@@ -121,8 +120,7 @@
                                 android:textSize="16sp"
                                 android:paddingStart="8dp"
                                 android:paddingEnd="8dp"
-                                android:layout_gravity="center_vertical"
-                                android:text="@string/sample_text"/>
+                                android:layout_gravity="center_vertical"/>
 
                     </LinearLayout>
 
@@ -142,8 +140,7 @@
                         <TextView
                                 android:id="@+id/begin_time"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/sample_text"/>
+                                android:layout_height="wrap_content"/>
 
                     </LinearLayout>
 
@@ -163,8 +160,7 @@
                         <TextView
                                 android:id="@+id/end_time"
                                 android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/sample_text"/>
+                                android:layout_height="wrap_content"/>
 
                     </LinearLayout>
 

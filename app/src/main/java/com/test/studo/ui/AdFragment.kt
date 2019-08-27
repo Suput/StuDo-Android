@@ -27,9 +27,6 @@ class AdFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-
-        arguments?.getString("adId")?.let { getAd(it) }
-
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -42,6 +39,20 @@ class AdFragment : Fragment() {
         view.short_description.text = arguments?.getString("short_description")
         view.separator_1.visibility = View.VISIBLE
         view.separator_2.visibility = View.VISIBLE
+
+        if (::ad.isInitialized){
+            view.name.text = ad.name
+            view.short_description.text = ad.shortDescription
+            view.description.text = ad.description
+            view.creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
+
+            val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
+            val clientDataFormat = SimpleDateFormat("dd.MM.yyyy")
+            view.begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
+            view.end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
+        } else {
+            arguments?.getString("adId")?.let { getAd(it) }
+        }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 

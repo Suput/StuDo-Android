@@ -13,6 +13,7 @@ import com.test.studo.R
 import com.test.studo.adapters.AdsRecyclerViewAdapter
 import com.test.studo.api
 import com.test.studo.api.models.CompactAd
+import com.test.studo.api.models.User
 import com.test.studo.compactAdList
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_ads_page.*
@@ -28,17 +29,20 @@ class AdsPageFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_ads_page, container, false)
 
-        view.collapse_toolbar.title = resources.getString(R.string.title_ads)
-
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         val bundle = arguments
-        val userId = bundle?.getString("userId")
-        if (bundle != null && userId != null){
-            getUserAds(userId, this)
+        val user = bundle?.getSerializable("user") as User?
+        if (bundle != null && user != null){
+            getUserAds(user.id, this)
 
-            view.swipe_container.setOnRefreshListener{ getUserAds(userId, this, swipe_container) }
+            view.collapse_toolbar.title = user.firstName + " " + user.secondName
+            view.subtitle.text = resources.getString(R.string.title_ads)
+
+            view.swipe_container.setOnRefreshListener{ getUserAds(user.id, this, swipe_container) }
         } else {
+            view.collapse_toolbar.title = resources.getString(R.string.title_ads)
+
             compactAdList?.let {
                 view.rv.adapter = AdsRecyclerViewAdapter(compactAdList!!, this)
             } ?: run {

@@ -26,8 +26,6 @@ class ResumeFragment : Fragment() {
         super.onCreate(savedInstanceState)
         sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
         sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-
-        arguments?.getString("resumeId")?.let { getResume(it) }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -40,6 +38,14 @@ class ResumeFragment : Fragment() {
         view.name.text = bundle?.getString("name")
         view.separator_1.visibility = View.VISIBLE
         view.separator_2.visibility = View.VISIBLE
+
+        if (::resume.isInitialized){
+            view.name.text = resume.name
+            view.description.text = resume.description
+            view.creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
+        } else {
+            arguments?.getString("resumeId")?.let { getResume(it) }
+        }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 

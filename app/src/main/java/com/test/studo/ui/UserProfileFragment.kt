@@ -43,7 +43,7 @@ class UserProfileFragment : Fragment() {
 
     private fun openUserFragment(fragment: Fragment){
         val bundle = Bundle()
-        bundle.putString("userId", user.id)
+        bundle.putSerializable("user", user)
         fragment.arguments = bundle
 
         activity?.supportFragmentManager

@@ -74,7 +74,7 @@ class AccountPageFragment : Fragment() {
 
     private fun openUserFragment(fragment: Fragment) {
         val bundle = Bundle()
-        bundle.putString("userId", currentUserWithToken.user.id)
+        bundle.putSerializable("user", currentUserWithToken.user)
         fragment.arguments = bundle
 
         activity?.supportFragmentManager
