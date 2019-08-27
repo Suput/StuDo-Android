@@ -1,8 +1,10 @@
 package com.test.studo.ui
 
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -33,10 +35,13 @@ class CreateAndEditResumeFragment : Fragment() {
             view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
             view.input_title.editText?.setText(resume.name)
             view.input_description.editText?.setText(resume.description)
-            view.fab.setOnClickListener { editResume(resume.id) }
+            view.save_fab.setOnClickListener { editResume(resume.id) }
+
+            view.delete_fab.show()
+            view.delete_fab.setOnClickListener { deleteResume(resume.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_resume)
-            view.fab.setOnClickListener { createResume() }
+            view.save_fab.setOnClickListener { createResume() }
         }
 
         return view
@@ -107,7 +112,7 @@ class CreateAndEditResumeFragment : Fragment() {
         api.editResume(resumeEditRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, resources.getText(R.string.create_resume_success), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, resources.getText(R.string.edit_resume_success), Toast.LENGTH_LONG).show()
                     compactResumeList = null
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
@@ -124,5 +129,43 @@ class CreateAndEditResumeFragment : Fragment() {
                 Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun deleteResume(resumeId : String){
+
+        val onPositiveButtonClick = { _: DialogInterface, _: Int ->
+            api.deleteResume(resumeId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<String>{
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, resources.getText(R.string.delete_resume_success), Toast.LENGTH_LONG).show()
+                        compactResumeList = null
+
+                        with(activity?.supportFragmentManager){
+                            this?.popBackStack()
+                            this?.popBackStack()
+                        }
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null) {
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+
+        AlertDialog.Builder(context!!)
+            .setTitle(resources.getText(R.string.delete_resume_confirmation))
+            .setCancelable(true)
+            .setNegativeButton(resources.getText(R.string.cancel), null)
+            .setPositiveButton(resources.getText(R.string.ok), DialogInterface.OnClickListener(function = onPositiveButtonClick))
+            .show()
+
     }
 }

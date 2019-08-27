@@ -50,4 +50,10 @@
     <string name="create_resume_success">Резюме успешно создано</string>
     <string name="connection_with_server_error">Ошибка соединения с сервером</string>
     <string name="edit_ad_success">Объявление успешно изменено</string>
+    <string name="email_verification">Проверьте почту, чтобы активировать аккаунт</string>
+    <string name="delete_ad_confirmation">Вы действительно хотите удалить объявление?</string>
+    <string name="delete_resume_confirmation">Вы действительно хотите удалить резюме?</string>
+    <string name="delete_ad_success">Объявление успешно удалено</string>
+    <string name="delete_resume_success">Резюме успешно удалено</string>
+    <string name="edit_resume_success">Резюме успешно изменено</string>
 </resources>

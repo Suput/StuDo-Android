@@ -73,21 +73,22 @@ class SignInActivity : AppCompatActivity() {
 
             // resources.getText(R.string.connection_with_server_error)
             override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
     }
 
     private val onResetButtonClickListener = View.OnClickListener {
-        val builder = AlertDialog.Builder(this)
+
         val resetPasswordView = this.layoutInflater.inflate(R.layout.dialog_reset_password, null)
         val email = resetPasswordView!!.findViewById(R.id.input_email_for_reset) as TextInputLayout
 
-        builder.setView(resetPasswordView)
-            .setTitle(resources.getText(R.string.reset_password).toString())
+        val builder = AlertDialog.Builder(this)
+            .setView(resetPasswordView)
+            .setTitle(resources.getText(R.string.reset_password))
             .setCancelable(true)
-            .setNegativeButton(resources.getText(R.string.cancel).toString(), null)
-            .setPositiveButton(resources.getText(R.string.ok).toString(), null)
+            .setNegativeButton(resources.getText(R.string.cancel), null)
+            .setPositiveButton(resources.getText(R.string.ok), null)
 
         val resetPasswordAlert = builder.create()
         resetPasswordAlert.show()
@@ -118,7 +119,7 @@ class SignInActivity : AppCompatActivity() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
     }

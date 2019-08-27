@@ -108,27 +108,25 @@ class AdFragment : Fragment() {
                 if (response.isSuccessful){
                     ad = response.body()!!
 
-                    name.text = ad.name
-                    short_description.text = ad.shortDescription
-                    description.text = ad.description
-                    creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
+                    name?.text = ad.name
+                    short_description?.text = ad.shortDescription
+                    description?.text = ad.description
+                    creator_name_and_surname?.text = ad.user.firstName + " " + ad.user.secondName
 
                     try{
-                        begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
+                        begin_time?.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
                     } catch(e : Exception){
-                        begin_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.beginTime))
+                        begin_time?.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.beginTime))
                     }
 
                     try{
-                        end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
+                        end_time?.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
                     } catch(e : Exception){
-                        end_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
+                        end_time?.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
                     }
-
-                    swipeRefreshLayout?.isRefreshing = false
 
                     if (ad.user.id == currentUserWithToken.user.id){
-                        fab.show()
+                        fab?.show()
                     }
                 } else {
                     val errorBodyText = response.errorBody()?.string()
@@ -138,10 +136,13 @@ class AdFragment : Fragment() {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                     }
                 }
+
+                swipeRefreshLayout?.isRefreshing = false
             }
 
             override fun onFailure(call: Call<Ad>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
             }
         })
     }

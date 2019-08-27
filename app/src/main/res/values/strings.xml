@@ -26,8 +26,8 @@
     <string name="empty_password_error">Password must be at least 6 characters</string>
     <string name="equal_password_error">Passwords must be the same</string>
     <string name="same_password_error">New password can\'t match old password</string>
-    <string name="cancel">cancel</string>
-    <string name="ok">Ok</string>
+    <string name="cancel">Cancel</string>
+    <string name="ok">OK</string>
     <string name="forgot_password">Forgot your password?</string>
     <string name="reset_password">Reset password</string>
     <string name="ad">Ad</string>
@@ -52,9 +52,14 @@
     <string name="create_resume_success">Resume successfully created</string>
     <string name="connection_with_server_error">No connection with server</string>
     <string name="edit_ad_success">Ad successfully edited</string>
+    <string name="email_verification">Check your email to activate account</string>
+    <string name="delete_ad_confirmation">Do you really want to delete an ad?</string>
+    <string name="delete_resume_confirmation">Do you really want to delete a resume?</string>
+    <string name="delete_ad_success">Ad successfully deleted</string>
+    <string name="delete_resume_success">Resume successfully deleted</string>
+    <string name="edit_resume_success">Resume successfully edited</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

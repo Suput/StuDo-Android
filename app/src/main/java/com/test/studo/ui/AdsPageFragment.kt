@@ -77,7 +77,7 @@ class AdsPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })
@@ -106,7 +106,7 @@ class AdsPageFragment : Fragment() {
                 }
 
                 override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
-                    Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                     swipeRefreshLayout?.isRefreshing = false
                 }
             })

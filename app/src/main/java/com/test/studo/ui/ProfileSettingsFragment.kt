@@ -1,6 +1,7 @@
 package com.test.studo.ui
 
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
@@ -57,24 +58,25 @@ class ProfileSettingsFragment : Fragment() {
     }
 
     private val onChangePasswordClickListener = View.OnClickListener {
-        val builder = AlertDialog.Builder(context!!)
+
         val changePasswordView = activity!!.layoutInflater.inflate(R.layout.dialog_change_password, null)
         val oldPassword = changePasswordView!!.findViewById(R.id.input_old_password) as TextInputLayout
         val newPassword = changePasswordView.findViewById(R.id.input_new_password) as TextInputLayout
         val confirmNewPassword = changePasswordView.findViewById(R.id.input_confirm_new_password) as TextInputLayout
 
-        builder.setView(changePasswordView)
-            .setTitle(resources.getText(R.string.change_password).toString())
+        val builder = AlertDialog.Builder(context!!)
+            .setView(changePasswordView)
+            .setTitle(resources.getText(R.string.change_password))
             .setCancelable(true)
-            .setNegativeButton(resources.getText(R.string.cancel).toString(), null)
-            .setPositiveButton(resources.getText(R.string.ok).toString(), null)
+            .setNegativeButton(resources.getText(R.string.cancel), null)
+            .setPositiveButton(resources.getText(R.string.ok), null)
 
         val changePasswordAlert = builder.create()
         changePasswordAlert.show()
         changePasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-                changePassword(oldPassword, newPassword, confirmNewPassword)
-            }
+            changePassword(oldPassword, newPassword, confirmNewPassword)
         }
+    }
 
     private fun changePassword(oldPassword : TextInputLayout, newPassword : TextInputLayout, confirmNewPassword : TextInputLayout){
         if (oldPassword.editText?.text.toString().length < 6){
@@ -137,7 +139,7 @@ class ProfileSettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
     }

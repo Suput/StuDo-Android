@@ -81,7 +81,7 @@ class ResumesPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })
@@ -104,7 +104,7 @@ class ResumesPageFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 swipeRefreshLayout?.isRefreshing = false
             }
         })

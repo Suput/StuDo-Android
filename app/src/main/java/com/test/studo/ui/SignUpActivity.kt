@@ -53,7 +53,7 @@ class SignUpActivity : AppCompatActivity() {
             api.registration(userRegistrationRequest).enqueue(object : Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful){
-                        Toast.makeText(this@SignUpActivity, "Check your email to activate account", Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignUpActivity, resources.getText(R.string.email_verification), Toast.LENGTH_LONG).show()
                         link_login.performClick()
                     } else {
                         val errorBodyText = response.errorBody()?.string()
@@ -66,7 +66,7 @@ class SignUpActivity : AppCompatActivity() {
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@SignUpActivity, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignUpActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 }
             })
         }

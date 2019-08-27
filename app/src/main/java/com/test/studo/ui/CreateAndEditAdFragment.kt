@@ -1,7 +1,9 @@
 package com.test.studo.ui
 
 
+import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -33,11 +35,14 @@ class CreateAndEditAdFragment : Fragment() {
             view.input_title.editText?.setText(ad.name)
             view.input_short_description.editText?.setText(ad.shortDescription)
             view.input_description.editText?.setText(ad.description)
-            view.fab.setOnClickListener { editAd(ad.id) }
+            view.save_fab.setOnClickListener { editAd(ad.id) }
+
+            view.delete_fab.show()
+            view.delete_fab.setOnClickListener { deleteAd(ad.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_ad)
             view.end_date.text = clientDataFormat.format(Calendar.getInstance().time)
-            view.fab.setOnClickListener { createAd() }
+            view.save_fab.setOnClickListener { createAd() }
         }
 
         view.edit_date_btn.setOnClickListener(onEditDateClickListener)
@@ -173,5 +178,42 @@ class CreateAndEditAdFragment : Fragment() {
                 Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun deleteAd(adId : String){
+
+        val onPositiveButtonClick = { _: DialogInterface, _: Int ->
+            api.deleteAd(adId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<String>{
+                override fun onResponse(call: Call<String>, response: Response<String>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, resources.getText(R.string.delete_ad_success), Toast.LENGTH_LONG).show()
+                        compactAdList = null
+
+                        with(activity?.supportFragmentManager){
+                            this?.popBackStack()
+                            this?.popBackStack()
+                        }
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null) {
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<String>, t: Throwable) {
+                    Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                }
+            })
+        }
+
+        AlertDialog.Builder(context)
+            .setTitle(resources.getText(R.string.delete_ad_confirmation))
+            .setCancelable(true)
+            .setNegativeButton(resources.getText(R.string.cancel), null)
+            .setPositiveButton(resources.getText(R.string.ok), DialogInterface.OnClickListener(function = onPositiveButtonClick))
+            .show()
     }
 }

@@ -105,14 +105,12 @@ class ResumeFragment : Fragment() {
                 if (response.isSuccessful){
                     resume = response.body()!!
 
-                    name.text = resume.name
-                    description.text = resume.description
-                    creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
-
-                    swipeRefreshLayout?.isRefreshing = false
+                    name?.text = resume.name
+                    description?.text = resume.description
+                    creator_name_and_surname?.text = resume.user.firstName + " " + resume.user.secondName
 
                     if (resume.user.id == currentUserWithToken.user.id){
-                        fab.show()
+                        fab?.show()
                     }
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
@@ -122,10 +120,13 @@ class ResumeFragment : Fragment() {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
                     }
                 }
+
+                swipeRefreshLayout?.isRefreshing = false
             }
 
             override fun onFailure(call: Call<Resume>, t: Throwable) {
-                Toast.makeText(context, "resources.getText(R.string.connection_with_server_error)", Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
             }
         })
     }
