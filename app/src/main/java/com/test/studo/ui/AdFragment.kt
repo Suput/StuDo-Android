@@ -2,6 +2,7 @@ package com.test.studo.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -54,6 +55,8 @@ class AdFragment : Fragment() {
             arguments?.getString("adId")?.let { getAd(it) }
         }
 
+        view.swipe_container.setOnRefreshListener { arguments?.getString("adId")?.let {getAd(it, swipe_container)} }
+
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 
         view.fab.setOnClickListener(onFabClickListener)
@@ -99,7 +102,7 @@ class AdFragment : Fragment() {
             ?.commit()
     }
 
-    private fun getAd(adId : String){
+    private fun getAd(adId : String, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getOneAd(adId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Ad>{
             override fun onResponse(call: Call<Ad>, response: Response<Ad>) {
                 if (response.isSuccessful){
@@ -121,6 +124,8 @@ class AdFragment : Fragment() {
                     } catch(e : Exception){
                         end_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
                     }
+
+                    swipeRefreshLayout?.isRefreshing = false
 
                     if (ad.user.id == currentUserWithToken.user.id){
                         fab.show()
