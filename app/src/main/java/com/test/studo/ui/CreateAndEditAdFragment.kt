@@ -34,7 +34,6 @@ class CreateAndEditAdFragment : Fragment() {
             view.input_short_description.editText?.setText(ad.shortDescription)
             view.input_description.editText?.setText(ad.description)
             view.fab.setOnClickListener { editAd(ad.id) }
-
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_ad)
             view.end_date.text = clientDataFormat.format(Calendar.getInstance().time)

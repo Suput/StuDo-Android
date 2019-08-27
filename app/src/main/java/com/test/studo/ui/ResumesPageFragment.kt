@@ -43,6 +43,7 @@ class ResumesPageFragment : Fragment() {
 
             if (user == currentUserWithToken.user){
                 view.fab.show()
+                view.fab.setOnClickListener(onFabClickListener)
             }
 
             view.swipe_container.setOnRefreshListener{ getUserResumes(user.id, this, swipe_container) }
@@ -125,6 +126,20 @@ class ResumesPageFragment : Fragment() {
             ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
             ?.addToBackStack(null)
             ?.replace(R.id.main_fragment_container, resumeFragment)
+            ?.commit()
+    }
+
+    private val onFabClickListener = View.OnClickListener {
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, CreateAndEditResumeFragment())
             ?.commit()
     }
 }
