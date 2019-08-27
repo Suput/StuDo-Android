@@ -50,7 +50,8 @@
     <string name="empty_field_error">Fill in the entry field</string>
     <string name="create_ad_success">Ad successfully created</string>
     <string name="create_resume_success">Resume successfully created</string>
-    <string name="connection_with_server_error">resources.getText(R.string.connection_with_server_error)</string>
+    <string name="connection_with_server_error">No connection with server</string>
+    <string name="edit_ad_success">Ad successfully edited</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

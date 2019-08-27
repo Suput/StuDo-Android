@@ -31,9 +31,8 @@ class AdsPageFragment : Fragment() {
 
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        val bundle = arguments
-        val user = bundle?.getSerializable("user") as User?
-        if (bundle != null && user != null) {
+        val user = arguments?.getSerializable("user") as User?
+        if (user != null) {
             getUserAds(user.id, this)
 
             view.collapse_toolbar.title = user.firstName + " " + user.secondName

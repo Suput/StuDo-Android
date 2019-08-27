@@ -49,4 +49,5 @@
     <string name="create_ad_success">Объявление успешно создано</string>
     <string name="create_resume_success">Резюме успешно создано</string>
     <string name="connection_with_server_error">Ошибка соединения с сервером</string>
+    <string name="edit_ad_success">Объявление успешно изменено</string>
 </resources>

@@ -1,6 +1,7 @@
 package com.test.studo.api.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class CompactAd(
 
@@ -59,7 +60,7 @@ data class Ad(
     @SerializedName("organization")
     val organization : Organization?
 
-)
+) : Serializable
 
 data class AdCreateRequest(
 

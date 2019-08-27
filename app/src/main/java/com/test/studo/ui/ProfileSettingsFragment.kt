@@ -37,10 +37,10 @@ class ProfileSettingsFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getString(R.string.title_profile)
 
-        view.input_first_name.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.firstName)
-        view.input_second_name.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.secondName)
+        view.input_first_name.setText(currentUserWithToken.user.firstName)
+        view.input_second_name.setText(currentUserWithToken.user.secondName)
         currentUserWithToken.user.studentCardNumber?.let {
-            view.input_card_number.text = Editable.Factory.getInstance().newEditable(currentUserWithToken.user.studentCardNumber)
+            view.input_card_number.setText(currentUserWithToken.user.studentCardNumber)
         }
 
         view.log_out_btn.setOnClickListener(onLogOutButtonClick)

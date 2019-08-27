@@ -16,7 +16,6 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
-import java.text.SimpleDateFormat
 
 class AdFragment : Fragment() {
 
@@ -47,11 +46,17 @@ class AdFragment : Fragment() {
 
             view.begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
             view.end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
+
+            if (ad.user.id == currentUserWithToken.user.id){
+                view.fab.show()
+            }
         } else {
             arguments?.getString("adId")?.let { getAd(it) }
         }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
+
+        view.fab.setOnClickListener(onFabClickListener)
 
         return view
     }
@@ -61,15 +66,36 @@ class AdFragment : Fragment() {
         val userProfileFragment = UserProfileFragment()
         val bundle = Bundle()
 
-        bundle.putSerializable("user", ad.user)
-        userProfileFragment.arguments = bundle
+        if (::ad.isInitialized){
+            bundle.putSerializable("user", ad.user)
+            userProfileFragment.arguments = bundle
+
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.addSharedElement(avatar, avatar.transitionName)
+                ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+                ?.addToBackStack(null)
+                ?.replace(R.id.main_fragment_container, userProfileFragment)
+                ?.commit()
+        }
+    }
+
+    private val onFabClickListener = View.OnClickListener {
+        val createAndEditAdFragment = CreateAndEditAdFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("ad", ad)
+        createAndEditAdFragment.arguments = bundle
 
         activity?.supportFragmentManager
             ?.beginTransaction()
-            ?.addSharedElement(avatar, avatar.transitionName)
-            ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
             ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, userProfileFragment)
+            ?.replace(R.id.main_fragment_container, createAndEditAdFragment)
             ?.commit()
     }
 
@@ -94,6 +120,10 @@ class AdFragment : Fragment() {
                         end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
                     } catch(e : Exception){
                         end_time.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
+                    }
+
+                    if (ad.user.id == currentUserWithToken.user.id){
+                        fab.show()
                     }
                 } else {
                     val errorBodyText = response.errorBody()?.string()
