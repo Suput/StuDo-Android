@@ -2,6 +2,7 @@ package com.test.studo.ui
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.widget.SwipeRefreshLayout
 import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
@@ -47,6 +48,8 @@ class ResumeFragment : Fragment() {
             arguments?.getString("resumeId")?.let { getResume(it) }
         }
 
+        view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, swipe_container)} }
+
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 
         return view
@@ -54,22 +57,24 @@ class ResumeFragment : Fragment() {
 
     private val onProfilePanelClickListener = View.OnClickListener {
 
-        val userProfileFragment = UserProfileFragment()
-        val bundle = Bundle()
+        if (::resume.isInitialized){
+            val userProfileFragment = UserProfileFragment()
+            val bundle = Bundle()
 
-        bundle.putSerializable("user", resume.user)
-        userProfileFragment.arguments = bundle
+            bundle.putSerializable("user", resume.user)
+            userProfileFragment.arguments = bundle
 
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.addSharedElement(avatar, avatar.transitionName)
-            ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
-            ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, userProfileFragment)
-            ?.commit()
+            activity?.supportFragmentManager
+                ?.beginTransaction()
+                ?.addSharedElement(avatar, avatar.transitionName)
+                ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+                ?.addToBackStack(null)
+                ?.replace(R.id.main_fragment_container, userProfileFragment)
+                ?.commit()
+        }
     }
 
-    private fun getResume(resumeId : String){
+    private fun getResume(resumeId : String, swipeRefreshLayout: SwipeRefreshLayout? = null){
         api.getOneResume(resumeId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
                 if (response.isSuccessful){
@@ -78,6 +83,8 @@ class ResumeFragment : Fragment() {
                     name.text = resume.name
                     description.text = resume.description
                     creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
+
+                    swipeRefreshLayout?.isRefreshing = false
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){

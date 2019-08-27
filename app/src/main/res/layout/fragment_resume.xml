@@ -7,110 +7,129 @@
 
     <include layout="@layout/view_collapsing_toolbar"/>
 
-    <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nsv"
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            android:layout_marginBottom="?attr/actionBarSize">
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.CardView
+        <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nsv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@android:color/white"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                android:layout_height="match_parent"
+                android:layout_gravity="fill_vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                android:layout_marginBottom="?attr/actionBarSize">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="16dp">
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="10dp"
+                    app:cardBackgroundColor="@android:color/white"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
-                        android:id="@+id/resume_panel"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:transitionName="resume_panel_transition">
+                        android:orientation="vertical"
+                        android:padding="16dp">
 
-                    <ImageView
-                            android:id="@+id/icon"
-                            android:layout_width="64dp"
-                            android:layout_height="64dp"
-                            android:layout_marginEnd="16dp"
-                            android:layout_gravity="center_vertical"
-                            android:src="@drawable/ic_account_circle_blue_24dp"/>
-
-                    <TextView
-                            android:id="@+id/name"
-                            android:layout_width="wrap_content"
+                    <LinearLayout
+                            android:id="@+id/resume_panel"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textSize="24sp"
-                            android:textColor="@android:color/black"
-                            android:layout_gravity="center_vertical"
-                            android:text="@string/sample_text"/>
+                            android:orientation="horizontal"
+                            android:transitionName="resume_panel_transition">
 
-                </LinearLayout>
+                        <ImageView
+                                android:id="@+id/icon"
+                                android:layout_width="64dp"
+                                android:layout_height="64dp"
+                                android:layout_marginEnd="16dp"
+                                android:layout_gravity="center_vertical"
+                                android:src="@drawable/ic_account_circle_blue_24dp"/>
 
-                <View
-                        android:id="@+id/separator_1"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:visibility="invisible"/>
+                        <TextView
+                                android:id="@+id/name"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="24sp"
+                                android:textColor="@android:color/black"
+                                android:layout_gravity="center_vertical"
+                                android:text="@string/sample_text"/>
 
-                <TextView
-                        android:id="@+id/description"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:textColor="@android:color/black"/>
+                    </LinearLayout>
 
-                <View
-                        android:id="@+id/separator_2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="@color/colorLightGray"
-                        android:layout_marginTop="16dp"
-                        android:layout_marginBottom="16dp"
-                        android:visibility="invisible"/>
-
-                <LinearLayout
-                        android:id="@+id/creator_panel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:clickable="true"
-                        android:focusable="true"
-                        android:background="?attr/selectableItemBackground">
-
-                    <ImageView
-                            android:id="@+id/avatar"
-                            android:layout_width="48dp"
-                            android:layout_height="48dp"
-                            android:src="@drawable/avatar"
-                            android:transitionName="avatar_transition"/>
+                    <View
+                            android:id="@+id/separator_1"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:visibility="invisible"/>
 
                     <TextView
-                            android:id="@+id/creator_name_and_surname"
+                            android:id="@+id/description"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
-                            android:paddingStart="8dp"
-                            android:paddingEnd="8dp"
-                            android:layout_gravity="center_vertical"/>
+                            android:textColor="@android:color/black"/>
+
+                    <View
+                            android:id="@+id/separator_2"
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/colorLightGray"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginBottom="16dp"
+                            android:visibility="invisible"/>
+
+                    <LinearLayout
+                            android:id="@+id/creator_panel"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+
+                        <ImageView
+                                android:id="@+id/avatar"
+                                android:layout_width="48dp"
+                                android:layout_height="48dp"
+                                android:src="@drawable/avatar"
+                                android:transitionName="avatar_transition"/>
+
+                        <TextView
+                                android:id="@+id/creator_name_and_surname"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textSize="16sp"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:layout_gravity="center_vertical"/>
+
+                    </LinearLayout>
 
                 </LinearLayout>
 
-            </LinearLayout>
+            </android.support.v7.widget.CardView>
 
-        </android.support.v7.widget.CardView>
+        </android.support.v4.widget.NestedScrollView>
 
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            app:layout_anchor="@id/nsv"
+            app:layout_anchorGravity="bottom|end"
+            android:src="@drawable/ic_edit_white_24dp"
+            android:visibility="gone"/>
 
 </android.support.design.widget.CoordinatorLayout>

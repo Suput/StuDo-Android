@@ -66,10 +66,10 @@ class AdFragment : Fragment() {
 
     private val onProfilePanelClickListener = View.OnClickListener {
 
+        if (::ad.isInitialized){
         val userProfileFragment = UserProfileFragment()
         val bundle = Bundle()
 
-        if (::ad.isInitialized){
             bundle.putSerializable("user", ad.user)
             userProfileFragment.arguments = bundle
 
