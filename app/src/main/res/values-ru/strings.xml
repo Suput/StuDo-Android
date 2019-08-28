@@ -17,12 +17,12 @@
     <string name="login">Войти</string>
     <string name="logo">Лого</string>
     <string name="password">Пароль</string>
-    <string name="change_email">Изменить email</string>
+    <string name="change_email">Изменить почту</string>
     <string name="change_password">Изменить пароль</string>
     <string name="log_out">Выйти</string>
     <string name="new_password">Новый пароль</string>
     <string name="old_password">Старый пароль</string>
-    <string name="empty_password_error">Пароль должен содержать не менее 6 символов</string>
+    <string name="wrong_password_error">Пароль должен содержать не менее 6 символов</string>
     <string name="equal_password_error">Пароли должны совпадать</string>
     <string name="same_password_error">Новый пароль не должен совпадать со старым</string>
     <string name="cancel">Отмена</string>
@@ -56,4 +56,11 @@
     <string name="delete_ad_success">Объявление успешно удалено</string>
     <string name="delete_resume_success">Резюме успешно удалено</string>
     <string name="edit_resume_success">Резюме успешно изменено</string>
+    <string name="confirm_email">Подтвердите почту</string>
+    <string name="new_email">Новая почта</string>
+    <string name="old_email">Старая почта</string>
+    <string name="same_email_error">Новая почта не должен совпадать со старой</string>
+    <string name="equal_email_error">Почты должны совпадать</string>
+    <string name="wrong_email_error">Введите корректную почту</string>
+    <string name="new_email_verification">Проверьте новую почту, что изменить её</string>
 </resources>

@@ -28,6 +28,16 @@ interface ApiService {
 
 
 
+    @POST("user/change/info")
+    fun changeUserInfo(@Body body : ChangeUserInfoRequest, @Header("Authorization") accessToken : String) :
+            Call<User>
+
+    @POST("user/change/email")
+    fun changeEmail(@Body body : ChangeEmailRequest, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+
+
     @GET("ad")
     fun getAllAds(@Header("Authorization") accessToken : String) :
             Call<List<CompactAd>>

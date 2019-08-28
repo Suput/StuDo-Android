@@ -62,3 +62,32 @@ data class UserRegistrationRequest(
 	val passwordConfirm : String
 
 )
+
+data class ChangeUserInfoRequest(
+
+	@SerializedName("id")
+	val id : String,
+
+	@SerializedName("studentCardNumber")
+	val studentCardNumber : String,
+
+	@SerializedName("firstname")
+	val firstName : String,
+
+	@SerializedName("surname")
+	val secondName : String
+
+)
+
+data class ChangeEmailRequest(
+
+	@SerializedName("id")
+	val id : String,
+
+	@SerializedName("oldEmail")
+	val oldEmail : String,
+
+	@SerializedName("newEmail")
+	val newEmail : String
+
+)

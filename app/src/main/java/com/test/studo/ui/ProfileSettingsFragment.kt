@@ -1,12 +1,10 @@
 package com.test.studo.ui
 
 import android.content.Context
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,6 +15,7 @@ import android.support.v7.app.AlertDialog
 import android.transition.TransitionInflater
 import android.widget.Toast
 import com.test.studo.api
+import com.test.studo.api.models.ChangeEmailRequest
 import com.test.studo.api.models.ChangePasswordRequest
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_profile_settings.*
@@ -46,6 +45,7 @@ class ProfileSettingsFragment : Fragment() {
 
         view.log_out_btn.setOnClickListener(onLogOutButtonClick)
         view.change_password_btn.setOnClickListener(onChangePasswordClickListener)
+        view.change_email_btn.setOnClickListener(onChangeEmailClickListener)
 
         return view
     }
@@ -58,8 +58,8 @@ class ProfileSettingsFragment : Fragment() {
     }
 
     private val onChangePasswordClickListener = View.OnClickListener {
-
         val changePasswordView = activity!!.layoutInflater.inflate(R.layout.dialog_change_password, null)
+
         val oldPassword = changePasswordView!!.findViewById(R.id.input_old_password) as TextInputLayout
         val newPassword = changePasswordView.findViewById(R.id.input_new_password) as TextInputLayout
         val confirmNewPassword = changePasswordView.findViewById(R.id.input_confirm_new_password) as TextInputLayout
@@ -80,21 +80,21 @@ class ProfileSettingsFragment : Fragment() {
 
     private fun changePassword(oldPassword : TextInputLayout, newPassword : TextInputLayout, confirmNewPassword : TextInputLayout){
         if (oldPassword.editText?.text.toString().length < 6){
-            oldPassword.error = resources.getText(R.string.empty_password_error).toString()
+            oldPassword.error = resources.getText(R.string.wrong_password_error).toString()
             return
         } else {
             oldPassword.isErrorEnabled = false
         }
 
         if (newPassword.editText?.text.toString().length < 6){
-            newPassword.error = resources.getText(R.string.empty_password_error).toString()
+            newPassword.error = resources.getText(R.string.wrong_password_error).toString()
             return
         } else {
             newPassword.isErrorEnabled = false
         }
 
         if (confirmNewPassword.editText?.text.toString().length < 6){
-            confirmNewPassword.error = resources.getText(R.string.empty_password_error).toString()
+            confirmNewPassword.error = resources.getText(R.string.wrong_password_error).toString()
             return
         } else {
             confirmNewPassword.isErrorEnabled = false
@@ -119,7 +119,7 @@ class ProfileSettingsFragment : Fragment() {
         }
 
         val changePasswordRequest = ChangePasswordRequest(
-            currentUserWithToken.user.email,
+            currentUserWithToken.user.id,
             oldPassword.editText?.text.toString(),
             newPassword.editText?.text.toString()
         )
@@ -128,6 +128,94 @@ class ProfileSettingsFragment : Fragment() {
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful){
                     log_out_btn.performClick()
+                } else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null){
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private val onChangeEmailClickListener = View.OnClickListener {
+        val changeEmailView = activity!!.layoutInflater.inflate(R.layout.dialog_change_email, null)
+
+        val oldEmail = changeEmailView!!.findViewById(R.id.input_old_email) as TextInputLayout
+        val newEmail = changeEmailView.findViewById(R.id.input_new_email) as TextInputLayout
+        val confirmNewEmail = changeEmailView.findViewById(R.id.input_confirm_new_email) as TextInputLayout
+
+        val builder = AlertDialog.Builder(context!!)
+            .setView(changeEmailView)
+            .setTitle(resources.getText(R.string.change_email))
+            .setCancelable(true)
+            .setNegativeButton(resources.getText(R.string.cancel), null)
+            .setPositiveButton(resources.getText(R.string.ok), null)
+
+        val changeEmailAlert = builder.create()
+        changeEmailAlert.show()
+        changeEmailAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            changeEmail(oldEmail, newEmail, confirmNewEmail, changeEmailAlert)
+        }
+    }
+
+    private fun changeEmail(oldEmail : TextInputLayout, newEmail : TextInputLayout, confirmNewEmail : TextInputLayout, changeEmailAlert : AlertDialog){
+        if (oldEmail.editText?.text.toString().isEmpty()){
+            oldEmail.error = resources.getText(R.string.wrong_email_error).toString()
+            return
+        } else {
+            oldEmail.isErrorEnabled = false
+        }
+
+        if (newEmail.editText?.text.toString().isEmpty()){
+            newEmail.error = resources.getText(R.string.wrong_email_error).toString()
+            return
+        } else {
+            newEmail.isErrorEnabled = false
+        }
+
+        if (confirmNewEmail.editText?.text.toString().isEmpty()){
+            confirmNewEmail.error = resources.getText(R.string.wrong_email_error).toString()
+            return
+        } else {
+            confirmNewEmail.isErrorEnabled = false
+        }
+
+        if (newEmail.editText?.text.toString() != confirmNewEmail.editText?.text.toString()){
+            newEmail.error = resources.getText(R.string.equal_email_error).toString()
+            confirmNewEmail.error = resources.getText(R.string.equal_email_error).toString()
+            return
+        } else {
+            newEmail.isErrorEnabled = false
+            confirmNewEmail.isErrorEnabled = false
+        }
+
+        if (oldEmail.editText?.text.toString() == newEmail.editText?.text.toString()){
+            oldEmail.error = resources.getText(R.string.same_email_error).toString()
+            newEmail.error = resources.getText(R.string.same_email_error).toString()
+            return
+        } else {
+            oldEmail.isErrorEnabled = false
+            newEmail.isErrorEnabled = false
+        }
+
+        val changeEmailRequest = ChangeEmailRequest(
+            currentUserWithToken.user.id,
+            oldEmail.editText?.text.toString(),
+            newEmail.editText?.text.toString()
+        )
+
+        api.changeEmail(changeEmailRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Void> {
+            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                if (response.isSuccessful){
+                    changeEmailAlert.cancel()
+                    Toast.makeText(context, resources.getText(R.string.new_email_verification), Toast.LENGTH_LONG).show()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){

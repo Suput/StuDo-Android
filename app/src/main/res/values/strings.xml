@@ -23,7 +23,7 @@
     <string name="log_out">Logout</string>
     <string name="old_password">Old password</string>
     <string name="new_password">New password</string>
-    <string name="empty_password_error">Password must be at least 6 characters</string>
+    <string name="wrong_password_error">Password must be at least 6 characters</string>
     <string name="equal_password_error">Passwords must be the same</string>
     <string name="same_password_error">New password can\'t match old password</string>
     <string name="cancel">Cancel</string>
@@ -58,6 +58,13 @@
     <string name="delete_ad_success">Ad successfully deleted</string>
     <string name="delete_resume_success">Resume successfully deleted</string>
     <string name="edit_resume_success">Resume successfully edited</string>
+    <string name="old_email">Old email</string>
+    <string name="new_email">New email</string>
+    <string name="confirm_email">Confirm email</string>
+    <string name="equal_email_error">Emails must be the same</string>
+    <string name="same_email_error">New email can\'t match old email</string>
+    <string name="wrong_email_error">Enter correct email address</string>
+    <string name="new_email_verification">Check your new email to change it</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

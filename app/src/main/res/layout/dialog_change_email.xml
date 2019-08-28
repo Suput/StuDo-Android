@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_old_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textEmailAddress"
+                  android:hint="@string/old_email"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_new_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textEmailAddress"
+                  android:hint="@string/new_email"/>
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+            android:id="@+id/input_confirm_new_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        <EditText
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:inputType="textEmailAddress"
+                  android:hint="@string/confirm_email"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
