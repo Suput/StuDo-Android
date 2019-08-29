@@ -34,7 +34,7 @@ data class UserLoginRequest (
 data class UserLoginResponse (
 
 	@SerializedName("user")
-	val user : User,
+	var user : User,
 
 	@SerializedName("accessToken")
 	val accessToken : String

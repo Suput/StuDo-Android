@@ -63,4 +63,5 @@
     <string name="equal_email_error">Почты должны совпадать</string>
     <string name="wrong_email_error">Введите корректную почту</string>
     <string name="new_email_verification">Проверьте новую почту, что изменить её</string>
+    <string name="changes_saved">Изменения сохранены</string>
 </resources>

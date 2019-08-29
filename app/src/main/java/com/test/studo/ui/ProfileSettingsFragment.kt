@@ -12,11 +12,15 @@ import com.test.studo.R
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import kotlinx.android.synthetic.main.fragment_profile_settings.view.*
 import android.support.v7.app.AlertDialog
+import android.text.Editable
+import android.text.TextWatcher
 import android.transition.TransitionInflater
 import android.widget.Toast
 import com.test.studo.api
 import com.test.studo.api.models.ChangeEmailRequest
 import com.test.studo.api.models.ChangePasswordRequest
+import com.test.studo.api.models.ChangeUserInfoRequest
+import com.test.studo.api.models.User
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_profile_settings.*
 import retrofit2.Call
@@ -37,15 +41,19 @@ class ProfileSettingsFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getString(R.string.title_profile)
 
-        view.input_first_name.setText(currentUserWithToken.user.firstName)
-        view.input_second_name.setText(currentUserWithToken.user.secondName)
+        view.input_first_name.editText?.setText(currentUserWithToken.user.firstName)
+        view.input_second_name.editText?.setText(currentUserWithToken.user.secondName)
         currentUserWithToken.user.studentCardNumber?.let {
-            view.input_card_number.setText(currentUserWithToken.user.studentCardNumber)
+            view.input_card_number.editText?.setText(currentUserWithToken.user.studentCardNumber)
         }
 
-        view.log_out_btn.setOnClickListener(onLogOutButtonClick)
-        view.change_password_btn.setOnClickListener(onChangePasswordClickListener)
+        view.input_first_name.editText?.addTextChangedListener(onTextChangedListener)
+        view.input_second_name.editText?.addTextChangedListener(onTextChangedListener)
+        view.input_card_number.editText?.addTextChangedListener(onTextChangedListener)
+
         view.change_email_btn.setOnClickListener(onChangeEmailClickListener)
+        view.change_password_btn.setOnClickListener(onChangePasswordClickListener)
+        view.log_out_btn.setOnClickListener(onLogOutButtonClick)
 
         return view
     }
@@ -227,6 +235,85 @@ class ProfileSettingsFragment : Fragment() {
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
+                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+            }
+        })
+    }
+
+    private val onTextChangedListener = object : TextWatcher{
+        override fun afterTextChanged(s: Editable?) {
+            if (
+                input_first_name.editText?.text.toString() != currentUserWithToken.user.firstName ||
+                input_second_name.editText?.text.toString() != currentUserWithToken.user.secondName ||
+                input_card_number.editText?.text.toString() != currentUserWithToken.user.studentCardNumber
+            ){
+                save_fab.show()
+                save_fab.setOnClickListener { changeUserInfo() }
+            } else {
+                save_fab.hide()
+            }
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+    }
+
+    private fun isUserDataIsCorrect() : Boolean{
+        if (input_first_name.editText!!.text.isEmpty()){
+            input_first_name.error = resources.getText(R.string.empty_field_error)
+            return false
+        } else {
+            input_first_name.isErrorEnabled = false
+        }
+        if (input_second_name.editText!!.text.isEmpty()){
+            input_second_name.error = resources.getText(R.string.empty_field_error)
+            return false
+        } else {
+            input_second_name.isErrorEnabled = false
+        }
+        if (input_card_number.editText!!.text.isEmpty()){
+            input_card_number.error = resources.getText(R.string.empty_field_error)
+            return false
+        } else {
+            input_card_number.isErrorEnabled = false
+        }
+
+        return true
+    }
+
+    private fun changeUserInfo(){
+        if (!isUserDataIsCorrect()){
+            return
+        }
+
+        //TODO : add user data check
+
+        val changeUserInfoRequest = ChangeUserInfoRequest(
+            currentUserWithToken.user.id,
+            input_card_number.editText?.text.toString(),
+            input_first_name.editText?.text.toString(),
+            input_second_name.editText?.text.toString()
+        )
+
+        api.changeUserInfo(changeUserInfoRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<User>{
+            override fun onResponse(call: Call<User>, response: Response<User>) {
+                if (response.isSuccessful){
+                    Toast.makeText(context, resources.getText(R.string.changes_saved), Toast.LENGTH_LONG).show()
+                    currentUserWithToken.user = response.body()!!
+                } else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null){
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                    }
+                }
+            }
+
+            override fun onFailure(call: Call<User>, t: Throwable) {
                 Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
