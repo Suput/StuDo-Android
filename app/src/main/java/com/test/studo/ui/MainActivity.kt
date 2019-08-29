@@ -10,6 +10,7 @@ import android.view.View
 import com.test.studo.R
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.Context
+import android.content.res.Configuration
 import com.google.gson.Gson
 import com.test.studo.api.models.UserLoginResponse
 import com.test.studo.currentUserWithToken
@@ -31,7 +32,9 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            if (resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK == Configuration.UI_MODE_NIGHT_NO){
+                window.decorView.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            }
             window.statusBarColor = android.R.attr.windowBackground
         }
 
@@ -50,7 +53,10 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_account_page -> selectedFragment = AccountPageFragment()
         }
 
-        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, selectedFragment).commit()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_fragment_container, selectedFragment)
+            .commit()
 
         true
     }

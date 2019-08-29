@@ -61,8 +61,7 @@ class ProfileSettingsFragment : Fragment() {
     private val onLogOutButtonClick = View.OnClickListener {
         this.activity?.getSharedPreferences("shared", Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
 
-        startActivity(Intent(context, MainActivity::class.java))
-        activity?.finish()
+        activity?.recreate()
     }
 
     private val onChangePasswordClickListener = View.OnClickListener {
@@ -303,6 +302,7 @@ class ProfileSettingsFragment : Fragment() {
                 if (response.isSuccessful){
                     Toast.makeText(context, resources.getText(R.string.changes_saved), Toast.LENGTH_LONG).show()
                     currentUserWithToken.user = response.body()!!
+                    save_fab.hide()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null){

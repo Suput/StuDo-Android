@@ -66,6 +66,9 @@
     <string name="wrong_email_error">Enter correct email address</string>
     <string name="new_email_verification">Check your new email to change it</string>
     <string name="changes_saved">Changes saved</string>
+    <string name="dark_theme">Dark theme</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
 
     <!-- TODO: Remove or change this placeholder text -->
 

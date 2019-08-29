@@ -19,7 +19,7 @@
               android:layout_gravity="center"
               android:paddingStart="?android:attr/listPreferredItemPaddingStart"
               android:paddingEnd="?android:attr/listPreferredItemPaddingStart"
-              android:textColor="@android:color/black"
+              android:textColor="?android:attr/textColorPrimary"
               android:textSize="20sp"
               android:text="Подписки" />
 </LinearLayout>

@@ -22,7 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@android:color/white"
+
                 app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <LinearLayout

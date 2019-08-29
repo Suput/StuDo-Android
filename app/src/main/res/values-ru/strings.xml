@@ -64,4 +64,5 @@
     <string name="wrong_email_error">Введите корректную почту</string>
     <string name="new_email_verification">Проверьте новую почту, что изменить её</string>
     <string name="changes_saved">Изменения сохранены</string>
+    <string name="dark_theme">Тёмная тема</string>
 </resources>

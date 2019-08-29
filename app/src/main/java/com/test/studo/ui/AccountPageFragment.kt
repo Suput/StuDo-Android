@@ -52,7 +52,19 @@ class AccountPageFragment : Fragment() {
                 openUserFragment(ResumesPageFragment())
             }
 //            AccountPageItems.SUBS.value ->
-//            AccountPageItems.SETTINGS.value ->
+            AccountPageItems.SETTINGS.value ->{
+                activity?.supportFragmentManager
+                    ?.beginTransaction()
+                    ?.setCustomAnimations(
+                        R.anim.slide_from_right,
+                        R.anim.slide_to_left,
+                        R.anim.slide_from_left,
+                        R.anim.slide_to_right
+                    )
+                    ?.addToBackStack(null)
+                    ?.replace(R.id.main_fragment_container, SettingsFragment())
+                    ?.commit()
+            }
 //            AccountPageItems.ABOUT.value ->
         }
     }

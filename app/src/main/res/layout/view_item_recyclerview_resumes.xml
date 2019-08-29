@@ -9,8 +9,7 @@
         android:layout_marginBottom="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:cardCornerRadius="10dp"
-        android:background="@color/colorBackground">
+        app:cardCornerRadius="10dp">
 
         <LinearLayout
                 android:id="@+id/resume_panel"
@@ -32,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="20sp"
-                android:textColor="@android:color/black"
+                android:textColor="?android:attr/textColorPrimary"
                 android:layout_gravity="center_vertical"
                 android:text="Ad name"/>
 
