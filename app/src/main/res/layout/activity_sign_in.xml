@@ -6,78 +6,84 @@
         android:layout_height="match_parent"
         tools:context=".ui.SignInActivity">
 
-    <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingTop="56dp"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            tools:ignore="MissingConstraints">
+    <ScrollView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
-        <ImageView android:src="@drawable/logo"
-                   android:layout_width="wrap_content"
-                   android:layout_height="160dp"
-                   android:layout_marginTop="32dp"
-                   android:layout_marginBottom="32dp"
-                   android:layout_gravity="center_horizontal"
-                   android:contentDescription="@string/logo"/>
-
-        <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_email"
+        <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-            <EditText
+                android:paddingTop="56dp"
+                android:paddingLeft="24dp"
+                android:paddingRight="24dp"
+                tools:ignore="MissingConstraints">
+
+            <ImageView android:src="@drawable/logo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="160dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginBottom="32dp"
+                    android:layout_gravity="center_horizontal"
+                    android:contentDescription="@string/logo"/>
+
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:inputType="textEmailAddress"
-                    android:hint="@string/email"/>
-        </android.support.design.widget.TextInputLayout>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
+                        android:hint="@string/email"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
-                android:id="@+id/input_password"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-            <EditText
-                      android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:inputType="textPassword"
-                      android:hint="@string/password"/>
-        </android.support.design.widget.TextInputLayout>
+            <android.support.design.widget.TextInputLayout
+                    android:id="@+id/input_password"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp">
+                <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPassword"
+                        android:hint="@string/password"/>
+            </android.support.design.widget.TextInputLayout>
 
-        <Button
-                android:id="@+id/login_btn"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:padding="12dp"
-                android:text="@string/login"/>
+            <Button
+                    android:id="@+id/login_btn"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:padding="12dp"
+                    android:text="@string/login"/>
 
-        <TextView
-                android:id="@+id/reset_password_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/forgot_password"
-                android:textSize="16sp"
-                android:clickable="true"
-                android:focusable="true"
-                android:layout_gravity="center|bottom"/>
+            <TextView
+                    android:id="@+id/reset_password_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/forgot_password"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="center|bottom"/>
 
-    </LinearLayout>
+            <TextView
+                    android:id="@+id/link_sign_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:text="@string/create_account"
+                    android:textSize="16sp"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:layout_gravity="center|bottom"/>
 
-    <TextView
-            android:id="@+id/link_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="@string/create_account"
-            android:textSize="16sp"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_gravity="center|bottom"/>
+        </LinearLayout>
+
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
