@@ -71,4 +71,7 @@
     <string name="delete_organization_confirmation">Вы действительно хотите удалить организацию?</string>
     <string name="delete_organization_success">Организация успешно удалена</string>
     <string name="edit_organization_success">Данные организации успешно изменены</string>
+    <string name="edit_organization">Редактирование организации</string>
+    <string name="hello_blank_fragment">Организация</string>
+    <string name="organization">Организация</string>
 </resources>

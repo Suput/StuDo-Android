@@ -18,29 +18,25 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="fill_vertical"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
                 android:layout_marginBottom="?attr/actionBarSize">
 
             <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    app:cardCornerRadius="10dp"
-
-                    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+                    app:cardCornerRadius="10dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:padding="16dp">
+                        android:orientation="vertical">
 
                     <LinearLayout
                             android:id="@+id/resume_panel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
-                            android:transitionName="resume_panel_transition">
+                            android:padding="16dp">
 
                         <ImageView
                                 android:id="@+id/icon"
@@ -66,8 +62,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="?android:attr/colorButtonNormal"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
                             android:visibility="invisible"/>
 
                     <TextView
@@ -75,15 +69,14 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textSize="16sp"
-                            android:textColor="?android:attr/textColorPrimary"/>
+                            android:textColor="?android:attr/textColorPrimary"
+                            android:padding="16dp"/>
 
                     <View
                             android:id="@+id/separator_2"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
                             android:background="?android:attr/colorButtonNormal"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginBottom="16dp"
                             android:visibility="invisible"/>
 
                     <LinearLayout
@@ -91,6 +84,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
+                            android:layout_margin="16dp"
                             android:clickable="true"
                             android:focusable="true"
                             android:background="?attr/selectableItemBackground">

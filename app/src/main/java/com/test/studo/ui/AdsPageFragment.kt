@@ -112,9 +112,7 @@ class AdsPageFragment : Fragment() {
             })
     }
 
-    fun onAdClick(adPanel: LinearLayout, compactAd: CompactAd) {
-
-        adPanel.transitionName = "ad_panel_transition"
+    fun onAdClick(compactAd: CompactAd) {
 
         val adFragment = AdFragment()
         val bundle = Bundle()
@@ -125,7 +123,6 @@ class AdsPageFragment : Fragment() {
 
         activity?.supportFragmentManager
             ?.beginTransaction()
-            //?.addSharedElement(adPanel, adPanel.transitionName)
             ?.setCustomAnimations(
                 R.anim.slide_from_top,
                 R.anim.slide_to_bot,

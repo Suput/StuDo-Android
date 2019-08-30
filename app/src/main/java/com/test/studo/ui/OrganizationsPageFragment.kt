@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -63,8 +62,6 @@ class OrganizationsPageFragment : Fragment() {
                     }
                 }
                 swipeRefreshLayout?.isRefreshing = false
-
-                Log.wtf("body", response.raw().toString())
             }
 
             override fun onFailure(call: Call<List<Organization>>, t: Throwable) {
@@ -85,6 +82,23 @@ class OrganizationsPageFragment : Fragment() {
             )
             ?.addToBackStack(null)
             ?.replace(R.id.main_fragment_container, CreateAndEditOrganizationFragment())
+            ?.commit()
+    }
+
+    fun onOrganizationClick(organization: Organization){
+
+        val organizationFragment = OrganizationFragment()
+        val bundle = Bundle()
+        bundle.putString("organizationId", organization.id)
+        bundle.putString("name", organization.name)
+        bundle.putString("description", organization.description)
+        organizationFragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, organizationFragment)
             ?.commit()
     }
 }

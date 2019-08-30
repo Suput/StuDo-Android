@@ -3,7 +3,6 @@ package com.test.studo.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,12 +21,6 @@ class AdFragment : Fragment() {
 
     lateinit var ad : Ad
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_ad, container, false)
@@ -36,8 +29,6 @@ class AdFragment : Fragment() {
 
         view.name.text = arguments?.getString("name")
         view.short_description.text = arguments?.getString("short_description")
-        view.separator_1.visibility = View.VISIBLE
-        view.separator_2.visibility = View.VISIBLE
 
         if (::ad.isInitialized){
             view.name.text = ad.name
@@ -55,7 +46,10 @@ class AdFragment : Fragment() {
             arguments?.getString("adId")?.let { getAd(it) }
         }
 
-        view.swipe_container.setOnRefreshListener { arguments?.getString("adId")?.let {getAd(it, swipe_container)} }
+        view.separator_1.visibility = View.VISIBLE
+        view.separator_2.visibility = View.VISIBLE
+
+        view.swipe_container.setOnRefreshListener { arguments?.getString("adId")?.let {getAd(it, view.swipe_container)} }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 

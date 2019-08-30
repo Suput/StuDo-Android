@@ -1,7 +1,6 @@
 package com.test.studo.adapters
 
 import android.widget.TextView
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
@@ -41,7 +40,7 @@ class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragmen
         val rv = it.parent as RecyclerView
         val item = adList[rv.getChildLayoutPosition(it)]
 
-        adsPageFragment.onAdClick(it.ad_panel, item)
+        adsPageFragment.onAdClick(item)
     }
 
 }
