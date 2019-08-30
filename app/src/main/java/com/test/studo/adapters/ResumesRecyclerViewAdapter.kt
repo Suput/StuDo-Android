@@ -1,7 +1,6 @@
 package com.test.studo.adapters
 
 import android.widget.TextView
-import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.widget.ImageView
@@ -39,7 +38,7 @@ class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, re
         val rv = it.parent as RecyclerView
         val item = resumeList[rv.getChildLayoutPosition(it)]
 
-        resumesPageFragment.onResumeClick(it.resume_panel, item)
+        resumesPageFragment.onResumeClick(item)
     }
 
 }

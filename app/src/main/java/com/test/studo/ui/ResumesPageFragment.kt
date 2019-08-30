@@ -110,9 +110,7 @@ class ResumesPageFragment : Fragment() {
         })
     }
 
-    fun onResumeClick(resumePanel : LinearLayout, compactResume: CompactResume){
-
-        resumePanel.transitionName = "resume_panel_transition"
+    fun onResumeClick(compactResume: CompactResume){
 
         val resumeFragment = ResumeFragment()
         val bundle = Bundle()
@@ -122,7 +120,6 @@ class ResumesPageFragment : Fragment() {
 
         activity?.supportFragmentManager
             ?.beginTransaction()
-            ?.addSharedElement(resumePanel, resumePanel.transitionName)
             ?.setCustomAnimations(R.anim.slide_from_top, R.anim.slide_to_bot, R.anim.slide_from_bot, R.anim.slide_to_top)
             ?.addToBackStack(null)
             ?.replace(R.id.main_fragment_container, resumeFragment)

@@ -3,7 +3,6 @@ package com.test.studo.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
-import android.transition.TransitionInflater
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +22,6 @@ class ResumeFragment : Fragment() {
 
     lateinit var resume : Resume
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        sharedElementEnterTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-        sharedElementReturnTransition = TransitionInflater.from(context).inflateTransition(android.R.transition.move)
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_resume, container, false)
@@ -37,8 +30,6 @@ class ResumeFragment : Fragment() {
 
         val bundle = this.arguments
         view.name.text = bundle?.getString("name")
-        view.separator_1.visibility = View.VISIBLE
-        view.separator_2.visibility = View.VISIBLE
 
         if (::resume.isInitialized){
             view.name.text = resume.name
@@ -52,7 +43,10 @@ class ResumeFragment : Fragment() {
             arguments?.getString("resumeId")?.let { getResume(it) }
         }
 
-        view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, swipe_container)} }
+        view.separator_1.visibility = View.VISIBLE
+        view.separator_2.visibility = View.VISIBLE
+
+        view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, view.swipe_container)} }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 

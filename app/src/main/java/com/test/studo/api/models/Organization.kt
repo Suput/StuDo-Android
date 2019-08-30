@@ -1,6 +1,7 @@
 package com.test.studo.api.models
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Organization(
 
@@ -19,7 +20,7 @@ data class Organization(
     @SerializedName("creator")
     val creator : User
 
-)
+) : Serializable
 
 data class OrganizationEditRequest(
 

@@ -35,7 +35,7 @@ class CreateAndEditOrganizationFragment : Fragment() {
         val organization = arguments?.getSerializable("organization") as Organization?
 
         if (organization != null){
-            view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
+            view.collapse_toolbar.title = resources.getText(R.string.edit_organization)
             view.input_title.editText?.setText(organization.name)
             view.input_description.editText?.setText(organization.description)
             view.save_fab.setOnClickListener { editOrganization(organization.id) }
@@ -43,7 +43,7 @@ class CreateAndEditOrganizationFragment : Fragment() {
             view.delete_fab.show()
             view.delete_fab.setOnClickListener { deleteOrganization(organization.id) }
         } else {
-            view.collapse_toolbar.title = resources.getText(R.string.create_resume)
+            view.collapse_toolbar.title = resources.getText(R.string.create_organization)
             view.save_fab.setOnClickListener { createOrganization() }
         }
 

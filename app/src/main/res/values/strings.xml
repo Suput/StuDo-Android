@@ -76,6 +76,8 @@
     <string name="edit_organization_success">Organization data successfully edited</string>
     <string name="delete_organization_success">Organization successfully deleted</string>
     <string name="delete_organization_confirmation">Do you really want to delete an organization?</string>
+    <string name="edit_organization">Edit organization</string>
+    <string name="organization">Organization</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
