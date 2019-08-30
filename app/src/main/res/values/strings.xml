@@ -4,10 +4,10 @@
     <string name="subs">Subscriptions</string>
     <string name="settings">Settings</string>
     <string name="about">About</string>
-    <string name="title_resumes">Resumes</string>
-    <string name="title_ads">Ads</string>
-    <string name="title_account">Account</string>
-    <string name="title_profile">Profile</string>
+    <string name="resumes">Resumes</string>
+    <string name="ads">Ads</string>
+    <string name="account">Account</string>
+    <string name="profile">Profile</string>
     <string name="name">Name</string>
     <string name="surname">Surname</string>
     <string name="avatar">Avatar</string>
@@ -67,6 +67,15 @@
     <string name="new_email_verification">Check your new email to change it</string>
     <string name="changes_saved">Changes saved</string>
     <string name="dark_theme">Dark theme</string>
+    <string name="organizations">Organizations</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_organization">Create organization</string>
+    <string name="create_organization_success">Organization successfully created</string>
+    <string name="edit_organization_success">Organization data successfully edited</string>
+    <string name="delete_organization_success">Organization successfully deleted</string>
+    <string name="delete_organization_confirmation">Do you really want to delete an organization?</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

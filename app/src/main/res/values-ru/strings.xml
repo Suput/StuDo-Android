@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="title_ads">Объявления</string>
-    <string name="title_resumes">Резюме</string>
-    <string name="title_account">Аккаунт</string>
+    <string name="ads">Объявления</string>
+    <string name="resumes">Резюме</string>
+    <string name="account">Аккаунт</string>
     <string name="about">О приложении</string>
     <string name="my_ads">Мои объявления</string>
     <string name="settings">Настройки</string>
     <string name="subs">Подписки</string>
-    <string name="title_profile">Профиль</string>
+    <string name="profile">Профиль</string>
     <string name="avatar">Аватар</string>
     <string name="name">Имя</string>
     <string name="surname">Фамилия</string>
@@ -65,4 +65,10 @@
     <string name="new_email_verification">Проверьте новую почту, что изменить её</string>
     <string name="changes_saved">Изменения сохранены</string>
     <string name="dark_theme">Тёмная тема</string>
+    <string name="organizations">Организации</string>
+    <string name="create_organization">Создание организации</string>
+    <string name="create_organization_success">Организация успешно создана</string>
+    <string name="delete_organization_confirmation">Вы действительно хотите удалить организацию?</string>
+    <string name="delete_organization_success">Организация успешно удалена</string>
+    <string name="edit_organization_success">Данные организации успешно изменены</string>
 </resources>

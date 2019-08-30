@@ -36,16 +36,16 @@ class AdsPageFragment : Fragment() {
             getUserAds(user.id, this)
 
             view.collapse_toolbar.title = user.firstName + " " + user.secondName
-            view.subtitle.text = resources.getString(R.string.title_ads)
+            view.subtitle.text = resources.getString(R.string.ads)
 
             if (user == currentUserWithToken.user) {
                 view.fab.show()
                 view.fab.setOnClickListener(onFabClickListener)
             }
 
-            view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, swipe_container) }
+            view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, view.swipe_container) }
         } else {
-            view.collapse_toolbar.title = resources.getString(R.string.title_ads)
+            view.collapse_toolbar.title = resources.getString(R.string.ads)
 
             compactAdList?.let {
                 view.rv.adapter = AdsRecyclerViewAdapter(it, this)
@@ -53,7 +53,7 @@ class AdsPageFragment : Fragment() {
                 getAllAds(this)
             }
 
-            view.swipe_container.setOnRefreshListener { getAllAds(this, swipe_container) }
+            view.swipe_container.setOnRefreshListener { getAllAds(this, view.swipe_container) }
         }
 
         return view
@@ -125,7 +125,7 @@ class AdsPageFragment : Fragment() {
 
         activity?.supportFragmentManager
             ?.beginTransaction()
-            ?.addSharedElement(adPanel, adPanel.transitionName)
+            //?.addSharedElement(adPanel, adPanel.transitionName)
             ?.setCustomAnimations(
                 R.anim.slide_from_top,
                 R.anim.slide_to_bot,

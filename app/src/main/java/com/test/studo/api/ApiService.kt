@@ -90,6 +90,40 @@ interface ApiService {
 
 
 
+    @GET("organization")
+    fun getAllOrganizations(@Header("Authorization") accessToken : String) :
+            Call<List<Organization>>
+
+    @GET("organization/{orgId}")
+    fun getOneOrganization(@Path("orgId") orgId : String, @Header("Authorization") accessToken : String) :
+            Call<Organization>
+
+    @GET("organization/members/{orgId}")
+    fun getOrganizationMembers(@Path("orgId") orgId : String, @Header("Authorization") accessToken : String) :
+            Call<List<OrganizationMember>>
+
+    @POST("organization")
+    fun createOrganization(@Body body : OrganizationCreateRequest, @Header("Authorization") accessToken : String) :
+            Call<Organization>
+
+    @PUT("organization")
+    fun editOrganization(@Body body : OrganizationEditRequest, @Header("Authorization") accessToken : String) :
+            Call<Organization>
+
+    @DELETE("organization/{orgId}")
+    fun deleteOrganization(@Path("orgId") orgId : String, @Header("Authorization") accessToken : String) :
+            Call<String>
+
+    @POST("organization/right/attach")
+    fun attachRights(@Body body : AttachDetachRightRequest, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+    @POST("organization/right/detach")
+    fun detachRights(@Body body : AttachDetachRightRequest, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+
+
     companion object Factory {
         fun create(): ApiService {
             val retrofit = Retrofit.Builder()

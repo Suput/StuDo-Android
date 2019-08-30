@@ -3,17 +3,17 @@
 
     <item
             android:id="@+id/navigation_ads_page"
-            android:icon="@drawable/ic_group_blue_24dp"
-            android:title="@string/title_ads"/>
+            android:icon="@drawable/ic_assignment_blue_24dp"
+            android:title="@string/ads"/>
 
     <item
             android:id="@+id/navigation_resumes_page"
-            android:icon="@drawable/ic_person_blue_24dp"
-            android:title="@string/title_resumes"/>
+            android:icon="@drawable/ic_assignment_ind_blue_24dp"
+            android:title="@string/resumes"/>
 
     <item
             android:id="@+id/navigation_account_page"
             android:icon="@drawable/ic_account_circle_blue_24dp"
-            android:title="@string/title_account"/>
+            android:title="@string/account"/>
 
 </menu>

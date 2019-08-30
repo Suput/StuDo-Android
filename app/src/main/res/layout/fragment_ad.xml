@@ -76,7 +76,7 @@
                             android:id="@+id/separator_1"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/colorLightGray"
+                            android:background="?android:attr/colorButtonNormal"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:visibility="invisible"/>
@@ -92,7 +92,7 @@
                             android:id="@+id/separator_2"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="@color/colorLightGray"
+                            android:background="?android:attr/colorButtonNormal"
                             android:layout_marginTop="16dp"
                             android:layout_marginBottom="16dp"
                             android:visibility="invisible"/>

@@ -8,14 +8,15 @@ import android.widget.ImageView
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.test.studo.R
-import com.test.studo.api.models.CompactAd
+import com.test.studo.api.models.Organization
 import com.test.studo.ui.AdsPageFragment
+import com.test.studo.ui.OrganizationsPageFragment
 import kotlinx.android.synthetic.main.view_item_recyclerview_ads.view.*
 
 
-class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragment: AdsPageFragment) : RecyclerView.Adapter<AdsRecyclerViewAdapter.CardViewViewHolder>() {
+class OrganizationsRecyclerViewAdapter(private var organizationsList: List<Organization>, organizationsPageFragment: OrganizationsPageFragment) : RecyclerView.Adapter<OrganizationsRecyclerViewAdapter.CardViewViewHolder>() {
 
-    override fun getItemCount() = adList.size
+    override fun getItemCount() = organizationsList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
         val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_ads, viewGroup, false)
@@ -26,9 +27,9 @@ class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragmen
     }
 
     override fun onBindViewHolder(cardViewViewHolder: CardViewViewHolder, i: Int) {
-        cardViewViewHolder.name.text = adList[i].name
-        cardViewViewHolder.description.text = adList[i].shortDescription
-        //cardViewViewHolder.icon.setImageResource(adList[i].iconId)
+        cardViewViewHolder.name.text = organizationsList[i].name
+        cardViewViewHolder.description.text = organizationsList[i].description
+        //cardViewViewHolder.icon.setImageResource(organizationsList[i].iconId)
     }
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -39,9 +40,9 @@ class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragmen
 
     private val onRecyclerViewClickListener = View.OnClickListener{
         val rv = it.parent as RecyclerView
-        val item = adList[rv.getChildLayoutPosition(it)]
+        val item = organizationsList[rv.getChildLayoutPosition(it)]
 
-        adsPageFragment.onAdClick(it.ad_panel, item)
+        //organizationsPageFragment.onOrganizationClick(it.ad_panel, item)
     }
 
 }

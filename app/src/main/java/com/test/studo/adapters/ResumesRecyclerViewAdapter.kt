@@ -31,7 +31,6 @@ class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, re
     }
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var cv: CardView = itemView.cv
         var name: TextView = itemView.name
         var icon: ImageView = itemView.icon
     }

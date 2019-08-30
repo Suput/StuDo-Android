@@ -39,7 +39,7 @@ class ResumesPageFragment : Fragment() {
             getUserResumes(user.id, this)
 
             view.collapse_toolbar.title = user.firstName + " " + user.secondName
-            view.subtitle.text = resources.getString(R.string.title_resumes)
+            view.subtitle.text = resources.getString(R.string.resumes)
 
             if (user == currentUserWithToken.user){
                 view.fab.show()
@@ -48,7 +48,7 @@ class ResumesPageFragment : Fragment() {
 
             view.swipe_container.setOnRefreshListener{ getUserResumes(user.id, this, swipe_container) }
         } else {
-            view.collapse_toolbar.title = resources.getString(R.string.title_resumes)
+            view.collapse_toolbar.title = resources.getString(R.string.resumes)
 
             compactResumeList?.let {
                 view.rv.adapter = ResumesRecyclerViewAdapter(it, this)

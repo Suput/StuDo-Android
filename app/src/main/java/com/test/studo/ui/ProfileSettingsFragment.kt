@@ -1,7 +1,6 @@
 package com.test.studo.ui
 
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
@@ -39,7 +38,7 @@ class ProfileSettingsFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_profile_settings, container, false)
 
-        view.collapse_toolbar.title = resources.getString(R.string.title_profile)
+        view.collapse_toolbar.title = resources.getString(R.string.profile)
 
         view.input_first_name.editText?.setText(currentUserWithToken.user.firstName)
         view.input_second_name.editText?.setText(currentUserWithToken.user.secondName)
