@@ -46,6 +46,10 @@ interface ApiService {
     fun getUserAds(@Path("userId") userId : String, @Header("Authorization") accessToken : String) :
             Call<List<CompactAd>>
 
+    @GET("ad/organization/{orgId}")
+    fun getOrganizationAds(@Path("orgId") orgId : String, @Header("Authorization") accessToken : String) :
+            Call<List<CompactAd>>
+
     @GET("ad/{adId}")
     fun getOneAd(@Path("adId") adId : String, @Header("Authorization") accessToken : String) :
             Call<Ad>

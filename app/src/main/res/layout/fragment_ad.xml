@@ -94,7 +94,6 @@
                     <RelativeLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
                             android:padding="16dp">
 
                         <LinearLayout
@@ -114,7 +113,7 @@
                                     android:transitionName="avatar_transition"/>
 
                             <TextView
-                                    android:id="@+id/creator_name_and_surname"
+                                    android:id="@+id/creator"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"

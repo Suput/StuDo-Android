@@ -89,9 +89,7 @@ class OrganizationsPageFragment : Fragment() {
 
         val organizationFragment = OrganizationFragment()
         val bundle = Bundle()
-        bundle.putString("organizationId", organization.id)
-        bundle.putString("name", organization.name)
-        bundle.putString("description", organization.description)
+        bundle.putSerializable("organization", organization)
         organizationFragment.arguments = bundle
 
         activity?.supportFragmentManager

@@ -78,6 +78,7 @@
     <string name="delete_organization_confirmation">Do you really want to delete an organization?</string>
     <string name="edit_organization">Edit organization</string>
     <string name="organization">Organization</string>
+    <string name="members">Members</string>
 
     <!-- TODO: Remove or change this placeholder text -->
 

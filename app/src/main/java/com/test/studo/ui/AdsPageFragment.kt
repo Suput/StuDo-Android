@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.adapters.AdsRecyclerViewAdapter
 import com.test.studo.api
 import com.test.studo.api.models.CompactAd
+import com.test.studo.api.models.Organization
 import com.test.studo.api.models.User
 import com.test.studo.compactAdList
 import com.test.studo.currentUserWithToken
@@ -31,29 +32,44 @@ class AdsPageFragment : Fragment() {
 
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
-        val user = arguments?.getSerializable("user") as User?
-        if (user != null) {
-            getUserAds(user.id, this)
+        val organization = arguments?.getSerializable("organization") as Organization?
+        if (organization != null){
+            getOrganizationAds(organization.id, this)
 
-            view.collapse_toolbar.title = user.firstName + " " + user.secondName
-            view.subtitle.text = resources.getString(R.string.ads)
+            view.collapse_toolbar.title = organization.name
 
-            if (user == currentUserWithToken.user) {
+            if (organization.creator == currentUserWithToken.user) {
                 view.fab.show()
                 view.fab.setOnClickListener(onFabClickListener)
             }
 
-            view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, view.swipe_container) }
+            view.swipe_container.setOnRefreshListener { getOrganizationAds(organization.id, this, view.swipe_container) }
         } else {
-            view.collapse_toolbar.title = resources.getString(R.string.ads)
+            val user = arguments?.getSerializable("user") as User?
+            if (user != null) {
+                getUserAds(user.id, this)
 
-            compactAdList?.let {
-                view.rv.adapter = AdsRecyclerViewAdapter(it, this)
-            } ?: run {
-                getAllAds(this)
+                view.collapse_toolbar.title = user.firstName + " " + user.secondName
+                view.subtitle.text = resources.getString(R.string.ads)
+
+                if (user == currentUserWithToken.user) {
+                    view.fab.show()
+                    view.fab.setOnClickListener(onFabClickListener)
+                }
+
+                view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, view.swipe_container) }
+            } else {
+                view.collapse_toolbar.title = resources.getString(R.string.ads)
+
+                compactAdList?.let {
+                    view.rv.adapter = AdsRecyclerViewAdapter(it, this)
+                } ?: run {
+                    getAllAds(this)
+                }
+
+                view.swipe_container.setOnRefreshListener { getAllAds(this, view.swipe_container) }
             }
 
-            view.swipe_container.setOnRefreshListener { getAllAds(this, view.swipe_container) }
         }
 
         return view
@@ -83,12 +99,33 @@ class AdsPageFragment : Fragment() {
         })
     }
 
-    private fun getUserAds(
-        userId: String,
-        adsPageFragment: AdsPageFragment,
-        swipeRefreshLayout: SwipeRefreshLayout? = null
-    ) {
+    private fun getUserAds(userId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
         api.getUserAds(userId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<List<CompactAd>> {
+                override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
+                    if (response.isSuccessful) {
+                        adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null) {
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                    swipeRefreshLayout?.isRefreshing = false
+                }
+
+                override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
+                    Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                    swipeRefreshLayout?.isRefreshing = false
+                }
+            })
+    }
+
+    private fun getOrganizationAds(organizationId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
+        api.getOrganizationAds(organizationId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactAd>> {
                 override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
                     if (response.isSuccessful) {

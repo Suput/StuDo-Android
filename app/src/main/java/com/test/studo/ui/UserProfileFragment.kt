@@ -38,9 +38,8 @@ class UserProfileFragment : Fragment() {
             ListViewItemModel(resources.getText(R.string.resumes).toString(), R.drawable.ic_assignment_ind_blue_24dp)
         )
 
-        view.user_fragments_lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
-
-        view.user_fragments_lv.onItemClickListener = onListViewItemClickListener
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
+        view.lv.onItemClickListener = onListViewItemClickListener
 
         return view
     }

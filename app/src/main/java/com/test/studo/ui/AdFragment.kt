@@ -34,12 +34,16 @@ class AdFragment : Fragment() {
             view.name.text = ad.name
             view.short_description.text = ad.shortDescription
             view.description.text = ad.description
-            view.creator_name_and_surname.text = ad.user.firstName + " " + ad.user.secondName
+            ad.organizationId?.let{
+                view.creator.text = ad.organization?.name
+            } ?: run{
+                view.creator.text = ad.user?.firstName + " " + ad.user?.secondName
+            }
 
             view.begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
             view.end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
 
-            if (ad.user.id == currentUserWithToken.user.id){
+            if (ad.user?.id == currentUserWithToken.user.id){
                 view.fab.show()
             }
         } else {
@@ -61,18 +65,25 @@ class AdFragment : Fragment() {
     private val onProfilePanelClickListener = View.OnClickListener {
 
         if (::ad.isInitialized){
-        val userProfileFragment = UserProfileFragment()
-        val bundle = Bundle()
+            val bundle = Bundle()
 
-            bundle.putSerializable("user", ad.user)
-            userProfileFragment.arguments = bundle
+            lateinit var fragment : Fragment
+
+            ad.organizationId?.let{
+                fragment = OrganizationFragment()
+                bundle.putSerializable("organization", ad.organization)
+            } ?: run{
+                fragment= UserProfileFragment()
+                bundle.putSerializable("user", ad.user)
+            }
+            fragment.arguments = bundle
 
             activity?.supportFragmentManager
                 ?.beginTransaction()
                 ?.addSharedElement(avatar, avatar.transitionName)
                 ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
                 ?.addToBackStack(null)
-                ?.replace(R.id.main_fragment_container, userProfileFragment)
+                ?.replace(R.id.main_fragment_container, fragment)
                 ?.commit()
         }
     }
@@ -105,7 +116,11 @@ class AdFragment : Fragment() {
                     name?.text = ad.name
                     short_description?.text = ad.shortDescription
                     description?.text = ad.description
-                    creator_name_and_surname?.text = ad.user.firstName + " " + ad.user.secondName
+                    ad.organizationId?.let{
+                        creator?.text = ad.organization?.name
+                    } ?: run{
+                        creator?.text = ad.user?.firstName + " " + ad.user?.secondName
+                    }
 
                     try{
                         begin_time?.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
@@ -119,7 +134,7 @@ class AdFragment : Fragment() {
                         end_time?.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
                     }
 
-                    if (ad.user.id == currentUserWithToken.user.id){
+                    if (ad.user?.id == currentUserWithToken.user.id){
                         fab?.show()
                     }
                 } else {

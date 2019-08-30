@@ -7,9 +7,12 @@ import android.support.v4.widget.SwipeRefreshLayout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.Toast
 
 import com.test.studo.R
+import com.test.studo.adapters.ListViewAdapter
+import com.test.studo.adapters.ListViewItemModel
 import com.test.studo.api
 import com.test.studo.api.models.Organization
 import com.test.studo.currentUserWithToken
@@ -30,49 +33,64 @@ class OrganizationFragment : Fragment() {
         view.collapse_toolbar.title = resources.getText(R.string.organization)
 
         val bundle = this.arguments
-        view.name.text = bundle?.getString("name")
+        organization = bundle?.getSerializable("organization") as Organization
 
-        if (::organization.isInitialized){
-            view.name.text = organization.name
-            view.description.text = organization.description
-            view.creator_name_and_surname.text = organization.creator.firstName + " " + organization.creator.secondName
+        view.name.text = organization.name
+        view.description.text = organization.description
 
-            if (organization.creator.id == currentUserWithToken.user.id){
-                view.fab.show()
-            }
-        } else {
-            arguments?.getString("organizationId")?.let { getOrganization(it) }
+        if (organization.creator.id == currentUserWithToken.user.id){
+            view.fab.show()
         }
 
         view.separator_1.visibility = View.VISIBLE
         view.separator_2.visibility = View.VISIBLE
 
-        view.swipe_container.setOnRefreshListener { arguments?.getString("organizationId")?.let {getOrganization(it, view.swipe_container)} }
-
-        view.creator_panel.setOnClickListener(onProfilePanelClickListener)
+        view.swipe_container.setOnRefreshListener { getOrganization(organization.id, view.swipe_container) }
 
         view.fab.setOnClickListener(onFabClickListener)
-        
+
+        val list = mutableListOf(
+            ListViewItemModel(resources.getText(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
+            ListViewItemModel(resources.getText(R.string.members).toString(), R.drawable.ic_group_blue_24dp)
+        )
+
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
+        view.lv.onItemClickListener = onListViewItemClickListener
+
         return view
     }
 
-    private val onProfilePanelClickListener = View.OnClickListener {
+    enum class OrganizationItems(val value: Int) {
+        ADS(0), MEMBERS(1)
+    }
 
-        if (::organization.isInitialized){
-            val userProfileFragment = UserProfileFragment()
-            val bundle = Bundle()
-
-            bundle.putSerializable("user", organization.creator)
-            userProfileFragment.arguments = bundle
-
-            activity?.supportFragmentManager
-                ?.beginTransaction()
-                ?.addSharedElement(avatar, avatar.transitionName)
-                ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
-                ?.addToBackStack(null)
-                ?.replace(R.id.main_fragment_container, userProfileFragment)
-                ?.commit()
+    private val onListViewItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
+        when (position) {
+            OrganizationItems.ADS.value -> {
+                openFragment(AdsPageFragment())
+            }
+//            OrganizationItems.MEMBERS.value -> {
+//                openFragment(ResumesPageFragment())
+//            }
         }
+    }
+
+    private fun openFragment(fragment: Fragment){
+        val bundle = Bundle()
+        bundle.putSerializable("organization", organization)
+        fragment.arguments = bundle
+
+        activity?.supportFragmentManager
+            ?.beginTransaction()
+            ?.setCustomAnimations(
+                R.anim.slide_from_right,
+                R.anim.slide_to_left,
+                R.anim.slide_from_left,
+                R.anim.slide_to_right
+            )
+            ?.addToBackStack(null)
+            ?.replace(R.id.main_fragment_container, fragment)
+            ?.commit()
     }
 
     private val onFabClickListener = View.OnClickListener {
@@ -102,7 +120,6 @@ class OrganizationFragment : Fragment() {
 
                     name?.text = organization.name
                     description?.text = organization.description
-                    creator_name_and_surname?.text = organization.creator.firstName + " " + organization.creator.secondName
 
                     if (organization.creator.id == currentUserWithToken.user.id){
                         fab?.show()

@@ -74,4 +74,5 @@
     <string name="edit_organization">Редактирование организации</string>
     <string name="hello_blank_fragment">Организация</string>
     <string name="organization">Организация</string>
+    <string name="members">Участники</string>
 </resources>

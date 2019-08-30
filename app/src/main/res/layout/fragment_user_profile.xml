@@ -86,7 +86,7 @@
                         android:background="?android:attr/colorButtonNormal"/>
 
                 <com.test.studo.CustomListView
-                        android:id="@+id/user_fragments_lv"
+                        android:id="@+id/lv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center" />

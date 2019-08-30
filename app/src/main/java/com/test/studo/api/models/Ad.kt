@@ -52,7 +52,7 @@ data class Ad(
     val userId : String,
 
     @SerializedName("user")
-    val user : User,
+    val user : User?,
 
     @SerializedName("organizationId")
     val organizationId : String?,
