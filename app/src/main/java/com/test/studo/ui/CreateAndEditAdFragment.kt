@@ -111,7 +111,11 @@ class CreateAndEditAdFragment : Fragment() {
             input_short_description.editText!!.text.toString(),
             serverDataFormat.format(Calendar.getInstance().time),
             serverDataFormat.format(date),
-            null
+            arguments?.getString("organizationId")?.let{
+                it
+            } ?:run {
+                null
+            }
             )
 
         api.createAd(adCreateRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Ad> {

@@ -172,6 +172,12 @@ class AdsPageFragment : Fragment() {
     }
 
     private val onFabClickListener = View.OnClickListener {
+        val fragment = CreateAndEditAdFragment()
+        arguments?.getSerializable("organization")?.let{
+            val bundle = Bundle()
+            bundle.putString("organizationId", (it as Organization).id)
+            fragment.arguments = bundle
+        }
         activity?.supportFragmentManager
             ?.beginTransaction()
             ?.setCustomAnimations(
@@ -181,7 +187,7 @@ class AdsPageFragment : Fragment() {
                 R.anim.slide_to_right
             )
             ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, CreateAndEditAdFragment())
+            ?.replace(R.id.main_fragment_container, fragment)
             ?.commit()
     }
 }
