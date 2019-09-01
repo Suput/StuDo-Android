@@ -60,7 +60,7 @@ class SignUpActivity : AppCompatActivity() {
                         link_login.performClick()
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null){
+                        if (errorBodyText != ""){
                             Toast.makeText(this@SignUpActivity, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(this@SignUpActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

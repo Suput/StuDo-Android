@@ -42,8 +42,8 @@ class ResumesPageFragment : Fragment() {
             view.subtitle.text = resources.getString(R.string.resumes)
 
             if (user == currentUserWithToken.user){
-                view.fab.show()
-                view.fab.setOnClickListener(onFabClickListener)
+                view.create_resume_fab.show()
+                view.create_resume_fab.setOnClickListener(onFabClickListener)
             }
 
             view.swipe_container.setOnRefreshListener{ getUserResumes(user.id, this, swipe_container) }
@@ -71,7 +71,7 @@ class ResumesPageFragment : Fragment() {
                     resumesPageFragment.rv?.adapter = ResumesRecyclerViewAdapter(compactResumeList!!, resumesPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -94,7 +94,7 @@ class ResumesPageFragment : Fragment() {
                     resumesPageFragment.rv?.adapter = ResumesRecyclerViewAdapter(response.body()!!, resumesPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

@@ -35,29 +35,26 @@ class AdFragment : Fragment() {
             view.short_description.text = ad.shortDescription
             view.description.text = ad.description
             ad.organizationId?.let{
-                view.creator.text = ad.organization?.name
+                view.creator_name.text = ad.organization?.name
             } ?: run{
-                view.creator.text = ad.user?.firstName + " " + ad.user?.secondName
+                view.creator_name.text = ad.user?.firstName + " " + ad.user?.secondName
             }
 
             view.begin_time.text = clientDataFormat.format(serverDataFormat.parse(ad.beginTime))
             view.end_time.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
 
             if (ad.user?.id == currentUserWithToken.user.id){
-                view.fab.show()
+                view.edit_ad_fab.show()
             }
         } else {
             arguments?.getString("adId")?.let { getAd(it) }
         }
 
-        view.separator_1.visibility = View.VISIBLE
-        view.separator_2.visibility = View.VISIBLE
-
         view.swipe_container.setOnRefreshListener { arguments?.getString("adId")?.let {getAd(it, view.swipe_container)} }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 
-        view.fab.setOnClickListener(onFabClickListener)
+        view.edit_ad_fab.setOnClickListener(onFabClickListener)
 
         return view
     }
@@ -117,9 +114,9 @@ class AdFragment : Fragment() {
                     short_description?.text = ad.shortDescription
                     description?.text = ad.description
                     ad.organizationId?.let{
-                        creator?.text = ad.organization?.name
+                        creator_name?.text = ad.organization?.name
                     } ?: run{
-                        creator?.text = ad.user?.firstName + " " + ad.user?.secondName
+                        creator_name?.text = ad.user?.firstName + " " + ad.user?.secondName
                     }
 
                     try{
@@ -135,11 +132,11 @@ class AdFragment : Fragment() {
                     }
 
                     if (ad.user?.id == currentUserWithToken.user.id){
-                        fab?.show()
+                        edit_ad_fab?.show()
                     }
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

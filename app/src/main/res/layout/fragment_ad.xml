@@ -17,8 +17,7 @@
                 android:id="@+id/nsv"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="fill_vertical"
-                android:layout_marginBottom="?attr/actionBarSize">
+                android:layout_gravity="fill_vertical">
 
             <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
@@ -32,7 +31,7 @@
                         android:orientation="vertical">
 
                     <LinearLayout
-                            android:id="@+id/ad_panel"
+                            android:id="@+id/ad_header_panel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -70,11 +69,9 @@
                     </LinearLayout>
 
                     <View
-                            android:id="@+id/separator_1"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="?android:attr/colorButtonNormal"
-                            android:visibility="invisible"/>
+                            android:background="?android:attr/colorButtonNormal"/>
 
                     <TextView
                             android:id="@+id/description"
@@ -85,11 +82,9 @@
                             android:padding="16dp"/>
 
                     <View
-                            android:id="@+id/separator_2"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="?android:attr/colorButtonNormal"
-                            android:visibility="invisible"/>
+                            android:background="?android:attr/colorButtonNormal"/>
 
                     <RelativeLayout
                             android:layout_width="match_parent"
@@ -113,7 +108,7 @@
                                     android:transitionName="avatar_transition"/>
 
                             <TextView
-                                    android:id="@+id/creator"
+                                    android:id="@+id/creator_name"
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:textSize="16sp"
@@ -174,7 +169,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/edit_ad_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

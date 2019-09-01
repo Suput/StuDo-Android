@@ -136,7 +136,7 @@ class ProfileSettingsFragment : Fragment() {
                     log_out_btn.performClick()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -224,7 +224,7 @@ class ProfileSettingsFragment : Fragment() {
                     Toast.makeText(context, resources.getText(R.string.new_email_verification), Toast.LENGTH_LONG).show()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -245,10 +245,10 @@ class ProfileSettingsFragment : Fragment() {
                 input_second_name.editText?.text.toString() != currentUserWithToken.user.secondName ||
                 input_card_number.editText?.text.toString() != currentUserWithToken.user.studentCardNumber
             ){
-                save_fab.show()
-                save_fab.setOnClickListener { changeUserInfo() }
+                save_account_info_fab.show()
+                save_account_info_fab.setOnClickListener { changeUserInfo() }
             } else {
-                save_fab.hide()
+                save_account_info_fab.hide()
             }
         }
 
@@ -301,10 +301,10 @@ class ProfileSettingsFragment : Fragment() {
                 if (response.isSuccessful){
                     Toast.makeText(context, resources.getText(R.string.changes_saved), Toast.LENGTH_LONG).show()
                     currentUserWithToken.user = response.body()!!
-                    save_fab.hide()
+                    save_account_info_fab.hide()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

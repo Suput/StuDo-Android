@@ -39,15 +39,12 @@ class OrganizationFragment : Fragment() {
         view.description.text = organization.description
 
         if (organization.creator.id == currentUserWithToken.user.id){
-            view.fab.show()
+            view.edit_organization_fab.show()
         }
-
-        view.separator_1.visibility = View.VISIBLE
-        view.separator_2.visibility = View.VISIBLE
 
         view.swipe_container.setOnRefreshListener { getOrganization(organization.id, view.swipe_container) }
 
-        view.fab.setOnClickListener(onFabClickListener)
+        view.edit_organization_fab.setOnClickListener(onFabClickListener)
 
         val list = mutableListOf(
             ListViewItemModel(resources.getText(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
@@ -122,11 +119,11 @@ class OrganizationFragment : Fragment() {
                     description?.text = organization.description
 
                     if (organization.creator.id == currentUserWithToken.user.id){
-                        fab?.show()
+                        edit_organization_fab?.show()
                     }
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

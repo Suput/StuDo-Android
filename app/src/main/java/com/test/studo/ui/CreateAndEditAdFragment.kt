@@ -35,14 +35,14 @@ class CreateAndEditAdFragment : Fragment() {
             view.input_title.editText?.setText(ad.name)
             view.input_short_description.editText?.setText(ad.shortDescription)
             view.input_description.editText?.setText(ad.description)
-            view.save_fab.setOnClickListener { editAd(ad.id) }
+            view.save_ad_fab.setOnClickListener { editAd(ad.id) }
 
-            view.delete_fab.show()
-            view.delete_fab.setOnClickListener { deleteAd(ad.id) }
+            view.delete_ad_fab.show()
+            view.delete_ad_fab.setOnClickListener { deleteAd(ad.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_ad)
             view.end_date.text = clientDataFormat.format(Calendar.getInstance().time)
-            view.save_fab.setOnClickListener { createAd() }
+            view.save_ad_fab.setOnClickListener { createAd() }
         }
 
         view.edit_date_btn.setOnClickListener(onEditDateClickListener)
@@ -126,7 +126,7 @@ class CreateAndEditAdFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -170,7 +170,7 @@ class CreateAndEditAdFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -199,7 +199,7 @@ class CreateAndEditAdFragment : Fragment() {
                         }
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null) {
+                        if (errorBodyText != "") {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

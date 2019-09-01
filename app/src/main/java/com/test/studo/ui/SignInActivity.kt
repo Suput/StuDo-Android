@@ -58,7 +58,7 @@ class SignInActivity : AppCompatActivity() {
 
                 // Valid log/pass pair
                 if (response.isSuccessful) {
-                    val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
+                    val shared = getSharedPreferences("StuDoShared", Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString("userWithToken", Gson().toJson(response.body())).apply()
 
@@ -66,7 +66,7 @@ class SignInActivity : AppCompatActivity() {
                     finish()
                 } else { // Other errors
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(this@SignInActivity, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -74,7 +74,6 @@ class SignInActivity : AppCompatActivity() {
                 }
             }
 
-            // resources.getText(R.string.connection_with_server_error)
             override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
                 Toast.makeText(this@SignInActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
@@ -113,7 +112,7 @@ class SignInActivity : AppCompatActivity() {
                     resetPasswordAlert.dismiss()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(this@SignInActivity, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

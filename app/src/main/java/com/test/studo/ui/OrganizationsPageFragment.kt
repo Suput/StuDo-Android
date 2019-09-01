@@ -41,7 +41,7 @@ class OrganizationsPageFragment : Fragment() {
 
         view.swipe_container.setOnRefreshListener { getAllOrganizations(this, view.swipe_container) }
 
-        view.fab.setOnClickListener(onFabClickListener)
+        view.create_organization_fab.setOnClickListener(onFabClickListener)
 
         return view
     }
@@ -54,7 +54,7 @@ class OrganizationsPageFragment : Fragment() {
                     organizationsPageFragment.rv?.adapter = OrganizationsRecyclerViewAdapter(organizationList!!, organizationsPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG)

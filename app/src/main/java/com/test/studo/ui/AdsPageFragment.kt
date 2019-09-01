@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,8 +38,8 @@ class AdsPageFragment : Fragment() {
             view.collapse_toolbar.title = organization.name
 
             if (organization.creator == currentUserWithToken.user) {
-                view.fab.show()
-                view.fab.setOnClickListener(onFabClickListener)
+                view.create_ad_fab.show()
+                view.create_ad_fab.setOnClickListener(onFabClickListener)
             }
 
             view.swipe_container.setOnRefreshListener { getOrganizationAds(organization.id, this, view.swipe_container) }
@@ -53,8 +52,8 @@ class AdsPageFragment : Fragment() {
                 view.subtitle.text = resources.getString(R.string.ads)
 
                 if (user == currentUserWithToken.user) {
-                    view.fab.show()
-                    view.fab.setOnClickListener(onFabClickListener)
+                    view.create_ad_fab.show()
+                    view.create_ad_fab.setOnClickListener(onFabClickListener)
                 }
 
                 view.swipe_container.setOnRefreshListener { getUserAds(user.id, this, view.swipe_container) }
@@ -83,7 +82,7 @@ class AdsPageFragment : Fragment() {
                     adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(compactAdList!!, adsPageFragment)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -107,7 +106,7 @@ class AdsPageFragment : Fragment() {
                         adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null) {
+                        if (errorBodyText != "") {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG)
@@ -132,7 +131,7 @@ class AdsPageFragment : Fragment() {
                         adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null) {
+                        if (errorBodyText != "") {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG)

@@ -37,20 +37,17 @@ class ResumeFragment : Fragment() {
             view.creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
 
             if (resume.user.id == currentUserWithToken.user.id){
-                view.fab.show()
+                view.edit_resume_fab.show()
             }
         } else {
             arguments?.getString("resumeId")?.let { getResume(it) }
         }
 
-        view.separator_1.visibility = View.VISIBLE
-        view.separator_2.visibility = View.VISIBLE
-
         view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, view.swipe_container)} }
 
         view.creator_panel.setOnClickListener(onProfilePanelClickListener)
 
-        view.fab.setOnClickListener(onFabClickListener)
+        view.edit_resume_fab.setOnClickListener(onFabClickListener)
 
         return view
     }
@@ -104,11 +101,11 @@ class ResumeFragment : Fragment() {
                     creator_name_and_surname?.text = resume.user.firstName + " " + resume.user.secondName
 
                     if (resume.user.id == currentUserWithToken.user.id){
-                        fab?.show()
+                        edit_resume_fab?.show()
                     }
                 }  else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null){
+                    if (errorBodyText != ""){
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

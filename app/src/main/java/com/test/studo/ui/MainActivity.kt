@@ -19,13 +19,13 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        val shared = getSharedPreferences("shared", Context.MODE_PRIVATE)
+        val shared = getSharedPreferences("StuDoShared", Context.MODE_PRIVATE)
 
-        if(!shared.contains("userWithToken")) {
+        if(shared.contains("userWithToken")) {
+            currentUserWithToken = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
+        } else {
             startActivity(Intent(this, SignInActivity::class.java))
             finish()
-        } else {
-            currentUserWithToken = Gson().fromJson(shared.getString("userWithToken", ""), UserLoginResponse::class.java)
         }
 
         super.onCreate(savedInstanceState)
@@ -38,12 +38,15 @@ class MainActivity : AppCompatActivity() {
             window.statusBarColor = android.R.attr.windowBackground
         }
 
-        bottom_navigation.setOnNavigationItemSelectedListener(onNavigationItemSelectedListener)
+        main_bottom_navigation.setOnNavigationItemSelectedListener(onMainNavigationItemSelectedListener)
 
-        supportFragmentManager.beginTransaction().replace(R.id.main_fragment_container, AdsPageFragment()).commit()
+        supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.main_fragment_container, AdsPageFragment())
+            .commit()
     }
 
-    private val onNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
+    private val onMainNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
 
         var selectedFragment = Fragment()
 

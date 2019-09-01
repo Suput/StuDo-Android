@@ -32,9 +32,9 @@ class AccountPageFragment : Fragment() {
             ListViewItemModel(resources.getText(R.string.about).toString(), R.drawable.ic_info_blue_24dp)
         )
 
-        view.account_page_lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
 
-        view.account_page_lv.onItemClickListener = onListViewItemClickListener
+        view.lv.onItemClickListener = onListViewItemClickListener
         view.profile_panel.setOnClickListener(onProfilePanelClickListener)
 
         return view

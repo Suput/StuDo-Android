@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.app.AlertDialog
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -38,13 +39,13 @@ class CreateAndEditOrganizationFragment : Fragment() {
             view.collapse_toolbar.title = resources.getText(R.string.edit_organization)
             view.input_title.editText?.setText(organization.name)
             view.input_description.editText?.setText(organization.description)
-            view.save_fab.setOnClickListener { editOrganization(organization.id) }
+            view.save_organization_fab.setOnClickListener { editOrganization(organization.id) }
 
-            view.delete_fab.show()
-            view.delete_fab.setOnClickListener { deleteOrganization(organization.id) }
+            view.delete_organization_fab.show()
+            view.delete_organization_fab.setOnClickListener { deleteOrganization(organization.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_organization)
-            view.save_fab.setOnClickListener { createOrganization() }
+            view.save_organization_fab.setOnClickListener { createOrganization() }
         }
 
         return view
@@ -86,7 +87,7 @@ class CreateAndEditOrganizationFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -120,7 +121,7 @@ class CreateAndEditOrganizationFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -149,7 +150,7 @@ class CreateAndEditOrganizationFragment : Fragment() {
                         }
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null) {
+                        if (errorBodyText != "") {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()

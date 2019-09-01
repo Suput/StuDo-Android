@@ -32,7 +32,7 @@
                         android:orientation="vertical">
 
                     <LinearLayout
-                            android:id="@+id/organization_panel"
+                            android:id="@+id/organization_header_panel"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal"
@@ -58,11 +58,9 @@
                     </LinearLayout>
 
                     <View
-                            android:id="@+id/separator_1"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="?android:attr/colorButtonNormal"
-                            android:visibility="invisible"/>
+                            android:background="?android:attr/colorButtonNormal"/>
 
                     <TextView
                             android:id="@+id/description"
@@ -73,11 +71,9 @@
                             android:padding="16dp"/>
 
                     <View
-                            android:id="@+id/separator_2"
                             android:layout_width="match_parent"
                             android:layout_height="1dp"
-                            android:background="?android:attr/colorButtonNormal"
-                            android:visibility="invisible"/>
+                            android:background="?android:attr/colorButtonNormal"/>
 
                     <com.test.studo.CustomListView
                             android:id="@+id/lv"
@@ -94,7 +90,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.design.widget.FloatingActionButton
-            android:id="@+id/fab"
+            android:id="@+id/edit_organization_fab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"

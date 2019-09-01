@@ -35,13 +35,13 @@ class CreateAndEditResumeFragment : Fragment() {
             view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
             view.input_title.editText?.setText(resume.name)
             view.input_description.editText?.setText(resume.description)
-            view.save_fab.setOnClickListener { editResume(resume.id) }
+            view.save_resume_fab.setOnClickListener { editResume(resume.id) }
 
-            view.delete_fab.show()
-            view.delete_fab.setOnClickListener { deleteResume(resume.id) }
+            view.delete_resume_fab.show()
+            view.delete_resume_fab.setOnClickListener { deleteResume(resume.id) }
         } else {
             view.collapse_toolbar.title = resources.getText(R.string.create_resume)
-            view.save_fab.setOnClickListener { createResume() }
+            view.save_resume_fab.setOnClickListener { createResume() }
         }
 
         return view
@@ -83,7 +83,7 @@ class CreateAndEditResumeFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -117,7 +117,7 @@ class CreateAndEditResumeFragment : Fragment() {
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != null) {
+                    if (errorBodyText != "") {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
                         Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
@@ -146,7 +146,7 @@ class CreateAndEditResumeFragment : Fragment() {
                         }
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != null) {
+                        if (errorBodyText != "") {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
                             Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
