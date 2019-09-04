@@ -28,6 +28,10 @@ interface ApiService {
 
 
 
+    @GET("user/{userId}")
+    fun getUser(@Path("userId") userId : String, @Header("Authorization") accessToken : String) :
+            Call<User>
+
     @POST("user/change/info")
     fun changeUserInfo(@Body body : ChangeUserInfoRequest, @Header("Authorization") accessToken : String) :
             Call<User>

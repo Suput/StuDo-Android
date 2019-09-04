@@ -16,7 +16,7 @@ import com.test.studo.adapters.ListViewItemModel
 import com.test.studo.api
 import com.test.studo.api.models.Organization
 import com.test.studo.currentUserWithToken
-import kotlinx.android.synthetic.main.fragment_organization.*
+import com.test.studo.openFragment
 import kotlinx.android.synthetic.main.fragment_organization.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import retrofit2.Call
@@ -30,41 +30,67 @@ class OrganizationFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_organization, container, false)
 
-        view.collapse_toolbar.title = resources.getText(R.string.organization)
+        view.collapse_toolbar.title = resources.getString(R.string.organization)
 
-        val bundle = this.arguments
-        organization = bundle?.getSerializable("organization") as Organization
+        organization = arguments!!.getSerializable("organization") as Organization
 
-        view.name.text = organization.name
-        view.description.text = organization.description
+        fillOrganizationData(view)
+        getOrganization(organization.id, view, view.swipe_container)
 
-        if (organization.creator.id == currentUserWithToken.user.id){
-            view.edit_organization_fab.show()
-        }
+        view.swipe_container.setOnRefreshListener { getOrganization(organization.id, view, view.swipe_container) }
 
-        view.swipe_container.setOnRefreshListener { getOrganization(organization.id, view.swipe_container) }
-
-        view.edit_organization_fab.setOnClickListener(onFabClickListener)
-
-        val list = mutableListOf(
-            ListViewItemModel(resources.getText(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
-            ListViewItemModel(resources.getText(R.string.members).toString(), R.drawable.ic_group_blue_24dp)
-        )
-
-        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, list)
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, mutableListOf(
+            ListViewItemModel(resources.getString(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
+            ListViewItemModel(resources.getString(R.string.members).toString(), R.drawable.ic_group_blue_24dp)
+        ))
         view.lv.onItemClickListener = onListViewItemClickListener
 
         return view
     }
 
-    enum class OrganizationItems(val value: Int) {
-        ADS(0), MEMBERS(1)
+    private fun getOrganization(organizationId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout? = null){
+        api.getOneOrganization(organizationId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Organization> {
+            override fun onResponse(call: Call<Organization>, response: Response<Organization>) {
+                if (response.isSuccessful){
+                    organization = response.body()!!
+                    fillOrganizationData(view)
+                }  else {
+                    val errorBodyText = response.errorBody()?.string()
+                    if (errorBodyText != null && errorBodyText.isNotEmpty()){
+                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                    } else {
+                        Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
+                    }
+                }
+                swipeRefreshLayout?.isRefreshing = false
+            }
+
+            override fun onFailure(call: Call<Organization>, t: Throwable) {
+                Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                swipeRefreshLayout?.isRefreshing = false
+            }
+        })
+    }
+
+    private fun fillOrganizationData(view : View){
+        view.name.text = organization.name
+        view.description.text = organization.description
+
+        if (organization.creator.id == currentUserWithToken.user.id){
+            view.edit_organization_fab.show()
+            view.edit_organization_fab.setOnClickListener{ openEditOrganizationFragment() }
+        }
+    }
+
+    private enum class OrganizationItems{
+        ADS, MEMBERS
     }
 
     private val onListViewItemClickListener = AdapterView.OnItemClickListener { _, _, position, _ ->
         when (position) {
-            OrganizationItems.ADS.value -> {
-                openFragment(AdsPageFragment())
+            OrganizationItems.ADS.ordinal -> {
+                openOrganizationAdsFragment()
             }
 //            OrganizationItems.MEMBERS.value -> {
 //                openFragment(ResumesPageFragment())
@@ -72,71 +98,21 @@ class OrganizationFragment : Fragment() {
         }
     }
 
-    private fun openFragment(fragment: Fragment){
+    private fun openOrganizationAdsFragment(){
+        val adsPageFragment = AdsPageFragment()
         val bundle = Bundle()
         bundle.putSerializable("organization", organization)
-        fragment.arguments = bundle
+        adsPageFragment.arguments = bundle
 
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.setCustomAnimations(
-                R.anim.slide_from_right,
-                R.anim.slide_to_left,
-                R.anim.slide_from_left,
-                R.anim.slide_to_right
-            )
-            ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, fragment)
-            ?.commit()
+        openFragment(activity, adsPageFragment)
     }
 
-    private val onFabClickListener = View.OnClickListener {
+    private fun openEditOrganizationFragment(){
         val createAndEditOrganizationFragment = CreateAndEditOrganizationFragment()
         val bundle = Bundle()
         bundle.putSerializable("organization", organization)
         createAndEditOrganizationFragment.arguments = bundle
 
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.setCustomAnimations(
-                R.anim.slide_from_right,
-                R.anim.slide_to_left,
-                R.anim.slide_from_left,
-                R.anim.slide_to_right
-            )
-            ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, createAndEditOrganizationFragment)
-            ?.commit()
-    }
-
-    private fun getOrganization(organizationId : String, swipeRefreshLayout: SwipeRefreshLayout? = null){
-        api.getOneOrganization(organizationId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Organization> {
-            override fun onResponse(call: Call<Organization>, response: Response<Organization>) {
-                if (response.isSuccessful){
-                    organization = response.body()!!
-
-                    name?.text = organization.name
-                    description?.text = organization.description
-
-                    if (organization.creator.id == currentUserWithToken.user.id){
-                        edit_organization_fab?.show()
-                    }
-                }  else {
-                    val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != ""){
-                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                swipeRefreshLayout?.isRefreshing = false
-            }
-
-            override fun onFailure(call: Call<Organization>, t: Throwable) {
-                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
-            }
-        })
+        openFragment(activity, createAndEditOrganizationFragment)
     }
 }

@@ -26,7 +26,7 @@ data class CompactAd(
     @SerializedName("organizationName")
     val organizationName : String?
 
-)
+) : Serializable
 
 data class Ad(
 

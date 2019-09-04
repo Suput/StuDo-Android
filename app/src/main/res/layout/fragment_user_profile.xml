@@ -7,92 +7,100 @@
 
     <include layout="@layout/view_collapsing_toolbar"/>
 
-    <android.support.v4.widget.NestedScrollView
-            android:id="@+id/nsv"
+    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_gravity="fill_vertical"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <android.support.v7.widget.CardView
+        <android.support.v4.widget.NestedScrollView
+                android:id="@+id/nsv"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="8dp"
-                app:cardCornerRadius="10dp">
+                android:layout_height="match_parent"
+                android:layout_gravity="fill_vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <LinearLayout
+            <android.support.v7.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_margin="8dp"
+                    app:cardCornerRadius="10dp">
 
                 <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="16dp">
-
-                    <ImageView
-                            android:id="@+id/avatar"
-                            android:layout_width="128dp"
-                            android:layout_height="128dp"
-                            android:src="@drawable/avatar"
-                            android:contentDescription="@string/avatar"
-                            android:transitionName="avatar_transition"/>
+                        android:orientation="vertical">
 
                     <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="vertical"
-                            android:layout_gravity="center_vertical"
-                            android:paddingStart="16dp"
-                            android:paddingEnd="16dp">
+                            android:orientation="horizontal"
+                            android:padding="16dp">
 
-                        <TextView
-                                android:id="@+id/name_and_surname"
+                        <ImageView
+                                android:id="@+id/avatar"
+                                android:layout_width="128dp"
+                                android:layout_height="128dp"
+                                android:src="@drawable/avatar"
+                                android:contentDescription="@string/avatar"
+                                android:transitionName="avatar_transition"/>
+
+                        <LinearLayout
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:textSize="24sp"
-                                android:textColor="?android:attr/textColorPrimary"
-                                android:text="@string/sample_text"/>
+                                android:orientation="vertical"
+                                android:layout_gravity="center_vertical"
+                                android:paddingStart="16dp"
+                                android:paddingEnd="16dp">
 
-                        <TextView
-                                android:id="@+id/email"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/sample_text"
-                                android:textSize="16sp"/>
+                            <TextView
+                                    android:id="@+id/name_and_surname"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:textSize="24sp"
+                                    android:textColor="?android:attr/textColorPrimary"
+                                    android:text="@string/sample_text"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="VK"
-                                android:textSize="16sp"/>
+                            <TextView
+                                    android:id="@+id/email"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/sample_text"
+                                    android:textSize="16sp"/>
 
-                        <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="TELEGRAM"
-                                android:textSize="16sp"/>
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="VK"
+                                    android:textSize="16sp"/>
+
+                            <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="TELEGRAM"
+                                    android:textSize="16sp"/>
+
+                        </LinearLayout>
 
                     </LinearLayout>
 
+                    <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="?android:attr/colorButtonNormal"/>
+
+                    <com.test.studo.CustomListView
+                            android:id="@+id/lv"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center" />
+
                 </LinearLayout>
 
-                <View
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/colorButtonNormal"/>
+            </android.support.v7.widget.CardView>
 
-                <com.test.studo.CustomListView
-                        android:id="@+id/lv"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center" />
+        </android.support.v4.widget.NestedScrollView>
 
-            </LinearLayout>
-
-        </android.support.v7.widget.CardView>
-
-    </android.support.v4.widget.NestedScrollView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </android.support.design.widget.CoordinatorLayout>

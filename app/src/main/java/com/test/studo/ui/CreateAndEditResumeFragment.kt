@@ -15,7 +15,7 @@ import com.test.studo.api
 import com.test.studo.api.models.Resume
 import com.test.studo.api.models.ResumeCreateRequest
 import com.test.studo.api.models.ResumeEditRequest
-import com.test.studo.compactResumeList
+import com.test.studo.allResumesList
 import com.test.studo.currentUserWithToken
 import kotlinx.android.synthetic.main.fragment_create_and_edit_resume.*
 import kotlinx.android.synthetic.main.fragment_create_and_edit_resume.view.*
@@ -31,37 +31,23 @@ class CreateAndEditResumeFragment : Fragment() {
 
         val resume = arguments?.getSerializable("resume") as Resume?
 
-        if (resume != null){
-            view.collapse_toolbar.title = resources.getText(R.string.edit_resume)
+        resume?.let {
+            view.collapse_toolbar.title = resources.getString(R.string.edit_resume)
+
             view.input_title.editText?.setText(resume.name)
             view.input_description.editText?.setText(resume.description)
+
             view.save_resume_fab.setOnClickListener { editResume(resume.id) }
 
             view.delete_resume_fab.show()
             view.delete_resume_fab.setOnClickListener { deleteResume(resume.id) }
-        } else {
-            view.collapse_toolbar.title = resources.getText(R.string.create_resume)
+        } ?:run {
+            view.collapse_toolbar.title = resources.getString(R.string.create_resume)
+
             view.save_resume_fab.setOnClickListener { createResume() }
         }
 
         return view
-    }
-
-    private fun isUserDataIsCorrect() : Boolean{
-        if (input_title.editText!!.text.isEmpty()){
-            input_title.error = resources.getText(R.string.empty_field_error)
-            return false
-        } else {
-            input_title.isErrorEnabled = false
-        }
-        if (input_description.editText!!.text.isEmpty()){
-            input_description.error = resources.getText(R.string.empty_field_error)
-            return false
-        } else {
-            input_title.isErrorEnabled = false
-        }
-
-        return true
     }
 
     private fun createResume(){
@@ -75,24 +61,25 @@ class CreateAndEditResumeFragment : Fragment() {
             input_description.editText!!.text.toString()
         )
 
-        api.createResume(resumeCreateRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
+        api.createResume(resumeCreateRequest, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, resources.getText(R.string.create_resume_success), Toast.LENGTH_LONG).show()
-                    compactResumeList = null
+                    Toast.makeText(context, resources.getString(R.string.create_resume_success), Toast.LENGTH_LONG).show()
+                    allResumesList = null
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != "") {
+                    if (errorBodyText != null && errorBodyText.isNotEmpty()) {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<Resume>, t: Throwable) {
-                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -109,24 +96,25 @@ class CreateAndEditResumeFragment : Fragment() {
             input_description.editText!!.text.toString()
         )
 
-        api.editResume(resumeEditRequest, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
+        api.editResume(resumeEditRequest, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Resume> {
             override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
                 if (response.isSuccessful) {
-                    Toast.makeText(context, resources.getText(R.string.edit_resume_success), Toast.LENGTH_LONG).show()
-                    compactResumeList = null
+                    Toast.makeText(context, resources.getString(R.string.edit_resume_success), Toast.LENGTH_LONG).show()
+                    allResumesList = null
                     activity?.supportFragmentManager?.popBackStack()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != "") {
+                    if (errorBodyText != null && errorBodyText.isNotEmpty()) {
                         Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<Resume>, t: Throwable) {
-                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
     }
@@ -134,11 +122,12 @@ class CreateAndEditResumeFragment : Fragment() {
     private fun deleteResume(resumeId : String){
 
         val onPositiveButtonClick = { _: DialogInterface, _: Int ->
-            api.deleteResume(resumeId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<String>{
+            api.deleteResume(resumeId, "Bearer " + currentUserWithToken.accessToken)
+                .enqueue(object : Callback<String>{
                 override fun onResponse(call: Call<String>, response: Response<String>) {
                     if (response.isSuccessful) {
-                        Toast.makeText(context, resources.getText(R.string.delete_resume_success), Toast.LENGTH_LONG).show()
-                        compactResumeList = null
+                        Toast.makeText(context, resources.getString(R.string.delete_resume_success), Toast.LENGTH_LONG).show()
+                        allResumesList = null
 
                         with(activity?.supportFragmentManager){
                             this?.popBackStack()
@@ -146,25 +135,42 @@ class CreateAndEditResumeFragment : Fragment() {
                         }
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != "") {
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()) {
                             Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                            Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<String>, t: Throwable) {
-                    Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 }
             })
         }
 
         AlertDialog.Builder(context!!)
-            .setTitle(resources.getText(R.string.delete_resume_confirmation))
+            .setTitle(resources.getString(R.string.delete_resume_confirmation))
             .setCancelable(true)
-            .setNegativeButton(resources.getText(R.string.cancel), null)
-            .setPositiveButton(resources.getText(R.string.ok), DialogInterface.OnClickListener(function = onPositiveButtonClick))
+            .setNegativeButton(resources.getString(R.string.cancel), null)
+            .setPositiveButton(resources.getString(R.string.ok), DialogInterface.OnClickListener(function = onPositiveButtonClick))
             .show()
+    }
+
+    private fun isUserDataIsCorrect() : Boolean{
+        if (input_title.editText!!.text.isEmpty()){
+            input_title.error = resources.getString(R.string.empty_field_error)
+            return false
+        } else {
+            input_title.isErrorEnabled = false
+        }
+        if (input_description.editText!!.text.isEmpty()){
+            input_description.error = resources.getString(R.string.empty_field_error)
+            return false
+        } else {
+            input_title.isErrorEnabled = false
+        }
+
+        return true
     }
 }

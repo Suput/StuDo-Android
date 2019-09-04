@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.widget.ListView
 
 class CustomListView : ListView {
-
     constructor(context: Context) : super(context)
 
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
@@ -19,5 +18,4 @@ class CustomListView : ListView {
         )
         super.onMeasure(widthMeasureSpec, expandSpec)
     }
-
 }

@@ -72,7 +72,8 @@
     <string name="delete_organization_success">Организация успешно удалена</string>
     <string name="edit_organization_success">Данные организации успешно изменены</string>
     <string name="edit_organization">Редактирование организации</string>
-    <string name="hello_blank_fragment">Организация</string>
     <string name="organization">Организация</string>
     <string name="members">Участники</string>
+    <string name="error_code">"Код ошибки: "</string>
+    <string name="check_email_to_reset">Проверьте почту, чтобы изменить пароль</string>
 </resources>

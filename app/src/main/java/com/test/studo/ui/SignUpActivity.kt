@@ -29,15 +29,15 @@ class SignUpActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_up)
 
-        sign_up_btn.setOnClickListener(onSignUpButtonClickListener)
+        sign_up_btn.setOnClickListener{ signUp() }
 
         link_login.setOnClickListener {
-            startActivity(Intent(this@SignUpActivity, SignInActivity::class.java))
+            startActivity(Intent(this, SignInActivity::class.java))
             finish()
         }
     }
 
-    private val onSignUpButtonClickListener = View.OnClickListener {
+    private fun signUp(){
         val userRegistrationRequest = UserRegistrationRequest(
             input_first_name.editText?.text.toString(),
             input_second_name.editText?.text.toString(),
@@ -50,26 +50,26 @@ class SignUpActivity : AppCompatActivity() {
         // TODO: Add user data check
 
         if (userRegistrationRequest.password != userRegistrationRequest.passwordConfirm){
-            input_password.error = resources.getText(R.string.equal_password_error).toString()
-            input_confirm_password.error = resources.getText(R.string.equal_password_error).toString()
+            input_password.error = resources.getString(R.string.equal_password_error).toString()
+            input_confirm_password.error = resources.getString(R.string.equal_password_error).toString()
         } else {
             api.registration(userRegistrationRequest).enqueue(object : Callback<Void>{
                 override fun onResponse(call: Call<Void>, response: Response<Void>) {
                     if (response.isSuccessful){
-                        Toast.makeText(this@SignUpActivity, resources.getText(R.string.email_verification), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignUpActivity, resources.getString(R.string.email_verification), Toast.LENGTH_LONG).show()
                         link_login.performClick()
                     } else {
                         val errorBodyText = response.errorBody()?.string()
-                        if (errorBodyText != ""){
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()){
                             Toast.makeText(this@SignUpActivity, errorBodyText, Toast.LENGTH_LONG).show()
                         } else {
-                            Toast.makeText(this@SignUpActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                            Toast.makeText(this@SignUpActivity, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                         }
                     }
                 }
 
                 override fun onFailure(call: Call<Void>, t: Throwable) {
-                    Toast.makeText(this@SignUpActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignUpActivity, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
                 }
             })
         }

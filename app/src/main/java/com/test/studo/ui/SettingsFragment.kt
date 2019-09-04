@@ -1,6 +1,5 @@
 package com.test.studo.ui
 
-import android.accounts.Account
 import android.app.UiModeManager
 import android.content.res.Configuration
 import android.os.Bundle

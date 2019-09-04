@@ -9,8 +9,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.api
+import com.test.studo.api.models.CompactResume
 import com.test.studo.api.models.Resume
 import com.test.studo.currentUserWithToken
+import com.test.studo.openFragment
 import kotlinx.android.synthetic.main.fragment_resume.*
 import kotlinx.android.synthetic.main.fragment_resume.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
@@ -26,99 +28,92 @@ class ResumeFragment : Fragment() {
 
         val view = inflater.inflate(R.layout.fragment_resume, container, false)
 
-        view.collapse_toolbar.title = resources.getText(R.string.resume)
+        view.collapse_toolbar.title = resources.getString(R.string.resume)
 
-        val bundle = this.arguments
-        view.name.text = bundle?.getString("name")
+        val compactResume = arguments!!.getSerializable("compactResume") as CompactResume
+
+        view.name.text = compactResume.name
 
         if (::resume.isInitialized){
-            view.name.text = resume.name
-            view.description.text = resume.description
-            view.creator_name_and_surname.text = resume.user.firstName + " " + resume.user.secondName
-
-            if (resume.user.id == currentUserWithToken.user.id){
-                view.edit_resume_fab.show()
-            }
-        } else {
-            arguments?.getString("resumeId")?.let { getResume(it) }
+            fillResumeData(view)
         }
+        getResume(compactResume.id, view)
 
-        view.swipe_container.setOnRefreshListener { arguments?.getString("resumeId")?.let {getResume(it, view.swipe_container)} }
+        view.swipe_container.setOnRefreshListener { getResume(compactResume.id, view, view.swipe_container)}
 
-        view.creator_panel.setOnClickListener(onProfilePanelClickListener)
-
-        view.edit_resume_fab.setOnClickListener(onFabClickListener)
+        view.creator_panel.setOnClickListener{ openCreatorProfileFragment() }
 
         return view
     }
 
-    private val onProfilePanelClickListener = View.OnClickListener {
+    private fun getResume(resumeId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout? = null){
+        api.getOneResume(resumeId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Resume> {
+                override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
+                    if (response.isSuccessful){
+                        resume = response.body()!!
+                        fillResumeData(view)
+                    }  else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()){
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                    swipeRefreshLayout?.isRefreshing = false
+                }
 
+                override fun onFailure(call: Call<Resume>, t: Throwable) {
+                    Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                    swipeRefreshLayout?.isRefreshing = false
+                }
+            })
+    }
+
+    private fun fillResumeData(view : View){
+        view.name.text = resume.name
+        view.description.text = resume.description
+        view.creator_name_and_surname.text = resources.getString(
+            R.string.name_and_surname,
+            resume.user.firstName,
+            resume.user.secondName
+        )
+
+        if (resume.user.id == currentUserWithToken.user.id){
+            view.edit_resume_fab.show()
+            view.edit_resume_fab.setOnClickListener{ openEditResumeFragment() }
+        }
+    }
+
+    private fun openCreatorProfileFragment(){
         if (::resume.isInitialized){
             val userProfileFragment = UserProfileFragment()
             val bundle = Bundle()
-
             bundle.putSerializable("user", resume.user)
             userProfileFragment.arguments = bundle
 
             activity?.supportFragmentManager
                 ?.beginTransaction()
                 ?.addSharedElement(avatar, avatar.transitionName)
-                ?.setCustomAnimations(R.anim.slide_from_right, R.anim.slide_to_left, R.anim.slide_from_left, R.anim.slide_to_right)
+                ?.setCustomAnimations(
+                    R.anim.slide_from_right,
+                    R.anim.slide_to_left,
+                    R.anim.slide_from_left,
+                    R.anim.slide_to_right
+                )
                 ?.addToBackStack(null)
                 ?.replace(R.id.main_fragment_container, userProfileFragment)
                 ?.commit()
         }
     }
 
-    private val onFabClickListener = View.OnClickListener {
+    private fun openEditResumeFragment(){
         val createAndEditResumeFragment = CreateAndEditResumeFragment()
         val bundle = Bundle()
         bundle.putSerializable("resume", resume)
         createAndEditResumeFragment.arguments = bundle
 
-        activity?.supportFragmentManager
-            ?.beginTransaction()
-            ?.setCustomAnimations(
-                R.anim.slide_from_right,
-                R.anim.slide_to_left,
-                R.anim.slide_from_left,
-                R.anim.slide_to_right
-            )
-            ?.addToBackStack(null)
-            ?.replace(R.id.main_fragment_container, createAndEditResumeFragment)
-            ?.commit()
-    }
-
-    private fun getResume(resumeId : String, swipeRefreshLayout: SwipeRefreshLayout? = null){
-        api.getOneResume(resumeId, "Bearer " + currentUserWithToken.accessToken).enqueue(object : Callback<Resume> {
-            override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
-                if (response.isSuccessful){
-                    resume = response.body()!!
-
-                    name?.text = resume.name
-                    description?.text = resume.description
-                    creator_name_and_surname?.text = resume.user.firstName + " " + resume.user.secondName
-
-                    if (resume.user.id == currentUserWithToken.user.id){
-                        edit_resume_fab?.show()
-                    }
-                }  else {
-                    val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != ""){
-                        Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
-                    } else {
-                        Toast.makeText(context, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
-                    }
-                }
-
-                swipeRefreshLayout?.isRefreshing = false
-            }
-
-            override fun onFailure(call: Call<Resume>, t: Throwable) {
-                Toast.makeText(context, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
-            }
-        })
+        openFragment(activity, createAndEditResumeFragment)
     }
 }

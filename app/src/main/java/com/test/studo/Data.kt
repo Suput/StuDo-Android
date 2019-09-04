@@ -11,11 +11,11 @@ val api = ApiService.create()
 
 lateinit var currentUserWithToken : UserLoginResponse
 
-var compactAdList : List<CompactAd>? = null
+var allAdsList : List<CompactAd>? = null
 
-var compactResumeList : List<CompactResume>? = null
+var allResumesList : List<CompactResume>? = null
 
-var organizationList : List<Organization>? = null
+var allOrganizationsList : List<Organization>? = null
 
 val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
 val serverDataFormatWithoutMillis = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")

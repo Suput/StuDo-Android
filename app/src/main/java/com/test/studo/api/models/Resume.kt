@@ -17,7 +17,7 @@ data class CompactResume(
     @SerializedName("userName")
     val userName : String
 
-)
+) : Serializable
 
 data class Resume(
 

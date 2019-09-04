@@ -64,6 +64,13 @@ data class OrganizationMember(
     val user : User,
 
     @SerializedName("organizationRights")
-    val organizationRights : String
+    val organizationRights : List<Right>
+
+)
+
+data class Right(
+
+    @SerializedName("rightName")
+    val rightName : String
 
 )

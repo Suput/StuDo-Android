@@ -36,67 +36,42 @@ class SignInActivity : AppCompatActivity() {
 
         setContentView(R.layout.activity_sign_in)
 
-        login_btn.setOnClickListener(onLoginButtonClickListener)
+        login_btn.setOnClickListener{ login() }
 
-        reset_password_btn.setOnClickListener(onResetButtonClickListener)
+        reset_password_btn.setOnClickListener{ showResetPasswordDialog() }
 
         link_sign_up.setOnClickListener {
-            startActivity(Intent(this@SignInActivity, SignUpActivity::class.java))
+            startActivity(Intent(this, SignUpActivity::class.java))
             finish()
         }
     }
 
-    private val onLoginButtonClickListener = View.OnClickListener{
+    private fun login(){
         val userLoginRequest = UserLoginRequest(input_email.editText?.text.toString(), input_password.editText?.text.toString())
 
         // TODO: Add user data check
 
         api.login(userLoginRequest).enqueue(object : Callback<UserLoginResponse> {
-
-            // Successful connection with server
             override fun onResponse(call: Call<UserLoginResponse>, response: Response<UserLoginResponse>) {
-
-                // Valid log/pass pair
                 if (response.isSuccessful) {
                     val shared = getSharedPreferences("StuDoShared", Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString("userWithToken", Gson().toJson(response.body())).apply()
-
-                    startActivity(Intent(this@SignInActivity, MainActivity::class.java))
-                    finish()
-                } else { // Other errors
+                    recreate()
+                } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != ""){
+                    if (errorBodyText != null && errorBodyText.isNotEmpty()){
                         Toast.makeText(this@SignInActivity, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignInActivity, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<UserLoginResponse>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
-    }
-
-    private val onResetButtonClickListener = View.OnClickListener {
-
-        val resetPasswordView = this.layoutInflater.inflate(R.layout.dialog_reset_password, null)
-        val email = resetPasswordView!!.findViewById(R.id.input_email_for_reset) as TextInputLayout
-
-        val builder = AlertDialog.Builder(this)
-            .setView(resetPasswordView)
-            .setTitle(resources.getText(R.string.reset_password))
-            .setCancelable(true)
-            .setNegativeButton(resources.getText(R.string.cancel), null)
-            .setPositiveButton(resources.getText(R.string.ok), null)
-
-        val resetPasswordAlert = builder.create()
-        resetPasswordAlert.show()
-        resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
-            resetPassword(email, resetPasswordAlert)
-        }
     }
 
     private fun resetPassword(email : TextInputLayout, resetPasswordAlert : AlertDialog){
@@ -108,22 +83,41 @@ class SignInActivity : AppCompatActivity() {
         api.resetPassword(resetPasswordRequest).enqueue(object : Callback<Void>{
             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                 if (response.isSuccessful){
-                    Toast.makeText(this@SignInActivity, "Check your email to change password", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@SignInActivity, resources.getString(R.string.check_email_to_reset), Toast.LENGTH_LONG).show()
                     resetPasswordAlert.dismiss()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
-                    if (errorBodyText != ""){
+                    if (errorBodyText != null && errorBodyText.isNotEmpty()){
                         Toast.makeText(this@SignInActivity, errorBodyText, Toast.LENGTH_LONG).show()
                     } else {
-                        Toast.makeText(this@SignInActivity, "ERROR CODE: " + response.code().toString(), Toast.LENGTH_LONG).show()
+                        Toast.makeText(this@SignInActivity, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
             }
 
             override fun onFailure(call: Call<Void>, t: Throwable) {
-                Toast.makeText(this@SignInActivity, resources.getText(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                Toast.makeText(this@SignInActivity, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
             }
         })
+    }
+
+    private fun showResetPasswordDialog(){
+        val resetPasswordView = this.layoutInflater.inflate(R.layout.dialog_reset_password, null)
+
+        val email = resetPasswordView!!.findViewById(R.id.input_email_for_reset) as TextInputLayout
+
+        val builder = AlertDialog.Builder(this)
+            .setView(resetPasswordView)
+            .setTitle(resources.getString(R.string.reset_password))
+            .setCancelable(true)
+            .setNegativeButton(resources.getString(R.string.cancel), null)
+            .setPositiveButton(resources.getString(R.string.ok), null)
+
+        val resetPasswordAlert = builder.create()
+        resetPasswordAlert.show()
+        resetPasswordAlert.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener {
+            resetPassword(email, resetPasswordAlert)
+        }
     }
 }
 

@@ -9,7 +9,7 @@ import kotlinx.android.synthetic.main.view_item_listview.view.*
 
 data class ListViewItemModel(val title : String, val icon : Int )
 
-class ListViewAdapter(var ctx : Context , var resource : Int, var items : List<ListViewItemModel>)
+class ListViewAdapter(ctx : Context, private var resource : Int, private var items : List<ListViewItemModel>)
     : ArrayAdapter<ListViewItemModel>( ctx , resource , items ){
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {

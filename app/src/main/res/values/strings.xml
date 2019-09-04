@@ -68,9 +68,6 @@
     <string name="changes_saved">Changes saved</string>
     <string name="dark_theme">Dark theme</string>
     <string name="organizations">Organizations</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="create_organization">Create organization</string>
     <string name="create_organization_success">Organization successfully created</string>
     <string name="edit_organization_success">Organization data successfully edited</string>
@@ -79,18 +76,7 @@
     <string name="edit_organization">Edit organization</string>
     <string name="organization">Organization</string>
     <string name="members">Members</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
-
-    <!-- TODO: Remove or change this placeholder text -->
+    <string name="error_code">"Error code: "</string>
+    <string name="name_and_surname" translatable="false">%1$s %2$s</string>
+    <string name="check_email_to_reset">Check your email to change password</string>
 </resources>
