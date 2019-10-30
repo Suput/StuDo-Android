@@ -6,7 +6,7 @@
     <string name="about">О приложении</string>
     <string name="my_ads">Мои объявления</string>
     <string name="settings">Настройки</string>
-    <string name="subs">Подписки</string>
+    <string name="bookmarks">Закладки</string>
     <string name="profile">Профиль</string>
     <string name="avatar">Аватар</string>
     <string name="name">Имя</string>
@@ -77,4 +77,6 @@
     <string name="error_code">"Код ошибки: "</string>
     <string name="check_email_to_reset">Проверьте почту, чтобы изменить пароль</string>
     <string name="comments">Комментарии</string>
+    <string name="added_bookmarks">Добавлено в закладки</string>
+    <string name="removed_bookmarks">Удалено из закладок</string>
 </resources>

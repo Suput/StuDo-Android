@@ -77,7 +77,7 @@ class AdsPageFragment : Fragment() {
                         currentUserWithToken.user.firstName,
                         currentUserWithToken.user.secondName
                     )
-                    view.subtitle.text = resources.getString(R.string.subs)
+                    view.subtitle.text = resources.getString(R.string.bookmarks)
 
                     view.swipe_container.isRefreshing = true
                     getUserBookmarks(this, view.swipe_container)

@@ -38,7 +38,7 @@ class AccountPageFragment : Fragment() {
         view.lv.adapter = ListViewAdapter(context!!, R.layout.listview_row, mutableListOf(
             ListViewItemModel(resources.getString(R.string.my_ads), R.drawable.ic_assignment_purple_24dp),
             ListViewItemModel(resources.getString(R.string.my_resumes), R.drawable.ic_assignment_ind_purple_24dp),
-            ListViewItemModel(resources.getString(R.string.subs), R.drawable.ic_star_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.bookmarks), R.drawable.ic_star_purple_24dp),
             ListViewItemModel(resources.getString(R.string.organizations), R.drawable.ic_group_purple_24dp),
             ListViewItemModel(resources.getString(R.string.settings), R.drawable.ic_settings_ic_purple_24dp),
             ListViewItemModel(resources.getString(R.string.about), R.drawable.ic_info_purple_24dp)

@@ -54,6 +54,21 @@ class AdFragment : Fragment() {
 
         view.creator_panel.setOnClickListener{ openCreatorProfileFragment() }
 
+        view.subscribe_btn.setOnClickListener {
+            when(it.tag){
+                "Sub" -> {
+                    removeFromBookmarks(ad.id)
+                    it.setBackgroundResource(R.drawable.ic_star_border_purple_24dp)
+                    it.tag = "UnSub"
+                }
+                "UnSub" -> {
+                    addToBookmarks(ad.id)
+                    it.setBackgroundResource(R.drawable.ic_star_purple_24dp)
+                    it.tag = "Sub"
+                }
+            }
+        }
+
         return view
     }
 
@@ -80,6 +95,50 @@ class AdFragment : Fragment() {
                 swipeRefreshLayout.isRefreshing = false
             }
         })
+    }
+
+    private fun addToBookmarks(adId : String){
+        api.addToBookmarks(adId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Void>{
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful){
+                        Toast.makeText(context, getString(R.string.added_bookmarks), Toast.LENGTH_LONG).show()
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()){
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                }
+            })
+    }
+
+    private fun removeFromBookmarks(adId : String){
+        api.removeFromBookmarks(adId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Void>{
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful){
+                        Toast.makeText(context, getString(R.string.removed_bookmarks), Toast.LENGTH_LONG).show()
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()){
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
+                        }
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {
+                    Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                }
+            })
     }
 
     private fun fillAdData(view : View){
@@ -116,6 +175,17 @@ class AdFragment : Fragment() {
         if (ad.user?.id == currentUserWithToken.user.id){
             view.edit_ad_fab.show()
             view.edit_ad_fab.setOnClickListener{ openEditAdFragment() }
+        }
+
+        userBookmarksList?.let{
+            for(compactAd in it){
+                if (compactAd.id == ad.id){
+                    with(view.subscribe_btn){
+                        setBackgroundResource(R.drawable.ic_star_purple_24dp)
+                        tag = "Sub"
+                    }
+                }
+            }
         }
     }
 
