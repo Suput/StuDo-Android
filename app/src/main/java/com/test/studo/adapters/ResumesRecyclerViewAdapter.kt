@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.test.studo.R
 import com.test.studo.api.models.CompactResume
 import com.test.studo.ui.ResumesPageFragment
-import kotlinx.android.synthetic.main.view_item_recyclerview_resumes.view.*
+import kotlinx.android.synthetic.main.recyclerview_row_resumes.view.*
 
 
 class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, resumesPageFragment: ResumesPageFragment) : RecyclerView.Adapter<ResumesRecyclerViewAdapter.CardViewViewHolder>() {
@@ -17,7 +17,7 @@ class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, re
     override fun getItemCount() = resumeList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_resumes, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recyclerview_row_resumes, viewGroup, false)
 
         view.setOnClickListener(onRecyclerViewClickListener)
 
@@ -26,12 +26,12 @@ class ResumesRecyclerViewAdapter(private var resumeList: List<CompactResume>, re
 
     override fun onBindViewHolder(cardViewViewHolder: CardViewViewHolder, i: Int) {
         cardViewViewHolder.name.text = resumeList[i].name
-        //cardViewViewHolder.icon.setImageResource(R.drawable.ic_account_circle_blue_24dp)
+        //cardViewViewHolder.icon.setImageResource(R.drawable.ic_account_circle_purple_24dp)
     }
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.name
-        var icon: ImageView = itemView.icon
+//        var icon: ImageView = itemView.icon
     }
 
     private val onRecyclerViewClickListener = View.OnClickListener{

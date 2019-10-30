@@ -17,6 +17,9 @@ var allResumesList : List<CompactResume>? = null
 
 var allOrganizationsList : List<Organization>? = null
 
+var userBookmarksList : List<CompactAd>? = null
+
 val serverDataFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS")
 val serverDataFormatWithoutMillis = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss")
 val clientDataFormat = SimpleDateFormat("dd.MM.yyyy")
+val clientTimeFormat = SimpleDateFormat("HH:mm")

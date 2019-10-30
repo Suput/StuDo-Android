@@ -35,20 +35,21 @@ class OrganizationFragment : Fragment() {
         organization = arguments!!.getSerializable("organization") as Organization
 
         fillOrganizationData(view)
+        view.swipe_container.isRefreshing = true
         getOrganization(organization.id, view, view.swipe_container)
 
         view.swipe_container.setOnRefreshListener { getOrganization(organization.id, view, view.swipe_container) }
 
-        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, mutableListOf(
-            ListViewItemModel(resources.getString(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.members).toString(), R.drawable.ic_group_blue_24dp)
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.listview_row, mutableListOf(
+            ListViewItemModel(resources.getString(R.string.ads).toString(), R.drawable.ic_assignment_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.members).toString(), R.drawable.ic_group_purple_24dp)
         ))
         view.lv.onItemClickListener = onListViewItemClickListener
 
         return view
     }
 
-    private fun getOrganization(organizationId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getOrganization(organizationId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout){
         api.getOneOrganization(organizationId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<Organization> {
             override fun onResponse(call: Call<Organization>, response: Response<Organization>) {
@@ -63,12 +64,12 @@ class OrganizationFragment : Fragment() {
                         Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
 
             override fun onFailure(call: Call<Organization>, t: Throwable) {
                 Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }
@@ -104,7 +105,7 @@ class OrganizationFragment : Fragment() {
         bundle.putSerializable("organization", organization)
         adsPageFragment.arguments = bundle
 
-        openFragment(activity, adsPageFragment)
+        openFragment(requireActivity(), adsPageFragment)
     }
 
     private fun openEditOrganizationFragment(){
@@ -113,6 +114,6 @@ class OrganizationFragment : Fragment() {
         bundle.putSerializable("organization", organization)
         createAndEditOrganizationFragment.arguments = bundle
 
-        openFragment(activity, createAndEditOrganizationFragment)
+        openFragment(requireActivity(), createAndEditOrganizationFragment)
     }
 }

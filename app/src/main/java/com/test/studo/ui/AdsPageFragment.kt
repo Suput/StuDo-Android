@@ -22,6 +22,7 @@ import retrofit2.Response
 
 class AdsPageFragment : Fragment() {
 
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
 
         val view = inflater.inflate(R.layout.fragment_ads_page, container, false)
@@ -29,40 +30,61 @@ class AdsPageFragment : Fragment() {
         view.rv.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
 
         arguments?.let {
-            if (it.containsKey("organization")) {
-                val organization = it.getSerializable("organization") as Organization
+            when {
+                it.containsKey("organization") -> {
+                    val organization = it.getSerializable("organization") as Organization
 
-                view.collapse_toolbar.title = organization.name
+                    view.collapse_toolbar.title = organization.name
 
-                getOrganizationAds(organization.id, this)
-
-                if (organization.creator == currentUserWithToken.user) {
-                    view.create_ad_fab.show()
-                    view.create_ad_fab.setOnClickListener{ openCreateAdFragment(organization) }
-                }
-
-                view.swipe_container.setOnRefreshListener {
+                    view.swipe_container.isRefreshing = true
                     getOrganizationAds(organization.id, this, view.swipe_container)
+
+                    if (organization.creator == currentUserWithToken.user) {
+                        view.create_ad_fab.show()
+                        view.create_ad_fab.setOnClickListener{ openCreateAdFragment(organization) }
+                    }
+
+                    view.swipe_container.setOnRefreshListener {
+                        getOrganizationAds(organization.id, this, view.swipe_container)
+                    }
                 }
-            } else if (it.containsKey("user")) {
-                val user = it.getSerializable("user") as User
+                it.containsKey("user") -> {
+                    val user = it.getSerializable("user") as User
 
-                view.collapse_toolbar.title = resources.getString(
-                    R.string.name_and_surname,
-                    user.firstName,
-                    user.secondName
-                )
-                view.subtitle.text = resources.getString(R.string.ads)
+                    view.collapse_toolbar.title = resources.getString(
+                        R.string.name_and_surname,
+                        user.firstName,
+                        user.secondName
+                    )
+                    view.subtitle.text = resources.getString(R.string.ads)
 
-                getUserAds(user.id, this)
-
-                if (user.id == currentUserWithToken.user.id) {
-                    view.create_ad_fab.show()
-                    view.create_ad_fab.setOnClickListener{ openCreateAdFragment() }
-                }
-
-                view.swipe_container.setOnRefreshListener {
+                    view.swipe_container.isRefreshing = true
                     getUserAds(user.id, this, view.swipe_container)
+
+                    if (user.id == currentUserWithToken.user.id) {
+                        view.create_ad_fab.show()
+                        view.create_ad_fab.setOnClickListener{ openCreateAdFragment() }
+                    }
+
+                    view.swipe_container.setOnRefreshListener {
+                        getUserAds(user.id, this, view.swipe_container)
+                    }
+                }
+                it.containsKey("bookmarks") -> {
+
+                    view.collapse_toolbar.title = resources.getString(
+                        R.string.name_and_surname,
+                        currentUserWithToken.user.firstName,
+                        currentUserWithToken.user.secondName
+                    )
+                    view.subtitle.text = resources.getString(R.string.subs)
+
+                    view.swipe_container.isRefreshing = true
+                    getUserBookmarks(this, view.swipe_container)
+
+                    view.swipe_container.setOnRefreshListener {
+                        getUserBookmarks(this, view.swipe_container)
+                    }
                 }
             }
         } ?:run {
@@ -71,7 +93,8 @@ class AdsPageFragment : Fragment() {
             allAdsList?.let {
                 view.rv.adapter = AdsRecyclerViewAdapter(it, this)
             } ?: run {
-                getAllAds(this)
+                view.swipe_container.isRefreshing = true
+                getAllAds(this, view.swipe_container)
             }
 
             view.swipe_container.setOnRefreshListener {
@@ -82,13 +105,14 @@ class AdsPageFragment : Fragment() {
         return view
     }
 
-    private fun getAllAds(adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
+    private fun getAllAds(adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout) {
         api.getAllAds("Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactAd>> {
             override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
                 if (response.isSuccessful) {
                     allAdsList = response.body()
                     adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(allAdsList!!, adsPageFragment)
+                    getUserBookmarks(adsPageFragment, swipeRefreshLayout, false)
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null && errorBodyText.isNotEmpty()) {
@@ -97,17 +121,17 @@ class AdsPageFragment : Fragment() {
                         Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
                 Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }
 
-    private fun getUserAds(userId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
+    private fun getUserAds(userId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout) {
         api.getUserAds(userId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactAd>> {
                 override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
@@ -122,17 +146,17 @@ class AdsPageFragment : Fragment() {
                                 .show()
                         }
                     }
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
                 }
 
                 override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
                     Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
                 }
             })
     }
 
-    private fun getOrganizationAds(organizationId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null) {
+    private fun getOrganizationAds(organizationId: String, adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout) {
         api.getOrganizationAds(organizationId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactAd>> {
                 override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
@@ -147,12 +171,40 @@ class AdsPageFragment : Fragment() {
                                 .show()
                         }
                     }
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
                 }
 
                 override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
                     Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
+                }
+            })
+    }
+
+    private fun getUserBookmarks(adsPageFragment: AdsPageFragment, swipeRefreshLayout: SwipeRefreshLayout, displayList : Boolean = true){
+        api.getUserBookmarks("Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<List<CompactAd>> {
+                override fun onResponse(call: Call<List<CompactAd>>, response: Response<List<CompactAd>>) {
+                    if (response.isSuccessful) {
+                        userBookmarksList = response.body()!!
+                        if (displayList){
+                            adsPageFragment.rv?.adapter = AdsRecyclerViewAdapter(response.body()!!, adsPageFragment)
+                        }
+                    } else {
+                        val errorBodyText = response.errorBody()?.string()
+                        if (errorBodyText != null && errorBodyText.isNotEmpty()) {
+                            Toast.makeText(context, errorBodyText, Toast.LENGTH_LONG).show()
+                        } else {
+                            Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+                    swipeRefreshLayout.isRefreshing = false
+                }
+
+                override fun onFailure(call: Call<List<CompactAd>>, t: Throwable) {
+                    Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
+                    swipeRefreshLayout.isRefreshing = false
                 }
             })
     }
@@ -186,6 +238,6 @@ class AdsPageFragment : Fragment() {
             createAndEditAdFragment.arguments = bundle
         }
 
-        openFragment(activity, createAndEditAdFragment)
+        openFragment(requireActivity(), createAndEditAdFragment)
     }
 }

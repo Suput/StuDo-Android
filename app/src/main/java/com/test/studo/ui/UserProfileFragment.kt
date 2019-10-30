@@ -43,9 +43,9 @@ class UserProfileFragment : Fragment() {
 
         view.swipe_container.setOnRefreshListener { getUser(user.id, view, view.swipe_container) }
 
-        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, mutableListOf(
-            ListViewItemModel(resources.getString(R.string.ads).toString(), R.drawable.ic_assignment_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.resumes).toString(), R.drawable.ic_assignment_ind_blue_24dp)
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.listview_row, mutableListOf(
+            ListViewItemModel(resources.getString(R.string.ads).toString(), R.drawable.ic_assignment_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.resumes).toString(), R.drawable.ic_assignment_ind_purple_24dp)
         ))
         view.lv.onItemClickListener = onListViewItemClickListener
 
@@ -106,6 +106,6 @@ class UserProfileFragment : Fragment() {
         bundle.putSerializable("user", user)
         fragment.arguments = bundle
 
-        openFragment(activity, fragment)
+        openFragment(requireActivity(), fragment)
     }
 }

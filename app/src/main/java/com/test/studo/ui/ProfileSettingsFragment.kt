@@ -41,8 +41,6 @@ class ProfileSettingsFragment : Fragment() {
 
         view.collapse_toolbar.title = resources.getString(R.string.profile)
 
-        currentUserWithToken.user = arguments!!.getSerializable("user") as User
-
         view.input_first_name.editText?.setText(currentUserWithToken.user.firstName)
         view.input_second_name.editText?.setText(currentUserWithToken.user.secondName)
         currentUserWithToken.user.studentCardNumber?.let {
@@ -337,7 +335,7 @@ class ProfileSettingsFragment : Fragment() {
     }
 
     private fun logOut(){
-        activity?.getSharedPreferences("shared", Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
+        activity?.getSharedPreferences("StuDoShared", Context.MODE_PRIVATE)?.edit()?.clear()?.apply()
         activity?.recreate()
     }
 }

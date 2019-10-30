@@ -40,10 +40,12 @@ class MainActivity : AppCompatActivity() {
 
         main_bottom_navigation.setOnNavigationItemSelectedListener(onMainNavigationItemSelectedListener)
 
-        supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.main_fragment_container, AdsPageFragment())
-            .commit()
+        if (savedInstanceState == null){
+            supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.main_fragment_container, AdsPageFragment())
+                .commit()
+        }
     }
 
     private val onMainNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
@@ -56,8 +58,9 @@ class MainActivity : AppCompatActivity() {
             R.id.navigation_account_page -> selectedFragment = AccountPageFragment()
         }
 
-        supportFragmentManager
-            .beginTransaction()
+        val fm = supportFragmentManager
+
+        fm.beginTransaction()
             .replace(R.id.main_fragment_container, selectedFragment)
             .commit()
 

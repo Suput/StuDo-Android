@@ -30,8 +30,8 @@
     <string name="forgot_password">Забыли пароль?</string>
     <string name="reset_password">Сброс пароля</string>
     <string name="ad">Объявление</string>
-    <string name="created">"Создано: "</string>
-    <string name="ending">"Конец: "</string>
+    <string name="begin">"Начало: "</string>
+    <string name="end">"Конец: "</string>
     <string name="resume">Резюме</string>
     <string name="user_ads">Объявления пользователя</string>
     <string name="user_resumes">Резюме пользователя</string>
@@ -76,4 +76,5 @@
     <string name="members">Участники</string>
     <string name="error_code">"Код ошибки: "</string>
     <string name="check_email_to_reset">Проверьте почту, чтобы изменить пароль</string>
+    <string name="comments">Комментарии</string>
 </resources>

@@ -37,7 +37,8 @@ class ResumeFragment : Fragment() {
         if (::resume.isInitialized){
             fillResumeData(view)
         }
-        getResume(compactResume.id, view)
+        view.swipe_container.isRefreshing = true
+        getResume(compactResume.id, view, view.swipe_container)
 
         view.swipe_container.setOnRefreshListener { getResume(compactResume.id, view, view.swipe_container)}
 
@@ -46,7 +47,7 @@ class ResumeFragment : Fragment() {
         return view
     }
 
-    private fun getResume(resumeId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getResume(resumeId : String, view : View, swipeRefreshLayout: SwipeRefreshLayout){
         api.getOneResume(resumeId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<Resume> {
                 override fun onResponse(call: Call<Resume>, response: Response<Resume>) {
@@ -61,12 +62,12 @@ class ResumeFragment : Fragment() {
                             Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                         }
                     }
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
                 }
 
                 override fun onFailure(call: Call<Resume>, t: Throwable) {
                     Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                    swipeRefreshLayout?.isRefreshing = false
+                    swipeRefreshLayout.isRefreshing = false
                 }
             })
     }
@@ -114,6 +115,6 @@ class ResumeFragment : Fragment() {
         bundle.putSerializable("resume", resume)
         createAndEditResumeFragment.arguments = bundle
 
-        openFragment(activity, createAndEditResumeFragment)
+        openFragment(requireActivity(), createAndEditResumeFragment)
     }
 }

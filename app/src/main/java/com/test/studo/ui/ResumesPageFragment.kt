@@ -40,11 +40,14 @@ class ResumesPageFragment : Fragment() {
                 )
                 view.subtitle.text = resources.getString(R.string.resumes)
 
-                getUserResumes(user.id, this)
+                view.swipe_container.isRefreshing = true
+                getUserResumes(user.id, this, view.swipe_container)
 
                 if (user.id == currentUserWithToken.user.id) {
                     view.create_resume_fab.show()
-                    view.create_resume_fab.setOnClickListener{ openFragment(activity, CreateAndEditResumeFragment()) }
+                    view.create_resume_fab.setOnClickListener{
+                        openFragment(requireActivity(), CreateAndEditResumeFragment())
+                    }
                 }
 
                 view.swipe_container.setOnRefreshListener {
@@ -57,7 +60,8 @@ class ResumesPageFragment : Fragment() {
             allResumesList?.let {
                 view.rv.adapter = ResumesRecyclerViewAdapter(it, this)
             } ?: run {
-                getAllResumes(this)
+                view.swipe_container.isRefreshing = true
+                getAllResumes(this, view.swipe_container)
             }
 
             view.swipe_container.setOnRefreshListener {
@@ -68,7 +72,7 @@ class ResumesPageFragment : Fragment() {
         return view
     }
 
-    private fun getAllResumes(resumesPageFragment: ResumesPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getAllResumes(resumesPageFragment: ResumesPageFragment, swipeRefreshLayout: SwipeRefreshLayout){
         api.getAllResumes("Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactResume>> {
             override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
@@ -83,17 +87,17 @@ class ResumesPageFragment : Fragment() {
                         Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
                 Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }
 
-    private fun getUserResumes(userId : String, resumesPageFragment: ResumesPageFragment, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getUserResumes(userId : String, resumesPageFragment: ResumesPageFragment, swipeRefreshLayout: SwipeRefreshLayout){
         api.getUserResumes(userId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<List<CompactResume>> {
             override fun onResponse(call: Call<List<CompactResume>>, response: Response<List<CompactResume>>) {
@@ -107,12 +111,12 @@ class ResumesPageFragment : Fragment() {
                         Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
 
             override fun onFailure(call: Call<List<CompactResume>>, t: Throwable) {
                 Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }

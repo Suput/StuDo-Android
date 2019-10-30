@@ -24,7 +24,10 @@ data class CompactAd(
     val userName : String,
 
     @SerializedName("organizationName")
-    val organizationName : String?
+    val organizationName : String?,
+
+    @SerializedName("lastComment")
+    val lastComment : CompactComment?
 
 ) : Serializable
 
@@ -58,7 +61,10 @@ data class Ad(
     val organizationId : String?,
 
     @SerializedName("organization")
-    val organization : Organization?
+    val organization : Organization?,
+
+    @SerializedName("comments")
+    val comments : List<Comment>?
 
 ) : Serializable
 

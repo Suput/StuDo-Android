@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ArrayAdapter
-import kotlinx.android.synthetic.main.view_item_listview.view.*
+import kotlinx.android.synthetic.main.listview_row.view.*
 
 data class ListViewItemModel(val title : String, val icon : Int )
 

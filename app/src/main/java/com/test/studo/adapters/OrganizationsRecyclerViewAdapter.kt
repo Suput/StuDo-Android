@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.test.studo.R
 import com.test.studo.api.models.Organization
 import com.test.studo.ui.OrganizationsPageFragment
-import kotlinx.android.synthetic.main.view_item_recyclerview_organizations.view.*
+import kotlinx.android.synthetic.main.recyclerview_row_organizations.view.*
 
 
 class OrganizationsRecyclerViewAdapter(private var organizationsList: List<Organization>, organizationsPageFragment: OrganizationsPageFragment) : RecyclerView.Adapter<OrganizationsRecyclerViewAdapter.CardViewViewHolder>() {
@@ -17,7 +17,7 @@ class OrganizationsRecyclerViewAdapter(private var organizationsList: List<Organ
     override fun getItemCount() = organizationsList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_organizations, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recyclerview_row_organizations, viewGroup, false)
 
         view.setOnClickListener(onRecyclerViewClickListener)
 
@@ -31,7 +31,7 @@ class OrganizationsRecyclerViewAdapter(private var organizationsList: List<Organ
 
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.name
-        var icon: ImageView = itemView.icon
+//        var icon: ImageView = itemView.icon
     }
 
     private val onRecyclerViewClickListener = View.OnClickListener{

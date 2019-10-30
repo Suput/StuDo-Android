@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import com.test.studo.R
 import com.test.studo.api.models.CompactAd
 import com.test.studo.ui.AdsPageFragment
-import kotlinx.android.synthetic.main.view_item_recyclerview_ads.view.*
+import kotlinx.android.synthetic.main.recyclerview_row_ads.view.*
 
 
 class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragment: AdsPageFragment) : RecyclerView.Adapter<AdsRecyclerViewAdapter.CardViewViewHolder>() {
@@ -17,7 +17,7 @@ class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragmen
     override fun getItemCount() = adList.size
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CardViewViewHolder{
-        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.view_item_recyclerview_ads, viewGroup, false)
+        val view = LayoutInflater.from(viewGroup.context).inflate(R.layout.recyclerview_row_ads, viewGroup, false)
 
         view.setOnClickListener(onRecyclerViewClickListener)
 
@@ -33,7 +33,7 @@ class AdsRecyclerViewAdapter(private var adList: List<CompactAd>, adsPageFragmen
     inner class CardViewViewHolder internal constructor(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var name: TextView = itemView.name
         var description: TextView = itemView.description
-        var icon: ImageView = itemView.icon
+//        var icon: ImageView = itemView.icon
     }
 
     private val onRecyclerViewClickListener = View.OnClickListener{

@@ -72,6 +72,12 @@ interface ApiService {
 
 
 
+    @POST("ad/comment/{adId}")
+    fun createComment(@Path("adId") adId : String, @Body body : CreateCommentRequest, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+
+
     @GET("resumes")
     fun getAllResumes(@Header("Authorization") accessToken : String) :
             Call<List<CompactResume>>
@@ -128,6 +134,20 @@ interface ApiService {
 
     @POST("organization/right/detach")
     fun detachRights(@Body body : AttachDetachRightRequest, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+
+
+    @GET("ad/bookmarks")
+    fun getUserBookmarks(@Header("Authorization") accessToken : String) :
+            Call<List<CompactAd>>
+
+    @POST("ad/bookmarks/{adId}")
+    fun addToBookmarks(@Path("adId") adId : String, @Header("Authorization") accessToken : String) :
+            Call<Void>
+
+    @DELETE("ad/bookmarks/{adId}")
+    fun removeFromBookmarks(@Path("adId") adId : String, @Header("Authorization") accessToken : String) :
             Call<Void>
 
 

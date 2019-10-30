@@ -3,13 +3,17 @@ package com.test.studo.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.test.studo.*
+import com.test.studo.adapters.CommentsRecyclerViewAdapter
 import com.test.studo.api.models.Ad
 import com.test.studo.api.models.CompactAd
+import kotlinx.android.synthetic.main.bottom_sheet_comments.*
+import kotlinx.android.synthetic.main.bottom_sheet_comments.view.*
 import kotlinx.android.synthetic.main.fragment_ad.*
 import kotlinx.android.synthetic.main.fragment_ad.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
@@ -33,10 +37,18 @@ class AdFragment : Fragment() {
         view.name.text = compactAd.name
         view.short_description.text = compactAd.shortDescription
 
+        view.rv_comments.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+
         if (::ad.isInitialized) {
             fillAdData(view)
         }
-        getAd(compactAd.id, view)
+        view.swipe_container.isRefreshing = true
+        getAd(compactAd.id, view, view.swipe_container)
+
+        view.show_comments_btn.setOnClickListener {
+            show_comments_btn.visibility = View.GONE
+            comments_bottom_sheet.visibility = View.VISIBLE
+        }
 
         view.swipe_container.setOnRefreshListener { getAd(compactAd.id, view, view.swipe_container) }
 
@@ -45,7 +57,7 @@ class AdFragment : Fragment() {
         return view
     }
 
-    private fun getAd(adId : String, view: View, swipeRefreshLayout: SwipeRefreshLayout? = null){
+    private fun getAd(adId : String, view: View, swipeRefreshLayout: SwipeRefreshLayout){
         api.getOneAd(adId, "Bearer " + currentUserWithToken.accessToken)
             .enqueue(object : Callback<Ad>{
             override fun onResponse(call: Call<Ad>, response: Response<Ad>) {
@@ -60,12 +72,12 @@ class AdFragment : Fragment() {
                         Toast.makeText(context, resources.getString(R.string.error_code) + response.code(), Toast.LENGTH_LONG).show()
                     }
                 }
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
 
             override fun onFailure(call: Call<Ad>, t: Throwable) {
                 Toast.makeText(context, resources.getString(R.string.connection_with_server_error), Toast.LENGTH_LONG).show()
-                swipeRefreshLayout?.isRefreshing = false
+                swipeRefreshLayout.isRefreshing = false
             }
         })
     }
@@ -95,6 +107,10 @@ class AdFragment : Fragment() {
             view.end_time?.text = clientDataFormat.format(serverDataFormat.parse(ad.endTime))
         } catch(e : Exception){
             view.end_time?.text = clientDataFormat.format(serverDataFormatWithoutMillis.parse(ad.endTime))
+        }
+
+        ad.comments?.let {
+            view.rv_comments.adapter = CommentsRecyclerViewAdapter(it)
         }
 
         if (ad.user?.id == currentUserWithToken.user.id){
@@ -139,6 +155,6 @@ class AdFragment : Fragment() {
         bundle.putSerializable("ad", ad)
         createAndEditAdFragment.arguments = bundle
 
-        openFragment(activity, createAndEditAdFragment)
+        openFragment(requireActivity(), createAndEditAdFragment)
     }
 }

@@ -35,13 +35,13 @@ class AccountPageFragment : Fragment() {
         fillUserData(view)
         getCurrentUser(view)
 
-        view.lv.adapter = ListViewAdapter(context!!, R.layout.view_item_listview, mutableListOf(
-            ListViewItemModel(resources.getString(R.string.my_ads), R.drawable.ic_assignment_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.my_resumes), R.drawable.ic_assignment_ind_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.subs), R.drawable.ic_star_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.organizations), R.drawable.ic_group_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.settings), R.drawable.ic_settings_blue_24dp),
-            ListViewItemModel(resources.getString(R.string.about), R.drawable.ic_info_blue_24dp)
+        view.lv.adapter = ListViewAdapter(context!!, R.layout.listview_row, mutableListOf(
+            ListViewItemModel(resources.getString(R.string.my_ads), R.drawable.ic_assignment_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.my_resumes), R.drawable.ic_assignment_ind_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.subs), R.drawable.ic_star_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.organizations), R.drawable.ic_group_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.settings), R.drawable.ic_settings_ic_purple_24dp),
+            ListViewItemModel(resources.getString(R.string.about), R.drawable.ic_info_purple_24dp)
         ))
 
         view.lv.onItemClickListener = onListViewItemClickListener
@@ -94,12 +94,14 @@ class AccountPageFragment : Fragment() {
             AccountPageItems.RESUMES.ordinal -> {
                 openUserFragment(ResumesPageFragment())
             }
-//            AccountPageItems.SUBS.ordinal ->
+            AccountPageItems.SUBS.ordinal -> {
+                openBookmarksFragment()
+            }
             AccountPageItems.ORGS.ordinal -> {
-                openFragment(activity, OrganizationsPageFragment())
+                openFragment(requireActivity(), OrganizationsPageFragment())
             }
             AccountPageItems.SETTINGS.ordinal -> {
-                openFragment(activity, SettingsFragment())
+                openFragment(requireActivity(), SettingsFragment())
             }
 //            AccountPageItems.ABOUT.ordinal ->
         }
@@ -124,6 +126,14 @@ class AccountPageFragment : Fragment() {
         val bundle = Bundle()
         bundle.putSerializable("user", currentUserWithToken.user)
         fragment.arguments = bundle
-        openFragment(activity, fragment)
+        openFragment(requireActivity(), fragment)
+    }
+
+    private fun openBookmarksFragment(){
+        val bundle = Bundle()
+        bundle.putString("bookmarks", currentUserWithToken.accessToken)
+        val fragment = AdsPageFragment()
+        fragment.arguments = bundle
+        openFragment(requireActivity(), fragment)
     }
 }

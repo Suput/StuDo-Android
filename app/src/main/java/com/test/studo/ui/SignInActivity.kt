@@ -57,7 +57,8 @@ class SignInActivity : AppCompatActivity() {
                     val shared = getSharedPreferences("StuDoShared", Context.MODE_PRIVATE)
                     val editor = shared.edit()
                     editor.putString("userWithToken", Gson().toJson(response.body())).apply()
-                    recreate()
+                    startActivity(Intent(this@SignInActivity, MainActivity::class.java))
+                    finish()
                 } else {
                     val errorBodyText = response.errorBody()?.string()
                     if (errorBodyText != null && errorBodyText.isNotEmpty()){
