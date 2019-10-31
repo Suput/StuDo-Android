@@ -1,5 +1,6 @@
 package com.test.studo.adapters
 
+import android.content.Context
 import android.widget.TextView
 import android.support.v7.widget.RecyclerView
 import android.view.View
@@ -10,14 +11,24 @@ import com.test.studo.api.models.Comment
 import com.test.studo.clientDataFormat
 import com.test.studo.clientTimeFormat
 import com.test.studo.serverDataFormat
+import com.yydcdut.markdown.MarkdownProcessor
+import com.yydcdut.markdown.syntax.text.TextFactory
 import kotlinx.android.synthetic.main.recyclerview_row_comments.view.*
 
 
-class CommentsRecyclerViewAdapter(private var commentsList: List<Comment>) : RecyclerView.Adapter<CommentsRecyclerViewAdapter.CommentsViewHolder>() {
+class CommentsRecyclerViewAdapter(private val context : Context, private var commentsList: List<Comment>) : RecyclerView.Adapter<CommentsRecyclerViewAdapter.CommentsViewHolder>() {
+
+    private val markdownProcessor by lazy {
+        MarkdownProcessor(context)
+    }
 
     var clickListener : ItemClickListener? = null
 
     override fun getItemCount() = commentsList.size
+
+    init{
+        markdownProcessor.factory(TextFactory.create())
+    }
 
     override fun onCreateViewHolder(viewGroup: ViewGroup, i: Int) : CommentsViewHolder{
         val view = LayoutInflater.from(viewGroup.context)
@@ -27,7 +38,9 @@ class CommentsRecyclerViewAdapter(private var commentsList: List<Comment>) : Rec
 
     override fun onBindViewHolder(holder: CommentsViewHolder, i: Int) {
         holder.author.text = commentsList[i].author
-        holder.text.text = commentsList[i].text
+
+        // Markdown text
+        holder.text.text = markdownProcessor.parse(commentsList[i].text)
 
         val fullTime = commentsList[i].commentTime
         holder.time.text = clientTimeFormat.format(serverDataFormat.parse(fullTime))

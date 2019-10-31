@@ -80,7 +80,7 @@
                                             android:textColor="?android:attr/textColorPrimary"
                                             tools:text="@string/sample_text"
                                             android:layout_gravity="center_vertical"
-                                            android:layout_marginStart="4dp"/>
+                                            android:layout_marginStart="8dp"/>
 
                                 </LinearLayout>
 
@@ -196,7 +196,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:text="Show comments"/>
+                        android:text="@string/show_comments"
+                        android:tag="Hidden"/>
 
                 <include layout="@layout/bottom_sheet_comments"/>
 

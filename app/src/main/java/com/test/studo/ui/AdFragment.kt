@@ -3,7 +3,9 @@ package com.test.studo.ui
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,6 +14,9 @@ import com.test.studo.*
 import com.test.studo.adapters.CommentsRecyclerViewAdapter
 import com.test.studo.api.models.Ad
 import com.test.studo.api.models.CompactAd
+import com.yydcdut.markdown.MarkdownProcessor
+import com.yydcdut.markdown.syntax.edit.EditFactory
+import com.yydcdut.markdown.syntax.text.TextFactory
 import kotlinx.android.synthetic.main.bottom_sheet_comments.*
 import kotlinx.android.synthetic.main.bottom_sheet_comments.view.*
 import kotlinx.android.synthetic.main.fragment_ad.*
@@ -46,8 +51,18 @@ class AdFragment : Fragment() {
         getAd(compactAd.id, view, view.swipe_container)
 
         view.show_comments_btn.setOnClickListener {
-            show_comments_btn.visibility = View.GONE
-            comments_bottom_sheet.visibility = View.VISIBLE
+            when(it.tag){
+                "Hidden" -> {
+                    show_comments_btn.text = getString(R.string.hide_comments)
+                    comments_bottom_sheet.visibility = View.VISIBLE
+                    it.tag = "Showed"
+                }
+                "Showed" -> {
+                    show_comments_btn.text = getString(R.string.show_comments)
+                    comments_bottom_sheet.visibility = View.GONE
+                    it.tag = "Hidden"
+                }
+            }
         }
 
         view.swipe_container.setOnRefreshListener { getAd(compactAd.id, view, view.swipe_container) }
@@ -145,7 +160,11 @@ class AdFragment : Fragment() {
 
         view.name.text = ad.name
         view.short_description.text = ad.shortDescription
-        view.description.text = ad.description
+
+        // Markdown desc
+        val markdownProcessor = MarkdownProcessor(requireContext())
+        markdownProcessor.factory(TextFactory.create())
+        view.description.text = markdownProcessor.parse(ad.description)
 
         ad.organization?.let{
             view.creator_name.text = it.name
@@ -169,7 +188,10 @@ class AdFragment : Fragment() {
         }
 
         ad.comments?.let {
-            view.rv_comments.adapter = CommentsRecyclerViewAdapter(it)
+            view.rv_comments.adapter = CommentsRecyclerViewAdapter(requireContext(), it)
+
+            val dividerItemDecoration = DividerItemDecoration(view.rv_comments.context, RecyclerView.VERTICAL)
+            view.rv_comments.addItemDecoration(dividerItemDecoration)
         }
 
         if (ad.user?.id == currentUserWithToken.user.id){
