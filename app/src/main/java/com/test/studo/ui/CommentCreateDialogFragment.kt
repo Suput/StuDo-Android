@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
-import android.widget.Toast
 import com.test.studo.R
 import com.test.studo.api
 import com.test.studo.api.models.CreateCommentRequest
@@ -15,6 +14,10 @@ import kotlinx.android.synthetic.main.fragment_comment_create_dialog.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import com.yydcdut.markdown.syntax.edit.EditFactory
+import com.yydcdut.markdown.MarkdownProcessor
+import kotlinx.android.synthetic.main.fragment_comment_create_dialog.view.*
+
 
 class CommentCreateDialogFragment : DialogFragment() {
 
@@ -23,9 +26,15 @@ class CommentCreateDialogFragment : DialogFragment() {
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         adId = arguments!!.getString("adId")!!
 
+        val view = requireActivity().layoutInflater.inflate(R.layout.fragment_comment_create_dialog, null)
+
+        val markdownProcessor = MarkdownProcessor(context)
+        markdownProcessor.factory(EditFactory.create())
+        markdownProcessor.live(view.comment_text)
+
         return AlertDialog.Builder(requireContext())
             .setTitle(R.string.comment)
-            .setView(R.layout.fragment_comment_create_dialog)
+            .setView(view)
             .setPositiveButton(R.string.create, onCreateButtonClick)
             .setNegativeButton(R.string.cancel, null)
             .create()
