@@ -1,8 +1,8 @@
 package com.test.studo.ui
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -15,22 +15,23 @@ import com.test.studo.adapters.CommentsRecyclerViewAdapter
 import com.test.studo.api.models.Ad
 import com.test.studo.api.models.CompactAd
 import com.yydcdut.markdown.MarkdownProcessor
-import com.yydcdut.markdown.syntax.edit.EditFactory
 import com.yydcdut.markdown.syntax.text.TextFactory
 import kotlinx.android.synthetic.main.bottom_sheet_comments.*
-import kotlinx.android.synthetic.main.bottom_sheet_comments.view.*
 import kotlinx.android.synthetic.main.fragment_ad.*
-import kotlinx.android.synthetic.main.fragment_ad.view.*
 import kotlinx.android.synthetic.main.view_collapsing_toolbar.*
-import kotlinx.android.synthetic.main.view_collapsing_toolbar.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.lang.Exception
+import android.content.DialogInterface
 
-class AdFragment : Fragment() {
+
+
+class AdFragment : Fragment(), CommentsRecyclerViewAdapter.ItemClickListener {
 
     lateinit var ad : Ad
+
+    lateinit var commentsAdapter : CommentsRecyclerViewAdapter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_ad, container, false)
@@ -166,6 +167,19 @@ class AdFragment : Fragment() {
             })
     }
 
+    private fun deleteComment(adId: String, commentId : String){
+        api.deleteComment(adId, commentId, "Bearer " + currentUserWithToken.accessToken)
+            .enqueue(object : Callback<Void>{
+                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                    if (response.isSuccessful){
+                        getAd(ad.id)
+                    }
+                }
+
+                override fun onFailure(call: Call<Void>, t: Throwable) {}
+            })
+    }
+
     private fun fillAdData(){
 
         name?.text = ad.name
@@ -199,7 +213,9 @@ class AdFragment : Fragment() {
 
         ad.comments?.let {
             rv_comments?.let{
-                it.adapter = CommentsRecyclerViewAdapter(requireContext(), ad.comments!!.reversed())
+                commentsAdapter = CommentsRecyclerViewAdapter(requireContext(), ad.comments!!.reversed())
+                commentsAdapter.setOnItemClickListener(this)
+                it.adapter = commentsAdapter
 
                 val dividerItemDecoration = DividerItemDecoration(it.context, RecyclerView.VERTICAL)
                 it.addItemDecoration(dividerItemDecoration)
@@ -220,6 +236,25 @@ class AdFragment : Fragment() {
                     }
                 }
             }
+        }
+    }
+
+    override fun onCommentClick(view: View, position: Int) {
+        val comment = commentsAdapter.getItem(position)
+        if (comment.authorId == currentUserWithToken.user.id){
+            val dialogClickListener =
+                DialogInterface.OnClickListener { _, which ->
+                    if (which == DialogInterface.BUTTON_POSITIVE){
+                        commentsAdapter.notifyItemRemoved(position)
+                        deleteComment(ad.id, comment.id)
+                    }
+                }
+
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage(getString(R.string.delete_comment_confirmation))
+                .setPositiveButton(R.string.yes, dialogClickListener)
+                .setNegativeButton(R.string.no, dialogClickListener)
+                .show()
         }
     }
 

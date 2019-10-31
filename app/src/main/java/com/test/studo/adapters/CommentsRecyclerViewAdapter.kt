@@ -15,12 +15,12 @@ import com.yydcdut.markdown.MarkdownProcessor
 import com.yydcdut.markdown.syntax.text.TextFactory
 import kotlinx.android.synthetic.main.recyclerview_row_comments.view.*
 
+class CommentsRecyclerViewAdapter(
+    private val context : Context,
+    private val commentsList: List<Comment>
+) : RecyclerView.Adapter<CommentsRecyclerViewAdapter.CommentsViewHolder>() {
 
-class CommentsRecyclerViewAdapter(private val context : Context, private var commentsList: List<Comment>) : RecyclerView.Adapter<CommentsRecyclerViewAdapter.CommentsViewHolder>() {
-
-    private val markdownProcessor by lazy {
-        MarkdownProcessor(context)
-    }
+    private val markdownProcessor by lazy { MarkdownProcessor(context) }
 
     var clickListener : ItemClickListener? = null
 

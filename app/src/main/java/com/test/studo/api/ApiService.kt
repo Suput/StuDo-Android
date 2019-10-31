@@ -79,6 +79,13 @@ interface ApiService {
         @Header("Authorization") accessToken : String
     ) : Call<Void>
 
+    @DELETE("ad/comment/{adId}/{commentId}")
+    fun deleteComment(
+        @Path("adId") adId : String,
+        @Path("commentId") commentId : String,
+        @Header("Authorization") accessToken: String
+    ) : Call<Void>
+
 
 
     @GET("resumes")

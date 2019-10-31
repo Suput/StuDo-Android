@@ -88,4 +88,7 @@
     <string name="create">Create</string>
     <string name="markdown_use_notification">You can use markdown for formatting</string>
     <string name="comment_created">Comment created</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="delete_comment_confirmation">Are you want to delete this comment?</string>
 </resources>

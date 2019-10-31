@@ -85,4 +85,7 @@
     <string name="comment">Комментарий</string>
     <string name="markdown_use_notification">Вы можете использовать markdown для форматирования</string>
     <string name="comment_created">Комментарий создан</string>
+    <string name="delete_comment_confirmation">Удалить этот комментарий?</string>
+    <string name="no">Нет</string>
+    <string name="yes">Да</string>
 </resources>
