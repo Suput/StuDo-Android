@@ -73,8 +73,11 @@ interface ApiService {
 
 
     @POST("ad/comment/{adId}")
-    fun createComment(@Path("adId") adId : String, @Body body : CreateCommentRequest, @Header("Authorization") accessToken : String) :
-            Call<Void>
+    fun createComment(
+        @Path("adId") adId : String,
+        @Body body : CreateCommentRequest,
+        @Header("Authorization") accessToken : String
+    ) : Call<Void>
 
 
 

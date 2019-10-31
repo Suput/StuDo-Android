@@ -80,10 +80,12 @@
     <string name="name_and_surname" translatable="false">%1$s %2$s</string>
     <string name="check_email_to_reset">Check your email to change password</string>
     <string name="comments">Comments</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="added_bookmarks">Added to bookmarks</string>
     <string name="removed_bookmarks">Removed to bookmarks</string>
     <string name="show_comments">Show comments</string>
     <string name="hide_comments">Hide comments</string>
+    <string name="comment">Comment</string>
+    <string name="create">Create</string>
+    <string name="markdown_use_notification">You can use markdown for formatting</string>
+    <string name="comment_created">Comment created</string>
 </resources>

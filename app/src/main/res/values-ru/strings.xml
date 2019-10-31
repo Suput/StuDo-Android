@@ -81,4 +81,8 @@
     <string name="removed_bookmarks">Удалено из закладок</string>
     <string name="hide_comments">Скрыть комментарии</string>
     <string name="show_comments">Показать комментарии</string>
+    <string name="create">Создать</string>
+    <string name="comment">Комментарий</string>
+    <string name="markdown_use_notification">Вы можете использовать markdown для форматирования</string>
+    <string name="comment_created">Комментарий создан</string>
 </resources>
